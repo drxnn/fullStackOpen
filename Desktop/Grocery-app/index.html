@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>grocery-helper</title>
+    <link rel="stylesheet" href="main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <section class="section-center">
+      <!-- FORM -->
+      <form class="grocery-form"></form>
+      <p class="alert"></p>
+      <h2>Grocery-helper</h2>
+      <div class="form-control">
+        <input type="text" id="grocery" placeholder="type something.." />
+        <button type="submit" class="submit-btn">Submit</button>
+      </div>
+
+      <!-- LIST -->
+      <div class="grocery-container">
+        <div class="grocery-list">
+          <article class="grocery-item">
+            <p class="title">item</p>
+            <div class="button-container">
+              <button type="button" class="del-btn">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <button type="button" class="edit-btn">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </article>
+        </div>
+        <button type="button" class="clear-btn">Clear Items</button>
+      </div>
+    </section>
+
+    <!-- JAVASCRIPT -->
+    <script src="script.js"></script>
+  </body>
+</html>
