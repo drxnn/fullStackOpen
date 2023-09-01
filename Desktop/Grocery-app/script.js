@@ -26,8 +26,10 @@ function addItem(e) {
   const id = new Date().getTime().toString();
   if (value && !editFlag) {
     console.log("ADDING VALUE TO LIST");
+    displayAlert();
   } else if (value && editFlag) {
     console.log("EDITING");
+    displayAlert();
   } else {
     displayAlert();
   }
@@ -36,31 +38,19 @@ function addItem(e) {
 // function to add eventListener to all buttons
 
 allButtons.forEach((button) => {
-  button.addEventListener("click", displayAlert);
+  button.addEventListener("click", (e) => {
+    // const isSuccess =
+    const message = e.target.getAttribute("data-message");
+    const alertType = e.target.getAttribute("data-alert-type");
+    displayAlert(message, alertType);
+  });
   console.log(button);
 });
 console.log(allButtons);
 
-function displayAlert(event) {
-  let buttonClasses = event.target.classList;
-  switch (true) {
-    case buttonClasses.contains("clear-btn"):
-      alert.textContent = "Items Cleared!";
-      alert.classList.add("alert-success");
-      break;
-    case buttonClasses.contains("del-btn"):
-      alert.textContent = "Item deleted!";
-      alert.classList.add("alert-success");
-      break;
-    case buttonClasses.contains("edit-btn"):
-      alert.textContent = "Item edited successfully!";
-      alert.classList.add("alert-success");
-      break;
-    case buttonClasses.contains("submit-btn"):
-        if()
-      alert.textContent = "Empty Value";
-      alert.classList.add("alert-danger");
-  }
+function displayAlert(message, alertType) {
+  alert.textContent = message;
+  alert.classList.add(alertType);
 }
 // LOCAL STORAGE
 
