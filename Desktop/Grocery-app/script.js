@@ -24,14 +24,13 @@ function addItem(e) {
   console.log("ADDITEM FIRED");
   const value = grocery.value;
   const id = new Date().getTime().toString();
+  console.log(id);
   if (value && !editFlag) {
     console.log("ADDING VALUE TO LIST");
-    displayAlert();
   } else if (value && editFlag) {
     console.log("EDITING");
-    displayAlert();
   } else {
-    displayAlert();
+    console.log("ELSE");
   }
 }
 
@@ -42,7 +41,14 @@ allButtons.forEach((button) => {
     // const isSuccess =
     const message = e.target.getAttribute("data-message");
     const alertType = e.target.getAttribute("data-alert-type");
-    displayAlert(message, alertType);
+    const inputValue = grocery.value;
+    if (inputValue.trim() == "") {
+      displayAlert("Empty Value!", "alert-danger");
+    } else if (inputValue.trim()) {
+      displayAlert("Item submitted Successfully!", "alert-success");
+    } else {
+      displayAlert(message, alertType);
+    }
   });
   console.log(button);
 });
