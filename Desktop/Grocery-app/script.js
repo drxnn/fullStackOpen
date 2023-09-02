@@ -38,15 +38,21 @@ function addItem(e) {
 
 allButtons.forEach((button) => {
   button.addEventListener("click", (e) => {
-    // const isSuccess =
+    // put message and data type into variables.
     const message = e.target.getAttribute("data-message");
     const alertType = e.target.getAttribute("data-alert-type");
+    // get inputValue to check submit button(2 outcomes)
     const inputValue = grocery.value;
+    // if value is empty, display failure function
     if (inputValue.trim() == "") {
       displayAlert("Empty Value!", "alert-danger");
-    } else if (inputValue.trim()) {
+    }
+    // if value is not empty, submit item accordingly
+    else if (inputValue.trim()) {
       displayAlert("Item submitted Successfully!", "alert-success");
-    } else {
+    }
+    // else statement for the other 3 buttons that only have 1 outcome
+    else {
       displayAlert(message, alertType);
     }
   });
@@ -55,7 +61,9 @@ allButtons.forEach((button) => {
 console.log(allButtons);
 
 function displayAlert(message, alertType) {
+  // message passed as argument gets put inside display div
   alert.textContent = message;
+  // add class based on alert-type
   alert.classList.add(alertType);
 }
 // LOCAL STORAGE
