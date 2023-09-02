@@ -66,6 +66,19 @@ function displayAlert(message, alertType) {
   // add class based on alert-type
   alert.classList.add(alertType);
 }
+
+// Functions to dynamically add or remove more items in the list :
+// {Implementation Guide}:
+/*
+Optional: start off with the item holders being #hidden
+ If User clicks Submit Button && there's a value in input field, add another item holder(<p> with edit and delete button) and display added item.
+ If User clicks delete button on an item, remove it from list
+ If User clicks edit button, edit <p> tag
+ If theres a lot of items, increase container size as needed
+ If Clear-BTN is clicked, remove all lists
+ 
+
+*/
 // LOCAL STORAGE
 
 //SETUP ITEMS
