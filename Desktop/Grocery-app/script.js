@@ -26,7 +26,9 @@ function addItem(e) {
   const id = new Date().getTime().toString();
   console.log(id);
   if (value && !editFlag) {
-    console.log("ADDING VALUE TO LIST");
+    // console.log("ADDING VALUE TO LIST");
+    createItemContainer();
+    console.log("ADDED");
   } else if (value && editFlag) {
     console.log("EDITING");
   } else {
@@ -92,8 +94,14 @@ Optional: start off with the item holders being #hidden
 */
 //Function to create the container with the item that is added by User/ alongside Edit and Delete Buttons
 
-// document.createElement("");
-// let createItemContainer = () => {};
+let createItemContainer = () => {
+  let containerDiv = document.getElementById("groceryID");
+  let article = document.createElement("article");
+  containerDiv.appendChild(article);
+  //
+  let p = document.createElement("p");
+  article.appendChild(p);
+};
 
 // LOCAL STORAGE
 
