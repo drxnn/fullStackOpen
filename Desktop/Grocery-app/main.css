@@ -99,6 +99,15 @@ input[type="text"] {
 .del-btn {
   font-size: 1rem;
 }
+
+.fa-trash {
+  pointer-events: none;
+}
+
+.fa-pen-to-square {
+  pointer-events: none;
+}
+
 .del-btn:hover {
   cursor: pointer;
   color: #ef476f;
