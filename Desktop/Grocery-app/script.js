@@ -95,12 +95,48 @@ Optional: start off with the item holders being #hidden
 //Function to create the container with the item that is added by User/ alongside Edit and Delete Buttons
 
 let createItemContainer = () => {
+  // selecting original elements that are in the HTML("HIDDEN") so we can assign their attributes to the newly created Elements.
+
   let containerDiv = document.getElementById("groceryID");
+  let originalArticle = document.getElementById("articleID");
+  let originalP = document.getElementById("p-ID");
+  let originalEditButton = document.querySelector(".edit-btn");
+  let originalDeleteButton = document.querySelector(".del-btn");
+  // let originalArticle = document.getElementById("articleID");
   let article = document.createElement("article");
   containerDiv.appendChild(article);
-  //
+  // create and append p element
   let p = document.createElement("p");
   article.appendChild(p);
+
+  // create and append div and buttons inside div;
+
+  let buttonDiv = document.createElement("div");
+  article.appendChild(buttonDiv);
+  let editButton = document.createElement("button");
+  let deleteButton = document.createElement("button");
+  buttonDiv.appendChild(editButton);
+  buttonDiv.appendChild(deleteButton);
+  //
+  // assign classes to the new created elements
+  // article class
+  const articleClass = originalArticle.getAttribute("class");
+  article.classList.add(articleClass);
+  console.log(originalArticle.attributes);
+  // paragraph class
+  const paragraphClass = originalP.getAttribute("class");
+  p.classList.add(paragraphClass);
+  // Get all attributes of edit and delete buttons and add them to newly created edit & delete buttons:
+
+  for (const attribute of originalEditButton.attributes) {
+    editButton.setAttribute(attribute.name, attribute.value);
+  }
+
+  for (const attribute of originalDeleteButton.attributes) {
+    deleteButton.setAttribute(attribute.name, attribute.value);
+  }
+  const editIconElement = document.querySelector(".fa-solid.fa-pen-to-square");
+  // add icon elements to newly created buttons
 };
 
 // LOCAL STORAGE
