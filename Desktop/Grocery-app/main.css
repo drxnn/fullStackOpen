@@ -19,7 +19,7 @@ h2 {
 .section-center {
   border: 3px solid black;
   width: 35rem;
-  height: 20rem;
+  max-height: fit-content;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -72,6 +72,7 @@ input[type="text"] {
 
 .clear-btn {
   /* width: 6rem; */
+  margin-bottom: 1rem;
   align-self: center;
   padding: 0.5rem 1.2rem;
   border-radius: 10px;
