@@ -100,6 +100,7 @@ let createItemContainer = () => {
   let containerDiv = document.getElementById("groceryID");
   let originalArticle = document.getElementById("articleID");
   let originalP = document.getElementById("p-ID");
+  let originalButtonDiv = document.querySelector(".button-container");
   let originalEditButton = document.querySelector(".edit-btn");
   let originalDeleteButton = document.querySelector(".del-btn");
   // let originalArticle = document.getElementById("articleID");
@@ -126,6 +127,11 @@ let createItemContainer = () => {
   // paragraph class
   const paragraphClass = originalP.getAttribute("class");
   p.classList.add(paragraphClass);
+  //
+  //button div class
+  const buttonDivClass = originalButtonDiv.getAttribute("class");
+  buttonDiv.classList.add(buttonDivClass);
+
   // Get all attributes of edit and delete buttons and add them to newly created edit & delete buttons:
 
   for (const attribute of originalEditButton.attributes) {
@@ -135,8 +141,16 @@ let createItemContainer = () => {
   for (const attribute of originalDeleteButton.attributes) {
     deleteButton.setAttribute(attribute.name, attribute.value);
   }
-  const editIconElement = document.querySelector(".fa-solid.fa-pen-to-square");
+
   // add icon elements to newly created buttons
+  //edit-btn
+  let editIconElement = document.createElement("i");
+  editIconElement.className = "fa-solid fa-pen-to-square";
+  editButton.appendChild(editIconElement);
+  //del-btn
+  let deleteIconElement = document.createElement("i");
+  deleteIconElement.className = "fa-solid fa-trash";
+  deleteButton.appendChild(deleteIconElement);
 };
 
 // LOCAL STORAGE
