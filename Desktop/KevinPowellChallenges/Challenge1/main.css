@@ -4,13 +4,18 @@
 body {
   font-family: "Roboto";
   font-size: 62.5%;
-  background-color: #23424a;
+  /* background-color: #23424a; */
   color: white;
 }
 
 .main {
-  max-width: 50%;
+  /* max-width: 50%; */
   padding: 5rem;
+  background-color: #23424a;
+  /* height: 70vh; */
+}
+div {
+  max-width: 50%;
 }
 
 h1 {
