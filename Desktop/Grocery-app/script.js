@@ -10,6 +10,10 @@ const clearBtn = document.querySelector(".clear-btn");
 
 let allButtons = document.querySelectorAll(".my-button");
 
+//Convert NodeList to Array
+let buttonsArray = Array.from(allButtons);
+console.log(buttonsArray);
+
 //EDIT OPTION
 let editElement;
 let editFlag = false;
@@ -38,46 +42,51 @@ function addItem(e) {
 
 // function to add eventListener to all buttons
 
-allButtons.forEach((button) => {
-  button.addEventListener("click", (e) => {
-    // console.log(button);
-    // put message and data type into variables.
-    const message = e.target.getAttribute("data-message");
-    const alertType = e.target.getAttribute("data-alert-type");
+// {{{{{FIX BELOW: All Buttons are being added when the script is first ran, so when you create new additional containers that have buttons, those buttons are not included in the "allbuttons" variable; fix!}}}}}
 
-    console.log(button, message, alertType);
-    // get inputValue to check submit button(2 outcomes)
-    const inputValue = grocery.value;
-    // if value is empty, display failure function && target is our submit button
-    if (
-      inputValue.trim() == "" &&
-      e.target.getAttribute("class") === "submit-btn my-button"
-    ) {
-      displayAlert("Empty Value!", "alert-danger");
-    }
-    // if value is not empty, submit item accordingly && target is our submit button
-    else if (
-      inputValue.trim() &&
-      e.target.getAttribute("class") === "submit-btn my-button"
-    ) {
-      displayAlert("Item submitted Successfully!", "alert-success");
-    }
-    // else statement for the other 3 buttons that only have 1 outcome
-    else {
-      displayAlert(message, alertType);
-    }
+fireButton = function () {
+  buttonsArray.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      // console.log(button);
+      // put message and data type into variables.
+      const message = e.target.getAttribute("data-message");
+      const alertType = e.target.getAttribute("data-alert-type");
+
+      console.log(button, message, alertType);
+      // get inputValue to check submit button(2 outcomes)
+      const inputValue = grocery.value;
+      // if value is empty, display failure function && target is our submit button
+      if (
+        inputValue.trim() == "" &&
+        e.target.getAttribute("class") === "submit-btn my-button"
+      ) {
+        displayAlert("Empty Value!", "alert-danger");
+      }
+      // if value is not empty, submit item accordingly && target is our submit button
+      else if (
+        inputValue.trim() &&
+        e.target.getAttribute("class") === "submit-btn my-button"
+      ) {
+        displayAlert("Item submitted Successfully!", "alert-success");
+      }
+      // else statement for the other 3 buttons that only have 1 outcome
+      else {
+        displayAlert(message, alertType);
+      }
+    });
+    console.log(button);
   });
-  console.log(button);
-});
-console.log(allButtons);
+  console.log(buttonsArray);
 
-function displayAlert(message, alertType) {
-  // message passed as argument gets put inside display div
-  alert.textContent = message;
-  // add class based on alert-type
-  alert.classList.add(alertType);
-}
-
+  function displayAlert(message, alertType) {
+    // message passed as argument gets put inside display div
+    alert.textContent = message;
+    // add class based on alert-type
+    alert.classList.add(alertType);
+  }
+};
+//Call fire button for initial buttons
+fireButton();
 // Functions to dynamically add or remove more items in the list :
 // {Implementation Guide}:
 /*
@@ -103,7 +112,6 @@ let createItemContainer = () => {
   let originalButtonDiv = document.querySelector(".button-container");
   let originalEditButton = document.querySelector(".edit-btn");
   let originalDeleteButton = document.querySelector(".del-btn");
-  // let originalArticle = document.getElementById("articleID");
   let article = document.createElement("article");
   containerDiv.appendChild(article);
   // create and append p element
@@ -118,6 +126,10 @@ let createItemContainer = () => {
   let deleteButton = document.createElement("button");
   buttonDiv.appendChild(editButton);
   buttonDiv.appendChild(deleteButton);
+
+  //adding new buttons to the array
+  buttonsArray.push(editButton, deleteButton);
+  fireButton();
   //
   // assign classes to the new created elements
   // article class
@@ -153,6 +165,6 @@ let createItemContainer = () => {
   deleteButton.appendChild(deleteIconElement);
 };
 
+// Function to Delete items when they are clicked
+function deleteItemContainer() {}
 // LOCAL STORAGE
-
-//SETUP ITEMS
