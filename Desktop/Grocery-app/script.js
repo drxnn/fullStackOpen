@@ -130,6 +130,13 @@ let createItemContainer = () => {
   //adding new buttons to the array
   buttonsArray.push(editButton, deleteButton);
   fireButton();
+
+  // function to add Text to new <p> tag and clear input form
+  function addText() {
+    let text = document.querySelector("input").value;
+    p.innerText = text;
+  }
+  addText();
   //
   // assign classes to the new created elements
   // article class
@@ -167,4 +174,7 @@ let createItemContainer = () => {
 
 // Function to Delete items when they are clicked
 function deleteItemContainer() {}
+
+//
+
 // LOCAL STORAGE
