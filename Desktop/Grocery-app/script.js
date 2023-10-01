@@ -135,6 +135,7 @@ let createItemContainer = () => {
   function addText() {
     let text = document.querySelector("input").value;
     p.innerText = text;
+    clearInput();
   }
   addText();
   //
@@ -175,6 +176,10 @@ let createItemContainer = () => {
 // Function to Delete items when they are clicked
 function deleteItemContainer() {}
 
-//
+// function to clear input form after new <p> element has been formed
+
+function clearInput() {
+  document.querySelector("input").value = "";
+}
 
 // LOCAL STORAGE
