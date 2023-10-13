@@ -22,6 +22,8 @@ let editID = "";
 //submit form;
 form.addEventListener("submit", addItem);
 
+container.addEventListener("click", editOrDelete);
+
 //FUNCTIONS
 function addItem(e) {
   e.preventDefault();
@@ -156,8 +158,14 @@ let createItemContainer = () => {
   deleteButton.appendChild(deleteIconElement);
 };
 
-// Function to Delete items when they are clicked
-function deleteItem() {}
+// Function to Delete items when they are  or edit text inside
+function editOrDelete(e) {
+  if (e.target.classList.contains("del-btn")) {
+    let element = e;
+    console.log(element);
+    // console.log(element.parentNode.closest(article));
+  }
+}
 
 // function to clear input form after new <p> element has been formed
 
