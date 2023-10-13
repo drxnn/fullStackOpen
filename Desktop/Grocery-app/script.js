@@ -136,6 +136,7 @@ let createItemContainer = () => {
   //button div class
   const buttonDivClass = originalButtonDiv.getAttribute("class");
   buttonDiv.classList.add(buttonDivClass);
+  // add id to edit button and del button
 
   // Get all attributes of edit and delete buttons and add them to newly created edit & delete buttons:
 
@@ -146,6 +147,14 @@ let createItemContainer = () => {
   for (const attribute of originalDeleteButton.attributes) {
     deleteButton.setAttribute(attribute.name, attribute.value);
   }
+
+  // add unique ID to newly created elements so that we can select them later
+  const id = new Date().getTime().toString();
+  editButton.setAttribute("id", id);
+  deleteButton.setAttribute("id", +id + +id);
+  console.log(typeof id);
+  //
+  //
 
   // add icon elements to newly created buttons
   //edit-btn
@@ -159,10 +168,10 @@ let createItemContainer = () => {
 };
 
 // Function to Delete items when they are  or edit text inside
+// {GUIDELINE}{You have to use the unique IDs from the function "addItem()" and insert it into each newly created articles so that we can use the ID to also edit or delete the items. Modify addItem() so you can do this}
 function editOrDelete(e) {
   if (e.target.classList.contains("del-btn")) {
-    let element = e;
-    console.log(element);
+    let element = console.log(element);
     // console.log(element.parentNode.closest(article));
   }
 }
