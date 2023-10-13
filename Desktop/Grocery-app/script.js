@@ -42,8 +42,6 @@ function addItem(e) {
 
 // function to add eventListener to all buttons
 
-// {{{{{FIX BELOW: All Buttons are being added when the script is first ran, so when you create new additional containers that have buttons, those buttons are not included in the "allbuttons" variable; fix!}}}}}
-
 fireButton = function () {
   buttonsArray.forEach((button) => {
     button.addEventListener("click", (e) => {
@@ -87,21 +85,6 @@ fireButton = function () {
 };
 //Call fire button for initial buttons
 fireButton();
-// Functions to dynamically add or remove more items in the list :
-// {Implementation Guide}:
-/*
-Optional: start off with the item holders being #hidden
- If User clicks Submit Button && there's a value in input field, add another item holder(<p> with edit and delete button) and display added item.
- If User clicks delete button on an item, remove it from list
- If User clicks edit button, edit <p> tag
- If theres a lot of items, increase container size as needed
- If Clear-BTN is clicked, remove all lists
- Clicking the edit button turn the item text into an input field for editing, once user clicks edit, it changes back to a <p> tag
- Optional: add confirmation button when user clicks Clear Button(In case they click accidentally/ or add Undo button)
-
-
-*/
-//Function to create the container with the item that is added by User/ alongside Edit and Delete Buttons
 
 let createItemContainer = () => {
   // selecting original elements that are in the HTML("HIDDEN") so we can assign their attributes to the newly created Elements.
@@ -135,7 +118,7 @@ let createItemContainer = () => {
   function addText() {
     let text = document.querySelector("input").value;
     p.innerText = text;
-    clearInput();
+    clearInput(); // function to clear input field called
   }
   addText();
   //
@@ -174,12 +157,13 @@ let createItemContainer = () => {
 };
 
 // Function to Delete items when they are clicked
-function deleteItemContainer() {}
+function deleteItem() {}
 
 // function to clear input form after new <p> element has been formed
 
 function clearInput() {
   document.querySelector("input").value = "";
+  //
 }
 
 // LOCAL STORAGE
