@@ -169,14 +169,27 @@ let createItemContainer = () => {
 
 // Function to Delete items when they are  or edit text inside
 // {GUIDELINE}{You have to use the unique IDs from the function "addItem()" and insert it into each newly created articles so that we can use the ID to also edit or delete the items. Modify addItem() so you can do this}
+const editableText = "<input />";
+
 function editOrDelete(e) {
   let id = e.target.getAttribute("id");
+  let element = e.target;
+  console.log(element);
   console.log(id);
   if (e.target.classList.contains("del-btn") && id) {
     const article = e.target.closest(".grocery-item");
 
     if (article) {
       article.remove();
+    }
+  } else if (e.target.classList.contains("edit-btn") && id) {
+    const article = e.target.closest(".grocery-item");
+
+    if (article) {
+      const paragraph = article.querySelector(".title");
+      if (paragraph);
+      console.log(paragraph);
+      paragraph.innerHTML = editableText;
     }
   }
 }
