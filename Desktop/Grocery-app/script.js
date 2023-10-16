@@ -167,8 +167,6 @@ let createItemContainer = () => {
   deleteButton.appendChild(deleteIconElement);
 };
 
-// Function to Delete items when they are  or edit text inside
-// {GUIDELINE}{You have to use the unique IDs from the function "addItem()" and insert it into each newly created articles so that we can use the ID to also edit or delete the items. Modify addItem() so you can do this}
 const editableText = document.createElement("input");
 editableText.setAttribute("type", "text");
 editableText.setAttribute("class", "input-edit");
@@ -197,6 +195,15 @@ function editOrDelete(e) {
     }
   }
 }
+
+//{GUIDELINE}:
+// Elements are now editable, implement save functionality that allows user to save the changes, change Icon to the "check-mark", user clicks check-mark and the changes are saved and the element is returned back to a <p>;
+// When user clicks the edit button, whatever text was on the <p> element before clicking the button, should be transposed to the input
+// style input a little more
+// "Changes Saved" alert after user saves changes
+// (Optional) Set a limit to the amount of items user can add
+// "Clear Items" button will remove all items from the list
+// (Optional) Add a two step method before clearing all items, in case user accidentally clicks on it
 
 // function to clear input form after new <p> element has been formed
 
