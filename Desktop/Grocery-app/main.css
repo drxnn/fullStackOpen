@@ -45,11 +45,20 @@ h2 {
   font-weight: bold;
 }
 
-input[type="text"] {
+#grocery {
   background-color: #f1faee;
   padding: 0.5rem;
   border-radius: 10px;
   border-right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Input styling for elements created dynamically  */
+.input-edit {
+  background-color: #f1faee;
+  padding: 0.3rem;
+  border-radius: 10px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -70,6 +79,21 @@ input[type="text"] {
   width: 25rem;
 }
 
+.content-container {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.input-edit {
+  flex-grow: 1;
+  width: 100%;
+}
+.title {
+  flex-grow: 1;
+  margin-left: 0;
+  margin-right: 0;
+}
 .clear-btn {
   /* width: 6rem; */
   margin-bottom: 1rem;
