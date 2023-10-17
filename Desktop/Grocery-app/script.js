@@ -166,6 +166,10 @@ let createItemContainer = () => {
   deleteIconElement.className = "fa-solid fa-trash";
   deleteButton.appendChild(deleteIconElement);
 };
+//
+//
+//
+//
 
 const editableText = document.createElement("input");
 editableText.setAttribute("type", "text");
@@ -195,6 +199,15 @@ function editOrDelete(e) {
     }
   }
 }
+
+//change font upon click:
+let checkFontAwesome = "<i class=fa-solid fa-check></i>";
+
+// normal font:
+
+let editFontAwesome = "<i class=fa-solid fa-pen-to-square></i>";
+
+let changeFont = () => {};
 
 //{GUIDELINE}:
 // Elements are now editable, implement save functionality that allows user to save the changes, change Icon to the "check-mark", user clicks check-mark and the changes are saved and the element is returned back to a <p>;
