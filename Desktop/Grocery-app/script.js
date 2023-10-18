@@ -221,8 +221,8 @@ function changeFont(e) {
   }
   console.log("element.innerHTML:", element.className);
   if (element.className == "fa-solid fa-check") {
-    element.innerHTML = editFontAwesome;
-    console.log("HELLO");
+    element.className = "fa-solid fa-pen-to-square";
+    console.log("HELLO FROM", element);
   }
 }
 
