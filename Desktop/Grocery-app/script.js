@@ -23,6 +23,7 @@ let editID = "";
 form.addEventListener("submit", addItem);
 
 container.addEventListener("click", editOrDelete);
+container.addEventListener("click", changeFont);
 
 //FUNCTIONS
 function addItem(e) {
@@ -136,7 +137,6 @@ let createItemContainer = () => {
   //button div class
   const buttonDivClass = originalButtonDiv.getAttribute("class");
   buttonDiv.classList.add(buttonDivClass);
-  // add id to edit button and del button
 
   // Get all attributes of edit and delete buttons and add them to newly created edit & delete buttons:
 
@@ -201,13 +201,30 @@ function editOrDelete(e) {
 }
 
 //change font upon click:
-let checkFontAwesome = "<i class=fa-solid fa-check></i>";
+let checkFontAwesome = "<i class='fa-solid fa-check'></i>";
 
 // normal font:
 
-let editFontAwesome = "<i class=fa-solid fa-pen-to-square></i>";
+let editFontAwesome = "<i class='fa-solid fa-pen-to-square'></i>";
 
-let changeFont = () => {};
+function changeFont(e) {
+  let id = e.target.getAttribute("id");
+  let element = e.target;
+  console.log(element, id);
+
+  if (
+    e.target.classList.contains("edit-btn") &&
+    id &&
+    element.innerHTML !== checkFontAwesome
+  ) {
+    element.innerHTML = checkFontAwesome;
+  }
+  console.log("element.innerHTML:", element.className);
+  if (element.className == "fa-solid fa-check") {
+    element.innerHTML = editFontAwesome;
+    console.log("HELLO");
+  }
+}
 
 //{GUIDELINE}:
 // Elements are now editable, implement save functionality that allows user to save the changes, change Icon to the "check-mark", user clicks check-mark and the changes are saved and the element is returned back to a <p>;
