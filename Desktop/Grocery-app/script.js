@@ -6,7 +6,7 @@ const grocery = document.getElementById("grocery");
 const submitBtn = document.querySelector(".submit-btn");
 const container = document.querySelector(".grocery-container");
 const list = document.querySelector(".grocery-list");
-console.log(list.firstChild);
+console.log(list.children);
 const clearBtn = document.querySelector(".clear-btn");
 
 let allButtons = document.querySelectorAll(".my-button");
@@ -100,6 +100,8 @@ let createItemContainer = () => {
   let originalButtonDiv = document.querySelector(".button-container");
   let originalEditButton = document.querySelector(".edit-btn");
   let originalDeleteButton = document.querySelector(".del-btn");
+
+  // create article
   let article = document.createElement("article");
   containerDiv.appendChild(article);
   // create and append p element
@@ -239,10 +241,10 @@ function changeFont(e) {
 
 // function to clear all items from List
 // doesnt work => fix
+
 function clearItems() {
-  console.log(list);
-  while (list.firstChild) {
-    list.removeChild(list.firstChild);
+  while (list.lastChild && list.children.length > 1) {
+    list.removeChild(list.lastChild);
   }
 }
 // function to clear input form after new <p> element has been formed
