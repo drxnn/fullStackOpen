@@ -230,17 +230,8 @@ function changeFont(e) {
   }
 }
 
-//{GUIDELINE}:
-// Elements are now editable, implement save functionality that allows user to save the changes, change Icon to the "check-mark", user clicks check-mark and the changes are saved and the element is returned back to a <p>;
-// When user clicks the edit button, whatever text was on the <p> element before clicking the button, should be transposed to the input
-// style input a little more
-// "Changes Saved" alert after user saves changes
-// (Optional) Set a limit to the amount of items user can add
-// "Clear Items" button will remove all items from the list
-// (Optional) Add a two step method before clearing all items, in case user accidentally clicks on it
-
-// function to clear all items from List
-// doesnt work => fix
+//{GUIDE_LINE}
+//Re-write program so that the initial article that is on the html is created dynamically from jS
 
 function clearItems() {
   while (list.lastChild && list.children.length > 1) {
