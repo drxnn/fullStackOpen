@@ -6,6 +6,7 @@ const grocery = document.getElementById("grocery");
 const submitBtn = document.querySelector(".submit-btn");
 const container = document.querySelector(".grocery-container");
 const list = document.querySelector(".grocery-list");
+console.log(list.firstChild);
 const clearBtn = document.querySelector(".clear-btn");
 
 let allButtons = document.querySelectorAll(".my-button");
@@ -22,6 +23,7 @@ let editID = "";
 //submit form;
 form.addEventListener("submit", addItem);
 
+clearBtn.addEventListener("click", clearItems);
 container.addEventListener("click", editOrDelete);
 container.addEventListener("click", changeFont);
 
@@ -235,8 +237,15 @@ function changeFont(e) {
 // "Clear Items" button will remove all items from the list
 // (Optional) Add a two step method before clearing all items, in case user accidentally clicks on it
 
+// function to clear all items from List
+// doesnt work => fix
+function clearItems() {
+  console.log(list);
+  while (list.firstChild) {
+    list.removeChild(list.firstChild);
+  }
+}
 // function to clear input form after new <p> element has been formed
-
 function clearInput() {
   document.querySelector("input").value = "";
   //
