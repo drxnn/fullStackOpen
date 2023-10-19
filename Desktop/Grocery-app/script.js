@@ -231,7 +231,8 @@ function changeFont(e) {
 }
 
 //{GUIDE_LINE}
-//Re-write program so that the initial article that is on the html is created dynamically from jS
+//Re-write program so that the initial article that is on the html is created dynamically from jS OR hide inital article from dom, so that when the user clicks submit you simply display it on the dom with the added text from the user
+// If we use the latter, then when we use the clearItems() function, we have to remove all children except the first child which we have to simply hide and clear input on it
 
 function clearItems() {
   while (list.lastChild && list.children.length > 1) {
