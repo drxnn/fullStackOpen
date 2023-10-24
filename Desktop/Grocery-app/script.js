@@ -195,11 +195,16 @@ function editOrDelete(e) {
 
     if (article) {
       const paragraph = article.querySelector(".title");
+      // inner Content of p tag to put in the input field:
+      let innerContent = paragraph.innerText;
+      console.log(innerContent);
       if (paragraph);
       console.log(paragraph);
       const inputElement = editableText.cloneNode(true);
       paragraph.innerHTML = "";
       paragraph.appendChild(inputElement);
+      // putting <p> text into input field:
+      inputElement.value = innerContent;
     }
   }
 }
@@ -232,9 +237,9 @@ function changeFont(e) {
 
 //{GUIDE_LINE}
 //Re-write program so that the initial article that is on the html is created dynamically from jS OR hide inital article from dom, so that when the user clicks submit you simply display it on the dom with the added text from the user
-// If we use the latter, then when we use the clearItems() function, we have to remove all children except the first child which we have to simply hide and clear input on it
 
 function clearItems() {
+  // length more than one so that the initial child doesnt get removed, we should simply hide it
   while (list.lastChild && list.children.length > 1) {
     list.removeChild(list.lastChild);
   }
