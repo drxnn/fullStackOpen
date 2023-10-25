@@ -26,6 +26,7 @@ form.addEventListener("submit", addItem);
 clearBtn.addEventListener("click", clearItems);
 container.addEventListener("click", editOrDelete);
 container.addEventListener("click", changeFont);
+container.addEventListener("click", acceptChanges);
 
 //FUNCTIONS
 function addItem(e) {
@@ -230,7 +231,10 @@ function changeFont(e) {
   }
   console.log("element.innerHTML:", element.className);
   if (element.className == "fa-solid fa-check") {
+    // change input field to <p> with changes saved:
+    acceptChanges(e);
     element.className = "fa-solid fa-pen-to-square";
+    // editOrDelete(e);
     console.log("HELLO FROM", element);
   }
 }
@@ -249,5 +253,21 @@ function clearInput() {
   document.querySelector("input").value = "";
   //
 }
+
+//
+function acceptChanges(e) {
+  let element = e.target;
+  console.log(element.classList);
+  if (element.className == "fa-solid fa-check") {
+    console.log("HELLO YOUTUBE", element);
+  } else {
+    return;
+  }
+}
+
+// Undo function
+// function that undoes last action :
+
+function undo() {}
 
 // LOCAL STORAGE
