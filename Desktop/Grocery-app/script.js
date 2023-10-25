@@ -254,12 +254,21 @@ function clearInput() {
   //
 }
 
-//
+// function to accept changes made from user
 function acceptChanges(e) {
   let element = e.target;
-  console.log(element.classList);
   if (element.className == "fa-solid fa-check") {
-    console.log("HELLO YOUTUBE", element);
+    // select article
+    const article = element.closest(".grocery-item");
+    // select paragraph inside article
+    const pTitle = article.querySelector("p.title");
+    // if paragraph is there, select input, get its value, remove it and lastly put text into the paragraph text
+    if (pTitle) {
+      const inputToRemove = pTitle.querySelector("input");
+      let textToSave = inputToRemove.value;
+      inputToRemove.remove();
+      pTitle.innerText = textToSave;
+    }
   } else {
     return;
   }
