@@ -86,10 +86,11 @@ fireButton = function () {
     // message passed as argument gets put inside display div
     alert.textContent = message;
     // add class based on alert-type
+    // removing classes completely from alert.Classlist
+    // adding the alert class so that our css style is applied and then adding the class of the button clicked
     alert.classList = [];
     alert.classList.add("alert");
     alert.classList.add(alertType);
-    console.log("CLASS LIST IS", alert.classList);
   }
 };
 //Call fire button for initial buttons
