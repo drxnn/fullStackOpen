@@ -182,10 +182,12 @@ let createItemContainer = () => {
 const editableText = document.createElement("input");
 editableText.setAttribute("type", "text");
 editableText.setAttribute("class", "input-edit");
+// sleep function to deliberately block code if needed
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 async function editOrDelete(e) {
+  // blocking for 20ms so the switch looks more natural in the app
   await sleep(20);
   let id = e.target.getAttribute("id");
   let element = e.target;
