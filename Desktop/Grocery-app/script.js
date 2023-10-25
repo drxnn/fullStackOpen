@@ -86,7 +86,10 @@ fireButton = function () {
     // message passed as argument gets put inside display div
     alert.textContent = message;
     // add class based on alert-type
+    alert.classList = [];
+    alert.classList.add("alert");
     alert.classList.add(alertType);
+    console.log("CLASS LIST IS", alert.classList);
   }
 };
 //Call fire button for initial buttons
@@ -179,8 +182,11 @@ let createItemContainer = () => {
 const editableText = document.createElement("input");
 editableText.setAttribute("type", "text");
 editableText.setAttribute("class", "input-edit");
-
-function editOrDelete(e) {
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+async function editOrDelete(e) {
+  await sleep(20);
   let id = e.target.getAttribute("id");
   let element = e.target;
   console.log(element);
@@ -280,3 +286,5 @@ function acceptChanges(e) {
 function undo() {}
 
 // LOCAL STORAGE
+
+///
