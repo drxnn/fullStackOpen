@@ -33,6 +33,10 @@ function addItem(e) {
   e.preventDefault();
   console.log("ADDITEM FIRED");
   const value = grocery.value;
+  if (value.length > 40) {
+    displayAlert("Text is too long! Text < 40Char", "alert-danger");
+    return;
+  }
   const id = new Date().getTime().toString();
   console.log(id);
   if (value && !editFlag) {
@@ -81,21 +85,22 @@ fireButton = function () {
     console.log(button);
   });
   console.log(buttonsArray);
-
-  async function displayAlert(message, alertType) {
-    // message passed as argument gets put inside display div
-    alert.textContent = message;
-    // add class based on alert-type
-    // removing classes completely from alert.Classlist
-    // adding the alert class so that our css style is applied and then adding the class of the button clicked
-    alert.classList = [];
-    alert.classList.add("alert");
-    alert.classList.add(alertType);
-    // 1 wait before removing display message
-    await sleep(1000);
-    document.querySelector(".alert").innerText = "";
-  }
 };
+
+// function to display Alert
+async function displayAlert(message, alertType) {
+  // message passed as argument gets put inside display div
+  alert.textContent = message;
+  // add class based on alert-type
+  // removing classes completely from alert.Classlist
+  // adding the alert class so that our css style is applied and then adding the class of the button clicked
+  alert.classList = [];
+  alert.classList.add("alert");
+  alert.classList.add(alertType);
+  // 1 wait before removing display message
+  await sleep(1000);
+  document.querySelector(".alert").innerText = "";
+}
 //Call fire button for initial buttons
 fireButton();
 
@@ -132,6 +137,7 @@ let createItemContainer = () => {
   // function to add Text to new <p> tag and clear input form
   function addText() {
     let text = document.querySelector("input").value;
+
     p.innerText = text;
     clearInput(); // function to clear input field called
   }
@@ -292,5 +298,6 @@ function acceptChanges(e) {
 function undo() {}
 
 // LOCAL STORAGE
-
+// function to put whatever was added to local storage
+function saveToLocal() {}
 ///

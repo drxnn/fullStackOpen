@@ -83,11 +83,18 @@ h2 {
   .grocery-item {
     width: 19rem;
   }
+
+  .title {
+    font-size: 0.9rem;
+  }
 }
 
 @media (max-width: 350px) {
   .grocery-item {
     width: 14rem;
+  }
+  .title {
+    font-size: 0.75rem;
   }
 }
 
