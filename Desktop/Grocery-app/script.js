@@ -257,9 +257,6 @@ function changeFont(e) {
   }
 }
 
-//{GUIDE_LINE}
-//Re-write program so that the initial article that is on the html is created dynamically from jS OR hide inital article from dom, so that when the user clicks submit you simply display it on the dom with the added text from the user
-
 function clearItems() {
   // length more than one so that the initial child doesnt get removed, we should simply hide it
   while (list.lastChild && list.children.length > 1) {
@@ -298,6 +295,12 @@ function acceptChanges(e) {
 function undo() {}
 
 // LOCAL STORAGE
-// function to put whatever was added to local storage
+// function to put list items to local storage
+// create an object of data to push to local storage
+// each time the user adds an item to list, add key-value pair to object
+// if user refreshes, and there is data in the local storage, display that data in the dom
+// if user clicks clearItems(), remove data from dom and from local storage
+// if user clicks del-button of specific item, remove from dom and from local storage
+
 function saveToLocal() {}
 ///
