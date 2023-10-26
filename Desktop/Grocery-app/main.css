@@ -18,7 +18,7 @@ h2 {
 /* MAIN SECTION STYLING */
 .section-center {
   border: 3px solid black;
-  width: 35rem;
+  max-width: 35rem;
   max-height: fit-content;
   display: flex;
   flex-direction: column;
@@ -77,6 +77,18 @@ h2 {
   align-items: center;
   justify-content: space-between;
   width: 25rem;
+}
+
+@media (max-width: 450px) {
+  .grocery-item {
+    width: 19rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .grocery-item {
+    width: 14rem;
+  }
 }
 
 .content-container {
@@ -179,3 +191,11 @@ p.alert {
 .form-div h2 {
   margin: 0.3 0 0.6rem 0;
 }
+
+/* TO DO: 
+add media-queries and make mobile-design stack on top of each other
+Remove fixed width on the elements, so the design does not break
+Make sure it looks nice
+article tag has a fixed width, either make responsive, or add media queries
+
+*/
