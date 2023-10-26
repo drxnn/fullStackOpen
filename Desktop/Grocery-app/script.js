@@ -300,7 +300,18 @@ function undo() {}
 // each time the user adds an item to list, add key-value pair to object
 // if user refreshes, and there is data in the local storage, display that data in the dom
 // if user clicks clearItems(), remove data from dom and from local storage
-// if user clicks del-button of specific item, remove from dom and from local storage
+// if user clicks del-button of specific item, remove from dom and from local
 
-function saveToLocal() {}
+function saveToLocalStorage() {
+  const items = [];
+  const groceryItems = document.querySelectorAll(".grocery-item");
+  // loop through groceryItems and save each text to a variable called text and push text to items
+  console.log(groceryItems[0].children[0]);
+  // localStorage.setItem("grocerItems",JSON.stringify(items))
+}
+//
+function loadFromLocalStorage() {
+  const storedItems = JSON.parse(localStorage.getItem("groceryItems"));
+}
+saveToLocalStorage();
 ///
