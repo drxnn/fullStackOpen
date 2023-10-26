@@ -82,7 +82,7 @@ fireButton = function () {
   });
   console.log(buttonsArray);
 
-  function displayAlert(message, alertType) {
+  async function displayAlert(message, alertType) {
     // message passed as argument gets put inside display div
     alert.textContent = message;
     // add class based on alert-type
@@ -91,6 +91,9 @@ fireButton = function () {
     alert.classList = [];
     alert.classList.add("alert");
     alert.classList.add(alertType);
+    // 1 wait before removing display message
+    await sleep(1000);
+    document.querySelector(".alert").innerText = "";
   }
 };
 //Call fire button for initial buttons
