@@ -170,3 +170,12 @@ h2 {
   text-align: center;
   letter-spacing: 0.2rem;
 }
+
+p.alert {
+  height: 1.3rem;
+  /* margin: 0; */
+}
+
+.form-div h2 {
+  margin: 0.3 0 0.6rem 0;
+}
