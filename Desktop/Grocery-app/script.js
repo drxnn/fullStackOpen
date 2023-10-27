@@ -183,6 +183,10 @@ let createItemContainer = () => {
   let deleteIconElement = document.createElement("i");
   deleteIconElement.className = "fa-solid fa-trash";
   deleteButton.appendChild(deleteIconElement);
+  //
+  // save item to localStorage
+
+  saveToLocalStorage();
 };
 //
 //
@@ -306,6 +310,8 @@ function saveToLocalStorage() {
   const items = [];
   const groceryItems = document.querySelectorAll(".grocery-item");
   // loop through groceryItems and save each text to a variable called text and push text to items
+  groceryItems.forEach((x) => items.push(x));
+  console.log(items);
   console.log(groceryItems[0].children[0]);
   // localStorage.setItem("grocerItems",JSON.stringify(items))
 }
@@ -313,5 +319,5 @@ function saveToLocalStorage() {
 function loadFromLocalStorage() {
   const storedItems = JSON.parse(localStorage.getItem("groceryItems"));
 }
-saveToLocalStorage();
+
 ///
