@@ -295,29 +295,25 @@ function acceptChanges(e) {
 
 // Undo function
 // function that undoes last action :
-
+// use the memento pattern although inefficient
+// take a snapshot of the entire state of the program and save it into an array
+// if user wants to undo, simply pop() the last memento and apply it
+//The program will return to the state it was before the last action was applied
 function undo() {}
-
-// LOCAL STORAGE
-// function to put list items to local storage
-// create an object of data to push to local storage
-// each time the user adds an item to list, add key-value pair to object
-// if user refreshes, and there is data in the local storage, display that data in the dom
-// if user clicks clearItems(), remove data from dom and from local storage
-// if user clicks del-button of specific item, remove from dom and from local
 
 function saveToLocalStorage() {
   const items = [];
   const groceryItems = document.querySelectorAll(".grocery-item");
+  console.log(groceryItems);
   // loop through groceryItems and save each text to a variable called text and push text to items
   groceryItems.forEach((x) => items.push(x));
   console.log(items);
-  console.log(groceryItems[0].children[0]);
-  // localStorage.setItem("grocerItems",JSON.stringify(items))
+  localStorage.setItem("groceryItems", JSON.stringify(items));
 }
 //
 function loadFromLocalStorage() {
   const storedItems = JSON.parse(localStorage.getItem("groceryItems"));
+  console.log(storedItems);
 }
 
 ///
