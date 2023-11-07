@@ -329,12 +329,27 @@ function addCookie() {
 
 function readCookie() {
   console.log("hello from read");
-  console.log(document.cookie);
-  let variable = document.cookie;
-  // remove the tasks=
-  // then split using : as delimiter
-  // if array has 7 elements, create 7 articles, then add them in order
-  //
+  // console.log(document.cookie);
+  let variable = document.cookie
+    .split("; ")
+    .find((cookie) => cookie.startsWith("tasks="))
+    .replace("tasks=", "");
+
+  console.log(variable);
+  let cookieArray = variable.split(":");
+  console.log(cookieArray);
+  // if user clicks "LOAD", create cookieArray.length amount of articles and add each element of array to the p tags in order
 }
 
-///
+function loadSavedElements() {
+  let containerDiv = document.getElementById("groceryID");
+  const savedItems = document.cookie
+    .split("; ")
+    .find((cookie) => cookie.startsWith("tasks="))
+    .replace("tasks=", "")
+    .split(":");
+
+  savedItems.forEach((element) => {});
+}
+
+document.getElementById("loadCookie").addEventListener("click", loadSavedItems);
