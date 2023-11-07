@@ -6,7 +6,7 @@ const grocery = document.getElementById("grocery");
 const submitBtn = document.querySelector(".submit-btn");
 const container = document.querySelector(".grocery-container");
 const list = document.querySelector(".grocery-list");
-console.log(list.children);
+
 const clearBtn = document.querySelector(".clear-btn");
 
 let allButtons = document.querySelectorAll(".my-button");
@@ -14,6 +14,8 @@ let allButtons = document.querySelectorAll(".my-button");
 //Convert NodeList to Array
 let buttonsArray = Array.from(allButtons);
 console.log(buttonsArray);
+
+let listOfTasks = [];
 
 //EDIT OPTION
 let editElement;
@@ -33,8 +35,8 @@ function addItem(e) {
   e.preventDefault();
   console.log("ADDITEM FIRED");
   const value = grocery.value;
-  if (value.length > 40) {
-    displayAlert("Text is too long! Text < 40Char", "alert-danger");
+  if (value.length > 25) {
+    displayAlert("Text is too long! Text < 25Char", "alert-danger");
     return;
   }
   const id = new Date().getTime().toString();
@@ -82,9 +84,7 @@ fireButton = function () {
         displayAlert(message, alertType);
       }
     });
-    console.log(button);
   });
-  console.log(buttonsArray);
 };
 
 // function to display Alert
@@ -140,8 +140,11 @@ let createItemContainer = () => {
 
     p.innerText = text;
     clearInput(); // function to clear input field called
+    listOfTasks.push(text);
+    // console.log(listOfTasks);
   }
   addText();
+  serializeTasks();
   //
   // assign classes to the new created elements
   // article class
@@ -170,7 +173,7 @@ let createItemContainer = () => {
   const id = new Date().getTime().toString();
   editButton.setAttribute("id", id);
   deleteButton.setAttribute("id", +id + +id);
-  console.log(typeof id);
+
   //
   //
 
@@ -186,7 +189,7 @@ let createItemContainer = () => {
   //
   // save item to localStorage
 
-  saveToLocalStorage();
+  // saveToLocalStorage();
 };
 //
 //
@@ -206,12 +209,15 @@ async function editOrDelete(e) {
   let id = e.target.getAttribute("id");
   let element = e.target;
   console.log(element);
-  console.log(id);
   if (e.target.classList.contains("del-btn") && id) {
     const article = e.target.closest(".grocery-item");
-
+    let textToPop = article.children[0].innerText;
+    console.log(textToPop);
     if (article) {
       article.remove();
+
+      // remove from list of tasks:
+      listOfTasks.pop(textToPop);
     }
   } else if (e.target.classList.contains("edit-btn") && id) {
     const article = e.target.closest(".grocery-item");
@@ -222,7 +228,7 @@ async function editOrDelete(e) {
       let innerContent = paragraph.innerText;
       console.log(innerContent);
       if (paragraph);
-      console.log(paragraph);
+
       const inputElement = editableText.cloneNode(true);
       paragraph.innerHTML = "";
       paragraph.appendChild(inputElement);
@@ -242,7 +248,6 @@ let editFontAwesome = "<i class='fa-solid fa-pen-to-square'></i>";
 function changeFont(e) {
   let id = e.target.getAttribute("id");
   let element = e.target;
-  console.log(element, id);
 
   if (
     e.target.classList.contains("edit-btn") &&
@@ -251,7 +256,7 @@ function changeFont(e) {
   ) {
     element.innerHTML = checkFontAwesome;
   }
-  console.log("element.innerHTML:", element.className);
+
   if (element.className == "fa-solid fa-check") {
     // change input field to <p> with changes saved:
     acceptChanges(e);
@@ -301,19 +306,35 @@ function acceptChanges(e) {
 //The program will return to the state it was before the last action was applied
 function undo() {}
 
-function saveToLocalStorage() {
-  const items = [];
-  const groceryItems = document.querySelectorAll(".grocery-item");
-  console.log(groceryItems);
-  // loop through groceryItems and save each text to a variable called text and push text to items
-  groceryItems.forEach((x) => items.push(x));
-  console.log(items);
-  localStorage.setItem("groceryItems", JSON.stringify(items));
-}
 //
-function loadFromLocalStorage() {
-  const storedItems = JSON.parse(localStorage.getItem("groceryItems"));
-  console.log(storedItems);
+
+// serialization
+const serializeTasks = () => {
+  let serializationText = "tasks=";
+  listOfTasks.forEach((element, index) => {
+    let newString = `${element}:`;
+    serializationText += newString;
+  });
+  return serializationText;
+};
+
+// cookies
+document.getElementById("addCookie").addEventListener("click", addCookie);
+document.getElementById("loadCookie").addEventListener("click", readCookie);
+function addCookie() {
+  let variable = serializeTasks();
+  console.log(variable);
+  document.cookie = variable;
+}
+
+function readCookie() {
+  console.log("hello from read");
+  console.log(document.cookie);
+  let variable = document.cookie;
+  // remove the tasks=
+  // then split using : as delimiter
+  // if array has 7 elements, create 7 articles, then add them in order
+  //
 }
 
 ///
