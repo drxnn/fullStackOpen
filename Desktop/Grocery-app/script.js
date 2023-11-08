@@ -349,7 +349,18 @@ function loadSavedElements() {
     .replace("tasks=", "")
     .split(":");
 
-  savedItems.forEach((element) => {});
+  savedItems.forEach((element, i) => {
+    createItemContainer();
+    const childrenArray = Array.from(containerDiv.children);
+    childrenArray[i].childNodes[0].textContent = "";
+    // childrenArray[i].childNodes[0].textContent = element;
+
+    // childrenArray.forEach((x) => {
+    //   console.log(x);
+    // });
+  });
 }
 
-document.getElementById("loadCookie").addEventListener("click", loadSavedItems);
+document
+  .getElementById("loadCookie")
+  .addEventListener("click", loadSavedElements);
