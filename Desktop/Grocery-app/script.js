@@ -348,19 +348,20 @@ function loadSavedElements() {
     .find((cookie) => cookie.startsWith("tasks="))
     .replace("tasks=", "")
     .split(":");
-  savedItems = savedItems.filter((x) => x !== "");
 
-  console.log(savedItems);
+  //removing emptyString from array
+  filteredSavedItems = savedItems.filter((x) => x !== "");
 
-  savedItems.forEach((element, i) => {
-    createItemContainer();
+  console.log(filteredSavedItems);
+
+  filteredSavedItems.forEach((element, i) => {
+    // console.log(element, i);
     const childrenArray = Array.from(containerDiv.children);
-    console.log(childrenArray);
-    childrenArray[i].childNodes[0].innerText = element;
 
-    // childrenArray.forEach((x) => {
-    //   console.log(x);
-    // });
+    childrenArray[i].children[0].innerText = element;
+    createItemContainer();
+
+    // console.log(childrenArray[i]);
   });
 }
 
