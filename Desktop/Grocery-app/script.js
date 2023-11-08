@@ -361,7 +361,8 @@ function loadSavedElements() {
     childrenArray[i].children[0].innerText = element;
     createItemContainer();
 
-    // console.log(childrenArray[i]);
+    console.log(childrenArray[i]);
+    console.log(childrenArray);
   });
 }
 
