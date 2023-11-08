@@ -343,17 +343,20 @@ function readCookie() {
 
 function loadSavedElements() {
   let containerDiv = document.getElementById("groceryID");
-  const savedItems = document.cookie
+  let savedItems = document.cookie
     .split("; ")
     .find((cookie) => cookie.startsWith("tasks="))
     .replace("tasks=", "")
     .split(":");
+  savedItems = savedItems.filter((x) => x !== "");
+
+  console.log(savedItems);
 
   savedItems.forEach((element, i) => {
     createItemContainer();
     const childrenArray = Array.from(containerDiv.children);
-    childrenArray[i].childNodes[0].textContent = "";
-    // childrenArray[i].childNodes[0].textContent = element;
+    console.log(childrenArray);
+    childrenArray[i].childNodes[0].innerText = element;
 
     // childrenArray.forEach((x) => {
     //   console.log(x);
