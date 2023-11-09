@@ -114,8 +114,10 @@ let createItemContainer = () => {
   let originalEditButton = document.querySelector(".edit-btn");
   let originalDeleteButton = document.querySelector(".del-btn");
 
+  hideOrShowFirstArticle();
   // create article
   let article = document.createElement("article");
+
   containerDiv.appendChild(article);
   // create and append p element
   let p = document.createElement("p");
@@ -366,6 +368,15 @@ function loadSavedElements() {
     createItemContainer();
     console.log(`container created: ${childrenArray[i]}`);
   });
+}
+
+function hideOrShowFirstArticle() {
+  let article = document.getElementById("articleID");
+  if (article.style.display === "none") {
+    return;
+  } else {
+    article.style.display = "none";
+  }
 }
 
 document
