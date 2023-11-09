@@ -356,13 +356,15 @@ function loadSavedElements() {
 
   filteredSavedItems.forEach((element, i) => {
     // console.log(element, i);
+
     const childrenArray = Array.from(containerDiv.children);
 
-    childrenArray[i].children[0].innerText = element;
-    createItemContainer();
+    // Issue: the function is correctly creating n elements, however it is assigning the text starting from our original article element, thats why we are having an empty article element at the end of the list. {To Fix}
 
-    console.log(childrenArray[i]);
-    console.log(childrenArray);
+    childrenArray[i].children[0].innerText = element;
+
+    createItemContainer();
+    console.log(`container created: ${childrenArray[i]}`);
   });
 }
 
