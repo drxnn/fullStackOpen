@@ -12,6 +12,7 @@ body {
 /*  */
 
 h2 {
+  font-size: 1.5rem;
   letter-spacing: 0.1rem;
 }
 
@@ -219,7 +220,7 @@ p.alert {
 }
 
 .form-div h2 {
-  margin: 0.3 0 0.6rem 0;
+  margin-bottom: 2rem;
 }
 
 #articleID {
