@@ -315,6 +315,9 @@ const serializeTasks = () => {
 document.getElementById("addCookie").addEventListener("click", addCookie);
 document.getElementById("loadCookie").addEventListener("click", readCookie);
 function addCookie() {
+  if (!loadAvailable) {
+    loadAvailable = true;
+  }
   let variable = serializeTasks();
   console.log(variable);
   document.cookie = variable;
@@ -333,33 +336,36 @@ function readCookie() {
   console.log(cookieArray);
   // if user clicks "LOAD", create cookieArray.length amount of articles and add each element of array to the p tags in order
 }
-
+let loadAvailable = true;
 function loadSavedElements() {
-  let containerDiv = document.getElementById("groceryID");
-  let savedItems = document.cookie
-    .split("; ")
-    .find((cookie) => cookie.startsWith("tasks="))
-    .replace("tasks=", "")
-    .split(":");
+  if (loadAvailable) {
+    let containerDiv = document.getElementById("groceryID");
+    let savedItems = document.cookie
+      .split("; ")
+      .find((cookie) => cookie.startsWith("tasks="))
+      .replace("tasks=", "")
+      .split(":");
 
-  //removing emptyString from array
-  filteredSavedItems = savedItems.filter((x) => x !== "");
+    //removing emptyString from array
+    filteredSavedItems = savedItems.filter((x) => x !== "");
 
-  console.log(filteredSavedItems);
+    console.log(filteredSavedItems);
 
-  filteredSavedItems.forEach((element, i) => {
-    // console.log(element, i);
-    createItemContainer();
+    filteredSavedItems.forEach((element, i) => {
+      // console.log(element, i);
+      createItemContainer();
 
-    let childrenArray = Array.from(
-      containerDiv.querySelectorAll(".grocery-item")
-    );
+      let childrenArray = Array.from(
+        containerDiv.querySelectorAll(".grocery-item")
+      );
 
-    //removing the prototype article:
-    childrenArray.shift();
+      //removing the prototype article:
+      childrenArray.shift();
 
-    childrenArray[i].children[0].innerText = element;
-  });
+      childrenArray[i].children[0].innerText = element;
+    });
+    loadAvailable = false;
+  }
 }
 
 document
