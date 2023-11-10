@@ -301,16 +301,6 @@ function acceptChanges(e) {
   }
 }
 
-// Undo function
-// function that undoes last action :
-// use the memento pattern although inefficient
-// take a snapshot of the entire state of the program and save it into an array
-// if user wants to undo, simply pop() the last memento and apply it
-//The program will return to the state it was before the last action was applied
-function undo() {}
-
-//
-
 // serialization
 const serializeTasks = () => {
   let serializationText = "tasks=";
@@ -363,22 +353,14 @@ function loadSavedElements() {
 
     let childrenArray = Array.from(
       containerDiv.querySelectorAll(".grocery-item")
-    ).filter((x) => x.style.display !== "none");
+    );
+
+    //removing the prototype article:
+    childrenArray.shift();
 
     childrenArray[i].children[0].innerText = element;
-
-    // console.log(`container created: ${childrenArray[i]}`);
   });
 }
-
-// function hideOrShowFirstArticle() {
-//   let article = document.getElementById("articleID");
-//   if (article.style.display === "none") {
-//     return;
-//   } else {
-//     article.style.display = "none";
-//   }
-// }
 
 document
   .getElementById("loadCookie")
