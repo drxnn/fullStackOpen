@@ -172,6 +172,28 @@ h2 {
   font-size: 1.2rem;
 }
 
+.saveAndLoad-btn {
+  display: flex;
+  gap: 1rem;
+  width: 15rem;
+  margin-bottom: 0.5rem;
+}
+#addCookie,
+#loadCookie {
+  border: none;
+  outline: none;
+  background-color: #8ecae6;
+  padding: 0.4rem;
+  border-radius: 6px;
+  flex-grow: 1;
+}
+
+#addCookie:hover,
+#loadCookie:hover {
+  cursor: pointer;
+  background-color: #219ebc;
+}
+
 /* ALERT STYLING */
 
 .alert-danger {
@@ -200,10 +222,6 @@ p.alert {
   margin: 0.3 0 0.6rem 0;
 }
 
-/* TO DO: 
-add media-queries and make mobile-design stack on top of each other
-Remove fixed width on the elements, so the design does not break
-Make sure it looks nice
-article tag has a fixed width, either make responsive, or add media queries
-
-*/
+#articleID {
+  display: none;
+}
