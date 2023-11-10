@@ -114,9 +114,10 @@ let createItemContainer = () => {
   let originalEditButton = document.querySelector(".edit-btn");
   let originalDeleteButton = document.querySelector(".del-btn");
 
-  hideOrShowFirstArticle();
+  // hideOrShowFirstArticle();
   // create article
   let article = document.createElement("article");
+  // article.style.display = "flex";
 
   containerDiv.appendChild(article);
   // create and append p element
@@ -358,26 +359,26 @@ function loadSavedElements() {
 
   filteredSavedItems.forEach((element, i) => {
     // console.log(element, i);
+    createItemContainer();
 
-    const childrenArray = Array.from(containerDiv.children);
-
-    // Issue: the function is correctly creating n elements, however it is assigning the text starting from our original article element, thats why we are having an empty article element at the end of the list. {To Fix}
+    let childrenArray = Array.from(
+      containerDiv.querySelectorAll(".grocery-item")
+    ).filter((x) => x.style.display !== "none");
 
     childrenArray[i].children[0].innerText = element;
 
-    createItemContainer();
-    console.log(`container created: ${childrenArray[i]}`);
+    // console.log(`container created: ${childrenArray[i]}`);
   });
 }
 
-function hideOrShowFirstArticle() {
-  let article = document.getElementById("articleID");
-  if (article.style.display === "none") {
-    return;
-  } else {
-    article.style.display = "none";
-  }
-}
+// function hideOrShowFirstArticle() {
+//   let article = document.getElementById("articleID");
+//   if (article.style.display === "none") {
+//     return;
+//   } else {
+//     article.style.display = "none";
+//   }
+// }
 
 document
   .getElementById("loadCookie")
