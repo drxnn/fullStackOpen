@@ -315,9 +315,6 @@ const serializeTasks = () => {
 document.getElementById("addCookie").addEventListener("click", addCookie);
 document.getElementById("loadCookie").addEventListener("click", readCookie);
 function addCookie() {
-  if (!loadAvailable) {
-    loadAvailable = true;
-  }
   let variable = serializeTasks();
   console.log(variable);
   document.cookie = variable;

@@ -89,6 +89,19 @@ h2 {
   .title {
     font-size: 0.9rem;
   }
+
+  .saveAndLoad-btn {
+    width: 5rem;
+  }
+
+  .saveAndLoad-btn button {
+    font-size: 0.75rem;
+  }
+
+  .clear-btn {
+    width: 6.5rem;
+    font-size: 0.75rem;
+  }
 }
 
 @media (max-width: 350px) {
@@ -118,6 +131,9 @@ h2 {
   width: 100%;
 }
 .title {
+  color: white;
+  font-weight: 500;
+  font-size: 1.2rem;
   flex-grow: 1;
   margin-left: 0;
   margin-right: 0;
@@ -143,7 +159,8 @@ h2 {
 .button-container button {
   border: none;
   outline: none;
-  background-color: white;
+  /* background-color: white; */
+  background: none;
 }
 
 .edit-btn {
@@ -225,4 +242,17 @@ p.alert {
 
 #articleID {
   display: none;
+}
+
+/* background style tests */
+
+.section-center {
+  background-image: url(/Mataura.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+body {
+  background-color: #023047;
 }
