@@ -104,6 +104,16 @@ test("deleting a particular blog works", async () => {
   );
 });
 
+test("incrementing likes works", async () => {
+  const initialBlogs = await api.get("/api/blogs");
+  const blogToCheck = initialBlogs.body[1];
+  await api.put(`/api/blogs/${blogToCheck.id}`);
+  const blogsAfterUpdate = await api.get("/api/blogs");
+  const blogToCheckAfterUpdate = blogsAfterUpdate.body[1];
+
+  assert.strictEqual(blogToCheck.likes + 1, blogToCheckAfterUpdate.likes);
+});
+
 after(async () => {
   await mongoose.connection.close();
 });

@@ -12,10 +12,11 @@ blogsRouter.get("/", async (request, response, next) => {
 
 // update information about a specific blog
 blogsRouter.put("/:id", async (request, response, next) => {
-  const blog = await Blog.findById(request.params.id);
+  let blog = await Blog.findById(request.params.id);
+  blog = blog.toObject();
 
   const blogUpdated = {
-    ...blog.toObject(),
+    ...blog,
     likes: blog.likes + 1,
   };
   // console.log("this is the request:", request);

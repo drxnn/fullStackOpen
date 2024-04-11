@@ -1,6 +1,5 @@
 const { test, describe } = require("node:test");
 const assert = require("node:assert");
-const colors = require("colors");
 
 const listHelper = require("../utils/list_helper");
 
