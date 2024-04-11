@@ -28,7 +28,7 @@ test("unique identifier is named id", async () => {
   const blogToCheck = blogs.body[0];
   assert(blogToCheck.hasOwnProperty("id"));
 });
-// Write a test that verifies that making an HTTP POST request to the /api/blogs URL successfully creates a new blog post. At the very least, verify that the total number of blogs in the system is increased by one. You can also verify that the content of the blog post is saved correctly to the database.
+
 test("POST request works", async () => {
   const initialBlogs = await api.get("/api/blogs");
 
@@ -70,9 +70,6 @@ test("if likes if missing from request, default value to 0", async () => {
   assert(blogWithoutLikesUpdated["likes"] === 0);
 });
 
-// Write tests related to creating new blogs via the /api/blogs endpoint, that verify that if the title or url properties are missing from the request data, the backend responds to the request with the status code 400 Bad Request.
-
-// Make the required changes to the code so that it passes the test.
 test("if title or url properties are missing, respond with 400 Bad Request", async () => {
   // test case 1
   const blogWithoutTitle = {
@@ -89,6 +86,22 @@ test("if title or url properties are missing, respond with 400 Bad Request", asy
     likes: 125,
   };
   await api.post("/api/blogs").send(blogWithoutUrl).expect(400);
+});
+
+test("deleting a particular blog works", async () => {
+  const initialBlogs = await api.get("/api/blogs");
+
+  const blogToDelete = initialBlogs.body[1].id;
+  console.log(blogToDelete);
+
+  await api.delete(`/api/blogs/${blogToDelete}`);
+  const blogsAfterDeletion = await api.get("/api/blogs");
+  console.log(blogsAfterDeletion.body);
+
+  assert.strictEqual(
+    initialBlogs.body.length,
+    blogsAfterDeletion.body.length + 1
+  );
 });
 
 after(async () => {
