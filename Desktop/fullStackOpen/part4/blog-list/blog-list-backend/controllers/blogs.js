@@ -10,6 +10,26 @@ blogsRouter.get("/", async (request, response, next) => {
   }
 });
 
+// update information about a specific blog
+blogsRouter.put("/:id", async (request, response, next) => {
+  const blog = await Blog.findById(request.params.id);
+
+  const blogUpdated = {
+    ...blog.toObject(),
+    likes: blog.likes + 1,
+  };
+  // console.log("this is the request:", request);
+
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    request.params.id,
+    blogUpdated,
+    {
+      new: true,
+    }
+  );
+  response.json(updatedBlog);
+});
+
 blogsRouter.delete("/:id", async (request, response, next) => {
   await Blog.findByIdAndDelete(request.params.id);
   response.status(204).end();
