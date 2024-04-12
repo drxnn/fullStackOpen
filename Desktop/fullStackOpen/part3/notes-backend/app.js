@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const config = require("./utils/config");
 const express = require("express");
 const app = express();
@@ -7,7 +8,6 @@ const notesRouter = require("./controllers/notes");
 const usersRouter = require("./controllers/users");
 const middleware = require("./utils/middleware");
 const logger = require("./utils/logger");
-const mongoose = require("mongoose");
 
 mongoose.set("strictQuery", false);
 
