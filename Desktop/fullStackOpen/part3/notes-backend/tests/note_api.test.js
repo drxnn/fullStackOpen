@@ -6,13 +6,13 @@ const app = require("../app");
 const api = supertest(app);
 // const logger = require("../utils/logger");
 const config = require("../utils/config");
-
+const bcrypt = require("bcrypt");
 const helper = require("./test_helper");
 console.log(`environment is: ${process.env.NODE_ENv}`);
 console.log(`mongo server is ${config.MONGODB_URI}`);
 
 const Note = require("../models/notes");
-
+const User = require("../models/users");
 describe("when there is initially some notes saved", () => {
   beforeEach(async () => {
     await Note.deleteMany({});
@@ -113,6 +113,38 @@ describe("when there is initially some notes saved", () => {
       const contents = notesAtEnd.map((r) => r.content);
       assert(!contents.includes(noteToDelete.content));
     });
+  });
+});
+
+describe("when there is initially one user in db", () => {
+  beforeEach(async () => {
+    await User.deleteMany({});
+
+    const passwordHash = await bcrypt.hash("sekret", 10);
+    const user = new User({ username: "root", passwordHash });
+
+    await user.save();
+  });
+
+  test("creation succeeds with a fresh username", async () => {
+    const userAtStart = await helper.usersInDb();
+
+    const newUser = {
+      username: "mluukkai",
+      name: "Matti Luukkainen",
+      password: "salainen",
+    };
+    await api
+      .post("/api/users")
+      .send(newUser)
+      .expect("Content-Type", /application\/json/)
+      .expect(201);
+
+    const usersAtEnd = await helper.usersInDb();
+    assert.strictEqual(usersAtEnd.length, userAtStart.length + 1);
+
+    const usernames = usersAtEnd.map((u) => u.username);
+    assert(usernames.includes(newUser.username));
   });
 });
 
