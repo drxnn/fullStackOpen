@@ -68,9 +68,15 @@ describe("when there is initially some notes saved", () => {
 
   describe("addition of a new note", () => {
     test("succeeds with valid data", async () => {
+      const allUsers = await api.get("/api/users");
+      const user = allUsers.body[0];
+      console.log("user IS:", user);
+      console.log("users are:", allUsers.body);
+
       const newNote = {
         content: "async/await simplifies making async calls",
         important: true,
+        user: user.id,
       };
 
       await api
@@ -87,6 +93,9 @@ describe("when there is initially some notes saved", () => {
     });
 
     test("fails with status code 400 if data invalid", async () => {
+      // const users = await helper.usersInDb();
+
+      // userToAddTo;
       const newNote = {
         important: true,
       };
