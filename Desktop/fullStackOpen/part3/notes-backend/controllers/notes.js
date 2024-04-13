@@ -19,20 +19,22 @@ notesRouter.get("/:id", async (request, response) => {
 
 notesRouter.post("/", async (request, response) => {
   const body = request.body;
+  if (body.userId) {
+    const user = await User.findById(body.userId);
+    const note = new Note({
+      content: body.content,
+      important: body.important || false,
+      user: user.id,
+    });
+    const savedNote = await note.save();
 
-  const user = await User.findById(body.userId);
+    user.notes = user.notes.concat(savedNote._id);
+    await user.save();
 
-  const note = new Note({
-    content: body.content,
-    important: body.important || false,
-    user: user.id,
-  });
-  const savedNote = await note.save();
-
-  user.notes = user.notes.concat(savedNote._id);
-  await user.save();
-
-  response.status(201).json(savedNote);
+    response.status(201).json(savedNote);
+  } else {
+    response.status(400).end();
+  }
 });
 
 notesRouter.delete("/:id", async (request, response) => {

@@ -94,9 +94,6 @@ describe("when there is initially some notes saved", () => {
     });
 
     test("fails with status code 400 if data invalid", async () => {
-      // const users = await helper.usersInDb();
-
-      // userToAddTo;
       const newNote = {
         important: true,
       };
