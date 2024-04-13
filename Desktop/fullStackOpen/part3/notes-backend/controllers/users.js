@@ -24,7 +24,7 @@ usersRouter.get("/", async (request, response) => {
     content: 1,
     important: 1,
   });
+
   response.json(users);
 });
-
 module.exports = usersRouter;
