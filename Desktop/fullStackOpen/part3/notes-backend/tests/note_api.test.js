@@ -76,7 +76,7 @@ describe("when there is initially some notes saved", () => {
       const newNote = {
         content: "async/await simplifies making async calls",
         important: true,
-        user: user.id,
+        userId: user.id,
       };
 
       await api
@@ -86,6 +86,7 @@ describe("when there is initially some notes saved", () => {
         .expect("Content-Type", /application\/json/);
 
       const notesAtEnd = await helper.notesInDb();
+
       assert.strictEqual(notesAtEnd.length, helper.initialNotes.length + 1);
 
       const contents = notesAtEnd.map((n) => n.content);
