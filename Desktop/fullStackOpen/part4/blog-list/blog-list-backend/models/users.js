@@ -5,9 +5,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    minlength: 3,
   },
   name: String,
-  passwordHash: String,
+  passwordHash: {
+    required: true,
+    type: String,
+  },
 });
 
 userSchema.set("toJSON", {
