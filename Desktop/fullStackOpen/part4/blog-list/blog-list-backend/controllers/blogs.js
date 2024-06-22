@@ -1,4 +1,5 @@
 const Blog = require("../models/blogs");
+const User = require("../models/users");
 const blogsRouter = require("express").Router();
 
 blogsRouter.get("/", async (request, response, next) => {
@@ -40,8 +41,21 @@ blogsRouter.post("/", async (request, response, next) => {
   if (!request.body.likes) {
     request.body.likes = 0;
   }
+  const { title, author, url, likes } = request.body;
+  const user = await User.findById(request.body.userId);
+
+  if (!user) {
+    return res.status(400).json({ error: "No users found in the database" });
+  }
+
   try {
-    const blog = new Blog(request.body);
+    const blog = new Blog({
+      title,
+      author,
+      url,
+      likes,
+      user: user._id,
+    });
     if (!blog.title || !blog.url) {
       response.status(400).end();
     } else {
