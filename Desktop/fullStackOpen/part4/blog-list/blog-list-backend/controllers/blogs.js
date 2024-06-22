@@ -3,7 +3,7 @@ const blogsRouter = require("express").Router();
 
 blogsRouter.get("/", async (request, response, next) => {
   try {
-    const blogs = await Blog.find({});
+    const blogs = await Blog.find({}).populate("user");
     response.json(blogs);
   } catch (error) {
     next(error);

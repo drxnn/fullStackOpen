@@ -3,6 +3,8 @@ const assert = require("node:assert");
 const supertest = require("supertest");
 const app = require("../main");
 
+const User = require("../models/users");
+
 const api = supertest(app);
 
 test("invalid users cannot be created", async () => {

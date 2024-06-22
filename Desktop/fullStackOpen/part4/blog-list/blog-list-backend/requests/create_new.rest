@@ -2,8 +2,9 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title":"Prime numbers",
-    "author":"Terrence Tao",
-    "url":"www.tao.com",
-    "likes":123
+    "title":"new blog",
+    "author":"blogger",
+    "url":"www.blog.com",
+    "likes":12323,
+    "user":"6675d18ca135ca65fc3505d0"
 }
