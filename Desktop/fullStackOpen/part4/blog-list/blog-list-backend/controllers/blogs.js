@@ -45,11 +45,7 @@ blogsRouter.delete("/:id", async (request, response, next) => {
   }
   let blog = await Blog.findById(request.params.id);
   let user = await User.findById(decodedToken.id);
-  console.log(
-    `user id is ${user._id} ${typeof user._id} and blog user is :${
-      blog.user
-    } ${typeof blog.user}`
-  );
+
   if (blog.user.equals(user._id)) {
     console.log("it matches");
     console.log(request.params.id);
