@@ -1,11 +1,11 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkVuem8iLCJpZCI6IjY2NzcyNjk4YmI4ZjRlMzU0MWYxMTliMCIsImlhdCI6MTcxOTE2Nzc2OSwiZXhwIjoxNzE5MTY4OTY5fQ.MNJfjKP6HasOHzeF7wWZX1ciuN_gd0JVk1K7Oa6Wypo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkVuem8iLCJpZCI6IjY2NzcyNjk4YmI4ZjRlMzU0MWYxMTliMCIsImlhdCI6MTcxOTUwOTYwNywiZXhwIjoxNzE5NTEwODA3fQ.gS38tdIQGqE48geqbnFMV6CKXtPE_2CSrxCFyjXcbF8
 
 {
-    "title":"new blog",
-    "author":"blogger",
-    "url":"www.blog.com",
-    "likes":12323,
+    "title":"new thingy",
+    "author":"someone someone",
+    "url":"www.blog123.com",
+    "likes":2,
     "user":"6675d18ca135ca65fc3505d0"
 }

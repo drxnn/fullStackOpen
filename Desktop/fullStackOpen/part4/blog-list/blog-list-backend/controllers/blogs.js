@@ -38,19 +38,24 @@ blogsRouter.put("/:id", async (request, response, next) => {
 });
 
 blogsRouter.delete("/:id", async (request, response, next) => {
-  await Blog.findByIdAndDelete(request.params.id);
-  response.status(204).end();
+  const token = middleware.tokenExtractor(request);
+  const decodedToken = jwt.verify(token, process.env.SECRET);
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: "token invalid" });
+  }
+  let blog = await Blog.findById(request.params.id);
+  let user = await User.findById(decodedToken.id);
+  console.log(
+    `user id is ${user._id} ${typeof user._id} and blog user is :${
+      blog.user
+    } ${typeof blog.user}`
+  );
+  if (blog.user.equals(user._id)) {
+    console.log("it matches");
+    console.log(request.params.id);
+    await Blog.findByIdAndDelete(request.params.id);
+  }
 });
-
-//Modify adding new blogs so that it is only possible if a valid token is sent with the HTTP POST request. The user identified by the token is designated as the creator of the blog.//
-
-// const getTokenFrom = (request) => {
-//   const authorization = request.get("authorization");
-//   if (authorization && authorization.startsWith("Bearer ")) {
-//     return authorization.replace("Bearer ", "");
-//   }
-//   return null;
-// };
 
 blogsRouter.post("/", async (request, response, next) => {
   if (!request.body.likes) {
