@@ -2,6 +2,7 @@ const Blog = require("../models/blogs");
 const User = require("../models/users");
 const blogsRouter = require("express").Router();
 const jwt = require("jsonwebtoken");
+const middleware = require("../utils/middleware");
 
 blogsRouter.get("/", async (request, response, next) => {
   try {
@@ -43,20 +44,22 @@ blogsRouter.delete("/:id", async (request, response, next) => {
 
 //Modify adding new blogs so that it is only possible if a valid token is sent with the HTTP POST request. The user identified by the token is designated as the creator of the blog.//
 
-const getTokenFrom = (request) => {
-  const authorization = request.get("authorization");
-  if (authorization && authorization.startsWith("Bearer ")) {
-    return authorization.replace("Bearer ", "");
-  }
-  return null;
-};
+// const getTokenFrom = (request) => {
+//   const authorization = request.get("authorization");
+//   if (authorization && authorization.startsWith("Bearer ")) {
+//     return authorization.replace("Bearer ", "");
+//   }
+//   return null;
+// };
 
 blogsRouter.post("/", async (request, response, next) => {
   if (!request.body.likes) {
     request.body.likes = 0;
   }
+  const token = middleware.tokenExtractor(request);
+  console.log("this is the token", token);
 
-  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);
+  const decodedToken = jwt.verify(token, process.env.SECRET);
   if (!decodedToken.id) {
     return response.status(401).json({ error: "token invalid" });
   }
