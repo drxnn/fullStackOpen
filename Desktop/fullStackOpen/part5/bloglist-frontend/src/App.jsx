@@ -107,7 +107,7 @@ const App = () => {
                 value={newBlog.author}
                 name="Author"
                 onChange={({ target }) =>
-                  setNewBlog((p) => ({ ...p, author: target.author }))
+                  setNewBlog((p) => ({ ...p, author: target.value }))
                 }
               />
             </div>
@@ -117,7 +117,9 @@ const App = () => {
                 type="text"
                 value={newBlog.url}
                 name="Url"
-                onChange={(p) => ({ ...p, url: target.url })}
+                onChange={({ target }) =>
+                  setNewBlog((p) => ({ ...p, url: target.value }))
+                }
               />
             </div>
             <button type="submit"> create new blog</button>
