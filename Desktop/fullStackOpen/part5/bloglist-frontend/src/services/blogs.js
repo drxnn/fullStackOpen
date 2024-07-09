@@ -12,4 +12,8 @@ const getAll = () => {
   return request.then((response) => response.data);
 };
 
-export default { getAll, setToken };
+const createNewBlog = async (newBlog) => {
+  const response = await axios.post(baseUrl, newBlog);
+};
+
+export default { getAll, setToken, createNewBlog };
