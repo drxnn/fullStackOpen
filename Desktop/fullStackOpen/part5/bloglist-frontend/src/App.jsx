@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -13,6 +14,7 @@ const App = () => {
     author: "",
     url: "",
   });
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogUser");
@@ -49,11 +51,21 @@ const App = () => {
 
   //handle logic for new blog creation
   const handleNewBlog = async (e) => {
-    e.preventDefault();
-    blogService.setToken(user.token);
-    console.log(user);
-    console.log(newBlog);
-    blogService.createNewBlog(newBlog);
+    try {
+      e.preventDefault();
+      blogService.setToken(user.token);
+
+      blogService.createNewBlog(newBlog);
+      setErrorMessage("success");
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000);
+    } catch (error) {
+      setErrorMessage("failed");
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000);
+    }
   };
 
   const loginForm = () => (
@@ -82,6 +94,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification notification={errorMessage} style="success" />
       {!user && (
         <div>
           {" "}
