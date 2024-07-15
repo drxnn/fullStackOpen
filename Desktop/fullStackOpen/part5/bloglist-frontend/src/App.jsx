@@ -15,6 +15,7 @@ const App = () => {
     url: "",
   });
   const [errorMessage, setErrorMessage] = useState(null);
+  const [errorStyle, setErrorStyle] = useState("");
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogUser");
@@ -39,8 +40,17 @@ const App = () => {
       setUser(user);
       setUsername("");
       setPassword("");
+      setErrorMessage("Successful log in");
+      setErrorStyle("success");
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000);
     } catch (exception) {
-      alert("wrong credentials");
+      setErrorMessage("Wrong credentials");
+      setErrorStyle("error");
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000);
     }
   };
 
@@ -51,17 +61,19 @@ const App = () => {
 
   //handle logic for new blog creation
   const handleNewBlog = async (e) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
       blogService.setToken(user.token);
 
-      blogService.createNewBlog(newBlog);
-      setErrorMessage("success");
+      await blogService.createNewBlog(newBlog);
+      setErrorMessage("Blog successfully created");
+      setErrorStyle("success");
       setTimeout(() => {
         setErrorMessage(null);
       }, 3000);
     } catch (error) {
-      setErrorMessage("failed");
+      setErrorMessage("Blog failed to create");
+      setErrorStyle("error");
       setTimeout(() => {
         setErrorMessage(null);
       }, 3000);
@@ -94,7 +106,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification notification={errorMessage} style="success" />
+      <Notification notification={errorMessage} style={errorStyle} />
       {!user && (
         <div>
           {" "}
