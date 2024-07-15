@@ -12,8 +12,16 @@ const getAll = () => {
   return request.then((response) => response.data);
 };
 
+const getBlogsOfUser = async (id) => {
+  // get blogs of specific user here
+};
+
 const createNewBlog = async (newBlog) => {
-  const response = await axios.post(baseUrl, newBlog);
+  const config = {
+    headers: { Authorization: token },
+  };
+
+  const response = await axios.post(baseUrl, newBlog, config);
 };
 
 export default { getAll, setToken, createNewBlog };

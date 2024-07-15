@@ -47,6 +47,15 @@ const App = () => {
     setUser(null);
   };
 
+  //handle logic for new blog creation
+  const handleNewBlog = async (e) => {
+    e.preventDefault();
+    blogService.setToken(user.token);
+    console.log(user);
+    console.log(newBlog);
+    blogService.createNewBlog(newBlog);
+  };
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
@@ -85,7 +94,7 @@ const App = () => {
           {user.name} logged in{" "}
           <button onClick={() => logOut()}>log out</button>
           <h2>create new blog</h2>
-          <form>
+          <form onSubmit={handleNewBlog}>
             <div>
               title:
               <input
