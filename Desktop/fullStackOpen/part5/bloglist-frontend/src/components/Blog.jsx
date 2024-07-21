@@ -1,9 +1,13 @@
+import Togglable from "./Togglable";
+
 const Blog = ({ blog }) => (
-  <div>
-    <h5>title:{blog.title} </h5>
-    <p>
-      {blog.url} <br /> likes: {blog.likes} <br /> {blog.author}
-    </p>
+  <div className={"blogDivStyle"}>
+    <p>{blog.title} </p>
+    <Togglable buttonLabel="view">
+      <p>
+        {blog.url} <br /> likes: {blog.likes} <br /> {blog.author}
+      </p>
+    </Togglable>
   </div>
 );
 
