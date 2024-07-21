@@ -4,17 +4,14 @@ import blogService from "./services/blogs";
 import loginService from "./services/login";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
+import NewBlog from "./components/newBlog";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-  const [newBlog, setNewBlog] = useState({
-    title: "",
-    author: "",
-    url: "",
-  });
+
   const [errorMessage, setErrorMessage] = useState(null);
   const [errorStyle, setErrorStyle] = useState("");
 
@@ -61,31 +58,6 @@ const App = () => {
   };
 
   //handle logic for new blog creation
-  const handleNewBlog = async (e) => {
-    e.preventDefault();
-    try {
-      blogService.setToken(user.token);
-
-      await blogService.createNewBlog(newBlog);
-      setErrorMessage("Blog successfully created");
-      setErrorStyle("success");
-      setNoteFormVisibility(false);
-      setNewBlog({
-        title: "",
-        author: "",
-        url: "",
-      });
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 3000);
-    } catch (error) {
-      setErrorMessage("Blog failed to create");
-      setErrorStyle("error");
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 3000);
-    }
-  };
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
@@ -111,9 +83,6 @@ const App = () => {
     </form>
   );
 
-  // form for creating notes should be not visible by default. What should be visible is a "add new note" button.
-  // upon pressing the button, the form will be visible
-
   return (
     <div>
       <Notification notification={errorMessage} style={errorStyle} />
@@ -129,45 +98,11 @@ const App = () => {
           {user.name} logged in
           <button onClick={() => logOut()}>log out</button>
           <Togglable buttonLabel="new blog">
-            <form onSubmit={handleNewBlog}>
-              <div>
-                title:
-                <input
-                  type="text"
-                  value={newBlog.title}
-                  name="Title"
-                  onChange={({ target }) =>
-                    setNewBlog((p) => ({
-                      ...p,
-                      title: target.value,
-                    }))
-                  }
-                />
-              </div>
-              <div>
-                author:
-                <input
-                  type="text"
-                  value={newBlog.author}
-                  name="Author"
-                  onChange={({ target }) =>
-                    setNewBlog((p) => ({ ...p, author: target.value }))
-                  }
-                />
-              </div>
-              <div>
-                url:
-                <input
-                  type="text"
-                  value={newBlog.url}
-                  name="Url"
-                  onChange={({ target }) =>
-                    setNewBlog((p) => ({ ...p, url: target.value }))
-                  }
-                />
-              </div>
-              <button type="submit"> create new blog</button>
-            </form>
+            <NewBlog
+              setErrorStyle={setErrorStyle}
+              setErrorMessage={setErrorMessage}
+              user={user}
+            />
           </Togglable>
         </div>
       )}
