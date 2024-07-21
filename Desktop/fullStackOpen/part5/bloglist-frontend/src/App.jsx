@@ -69,6 +69,12 @@ const App = () => {
       await blogService.createNewBlog(newBlog);
       setErrorMessage("Blog successfully created");
       setErrorStyle("success");
+      setNoteFormVisibility(false);
+      setNewBlog({
+        title: "",
+        author: "",
+        url: "",
+      });
       setTimeout(() => {
         setErrorMessage(null);
       }, 3000);
