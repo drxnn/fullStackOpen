@@ -16,6 +16,7 @@ const App = () => {
   });
   const [errorMessage, setErrorMessage] = useState(null);
   const [errorStyle, setErrorStyle] = useState("");
+  const [noteFormVisibility, setNoteFormVisibility] = useState(false);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogUser");
@@ -104,6 +105,12 @@ const App = () => {
     </form>
   );
 
+  // form for creating notes should be not visible by default. What should be visible is a "add new note" button.
+  // upon pressing the button, the form will be visible
+  // vars for style:
+  const hideWhenVisible = { display: noteFormVisibility ? "none" : "" };
+  const showWhenVisible = { display: noteFormVisibility ? " " : "none" };
+
   return (
     <div>
       <Notification notification={errorMessage} style={errorStyle} />
@@ -116,48 +123,56 @@ const App = () => {
       )}
       {user && (
         <div>
-          {user.name} logged in{" "}
+          {user.name} logged in
           <button onClick={() => logOut()}>log out</button>
-          <h2>create new blog</h2>
-          <form onSubmit={handleNewBlog}>
-            <div>
-              title:
-              <input
-                type="text"
-                value={newBlog.title}
-                name="Title"
-                onChange={({ target }) =>
-                  setNewBlog((p) => ({
-                    ...p,
-                    title: target.value,
-                  }))
-                }
-              />
-            </div>
-            <div>
-              author:
-              <input
-                type="text"
-                value={newBlog.author}
-                name="Author"
-                onChange={({ target }) =>
-                  setNewBlog((p) => ({ ...p, author: target.value }))
-                }
-              />
-            </div>
-            <div>
-              url:
-              <input
-                type="text"
-                value={newBlog.url}
-                name="Url"
-                onChange={({ target }) =>
-                  setNewBlog((p) => ({ ...p, url: target.value }))
-                }
-              />
-            </div>
-            <button type="submit"> create new blog</button>
-          </form>
+          <button
+            style={hideWhenVisible}
+            onClick={() => setNoteFormVisibility(true)}
+          >
+            create note
+          </button>
+          <div style={showWhenVisible}>
+            <form onSubmit={handleNewBlog}>
+              <div>
+                title:
+                <input
+                  type="text"
+                  value={newBlog.title}
+                  name="Title"
+                  onChange={({ target }) =>
+                    setNewBlog((p) => ({
+                      ...p,
+                      title: target.value,
+                    }))
+                  }
+                />
+              </div>
+              <div>
+                author:
+                <input
+                  type="text"
+                  value={newBlog.author}
+                  name="Author"
+                  onChange={({ target }) =>
+                    setNewBlog((p) => ({ ...p, author: target.value }))
+                  }
+                />
+              </div>
+              <div>
+                url:
+                <input
+                  type="text"
+                  value={newBlog.url}
+                  name="Url"
+                  onChange={({ target }) =>
+                    setNewBlog((p) => ({ ...p, url: target.value }))
+                  }
+                />
+              </div>
+              <button type="submit"> create new blog</button>
+            </form>
+            <button onClick={() => setNoteFormVisibility(false)}>cancel</button>
+          </div>
         </div>
       )}
 
