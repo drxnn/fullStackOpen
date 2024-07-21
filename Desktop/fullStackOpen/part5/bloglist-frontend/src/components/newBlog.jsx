@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import blogService from "../services/blogs";
 
 const NewBlog = ({ setErrorMessage, setErrorStyle, user }) => {
-  const [noteFormVisibility, setNoteFormVisibility] = useState(false);
-
   const [newBlog, setNewBlog] = useState({
     title: "",
     author: "",
@@ -18,7 +16,7 @@ const NewBlog = ({ setErrorMessage, setErrorStyle, user }) => {
       await blogService.createNewBlog(newBlog);
       setErrorMessage("Blog successfully created");
       setErrorStyle("success");
-      setNoteFormVisibility(false);
+
       setNewBlog({
         title: "",
         author: "",
