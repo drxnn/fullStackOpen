@@ -3,6 +3,7 @@ import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import Notification from "./components/Notification";
+import Togglable from "./components/Togglable";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -16,7 +17,6 @@ const App = () => {
   });
   const [errorMessage, setErrorMessage] = useState(null);
   const [errorStyle, setErrorStyle] = useState("");
-  const [noteFormVisibility, setNoteFormVisibility] = useState(false);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogUser");
@@ -113,9 +113,6 @@ const App = () => {
 
   // form for creating notes should be not visible by default. What should be visible is a "add new note" button.
   // upon pressing the button, the form will be visible
-  // vars for style:
-  const hideWhenVisible = { display: noteFormVisibility ? "none" : "" };
-  const showWhenVisible = { display: noteFormVisibility ? " " : "none" };
 
   return (
     <div>
@@ -131,13 +128,7 @@ const App = () => {
         <div>
           {user.name} logged in
           <button onClick={() => logOut()}>log out</button>
-          <button
-            style={hideWhenVisible}
-            onClick={() => setNoteFormVisibility(true)}
-          >
-            create note
-          </button>
-          <div style={showWhenVisible}>
+          <Togglable buttonLabel="new blog">
             <form onSubmit={handleNewBlog}>
               <div>
                 title:
@@ -177,8 +168,7 @@ const App = () => {
               </div>
               <button type="submit"> create new blog</button>
             </form>
-            <button onClick={() => setNoteFormVisibility(false)}>cancel</button>
-          </div>
+          </Togglable>
         </div>
       )}
 
