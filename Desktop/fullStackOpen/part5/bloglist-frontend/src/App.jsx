@@ -15,6 +15,8 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [errorStyle, setErrorStyle] = useState("");
 
+  blogs.sort((a, b) => b.likes - a.likes);
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogUser");
     JSON.parse(loggedUserJSON);
@@ -108,9 +110,12 @@ const App = () => {
       )}
 
       <h2>blogs</h2>
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} setBlogs={setBlogs} blogs={blogs} />
-      ))}
+      {blogs.map((blog) => {
+        console.log(blog);
+        return (
+          <Blog key={blog.id} blog={blog} setBlogs={setBlogs} blogs={blogs} />
+        );
+      })}
     </div>
   );
 };
