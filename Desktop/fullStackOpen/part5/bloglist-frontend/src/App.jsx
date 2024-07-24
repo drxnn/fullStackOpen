@@ -27,9 +27,8 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
-    console.log(blogs);
   }, []);
-
+  console.log(blogs);
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
