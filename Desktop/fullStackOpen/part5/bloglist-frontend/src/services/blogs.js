@@ -27,6 +27,7 @@ const createNewBlog = async (newBlog) => {
 const blogLiked = async (blog) => {
   const url = `${baseUrl}/${blog.id}`;
   const response = await axios.put(url, blog);
+  return response;
 };
 
 export default { getAll, setToken, createNewBlog, blogLiked };

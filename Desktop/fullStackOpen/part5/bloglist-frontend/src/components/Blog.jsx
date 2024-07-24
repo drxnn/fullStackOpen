@@ -1,10 +1,12 @@
 import Togglable from "./Togglable";
 import blogService from "../services/blogs";
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, setBlogs, blogs }) => {
   const likeHandler = async (e) => {
     e.preventDefault();
-    await blogService.blogLiked(blog);
+    const response = await blogService.blogLiked(blog);
+    const updatedBlog = response.data;
+    setBlogs(blogs.map((b) => (b.id === blog.id ? updatedBlog : b)));
   };
 
   return (
