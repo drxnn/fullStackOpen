@@ -12,9 +12,9 @@ const getAll = () => {
   return request.then((response) => response.data);
 };
 
-const getBlogsOfUser = async (id) => {
-  // get blogs of specific user here
-};
+// const getBlogsOfUser = async (id) => {
+//   // get blogs of specific user here
+// };
 
 const createNewBlog = async (newBlog) => {
   const config = {
@@ -30,4 +30,20 @@ const blogLiked = async (blog) => {
   return response;
 };
 
-export default { getAll, setToken, createNewBlog, blogLiked };
+const deleteBlog = async (blog) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+
+  const url = `${baseUrl}/${blog.id}`;
+
+  try {
+    console.log("Authorization Header:", config.headers.Authorization);
+    const response = await axios.delete(url, config);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export default { getAll, setToken, createNewBlog, blogLiked, deleteBlog };

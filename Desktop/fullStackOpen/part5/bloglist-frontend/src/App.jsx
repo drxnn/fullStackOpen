@@ -113,7 +113,13 @@ const App = () => {
       {blogs.map((blog) => {
         console.log(blog);
         return (
-          <Blog key={blog.id} blog={blog} setBlogs={setBlogs} blogs={blogs} />
+          <Blog
+            key={blog.id}
+            blog={blog}
+            setBlogs={setBlogs}
+            blogs={blogs}
+            user={user}
+          />
         );
       })}
     </div>
