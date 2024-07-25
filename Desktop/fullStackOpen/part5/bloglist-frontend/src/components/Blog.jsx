@@ -15,6 +15,14 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
 
   const deleteBlog = async (e) => {
     e.preventDefault();
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this blog?"
+    );
+
+    // If the user cancels, do nothing
+    if (!confirmDelete) {
+      return;
+    }
     try {
       blogService.setToken(user.token);
       await blogService.deleteBlog(blog);
@@ -22,6 +30,8 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
       console.error(error);
     }
   };
+
+  const isUserAuthorized = user?.username === blog.user?.username;
 
   return (
     <div className={"blogDivStyle"}>
@@ -31,7 +41,9 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
           {blog.url} <br /> likes: {blog.likes}{" "}
           <button onClick={likeHandler}>like</button> <br /> {blog.author}{" "}
           <br />
-          <button onClick={deleteBlog}>remove blog</button>
+          {isUserAuthorized && (
+            <button onClick={deleteBlog}>remove blog</button>
+          )}
         </p>
       </Togglable>
     </div>
