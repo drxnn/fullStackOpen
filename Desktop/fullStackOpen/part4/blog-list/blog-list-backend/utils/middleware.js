@@ -14,11 +14,17 @@ const unknownEndpoint = (request, response) => {
 
 const tokenExtractor = (request, response, next) => {
   const authorization = request.get("authorization");
-  if (authorization && authorization.startsWith("Bearer ")) {
-    // authorization.replace("Bearer ", "");
-    request.token = authorization;
-    let token = request.token.replace("Bearer ", "");
-    return token;
+  console.log("authorization is:", authorization);
+  // console.log("request is", request);
+
+  if (authorization && authorization.startsWith("Bearer")) {
+    let newAuth = authorization.replace("Bearer ", "");
+
+    request.token = newAuth;
+    return request.token;
+  } else {
+    console.log("authorization not here");
+    console.log("this is the auth variable", authorization);
   }
 
   next();

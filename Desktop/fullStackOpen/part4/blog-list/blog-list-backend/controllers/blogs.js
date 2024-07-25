@@ -4,6 +4,8 @@ const blogsRouter = require("express").Router();
 const jwt = require("jsonwebtoken");
 const middleware = require("../utils/middleware");
 
+// blogsRouter.use(middleware.tokenExtractor);
+
 blogsRouter.get("/", async (request, response, next) => {
   try {
     const blogs = await Blog.find({}).populate("user", {
@@ -38,26 +40,35 @@ blogsRouter.put("/:id", async (request, response, next) => {
 });
 
 blogsRouter.delete("/:id", async (request, response, next) => {
-  const token = middleware.tokenExtractor(request);
-  const decodedToken = jwt.verify(token, process.env.SECRET);
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: "token invalid" });
-  }
-  let blog = await Blog.findById(request.params.id);
-  let user = await User.findById(decodedToken.id);
+  try {
+    const token = request.token;
 
-  if (blog.user.equals(user._id)) {
-    console.log("it matches");
-    console.log(request.params.id);
-    await Blog.findByIdAndDelete(request.params.id);
+    console.log("token is", token);
+
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    console.log("decoded token is", decodedToken);
+    if (!decodedToken.id) {
+      return response.status(401).json({ error: "token invalid" });
+    }
+    let blog = await Blog.findById(request.params.id);
+    let user = await User.findById(decodedToken.id);
+
+    if (blog.user.equals(user._id)) {
+      console.log("it matches");
+
+      await Blog.findByIdAndDelete(request.params.id);
+    }
+  } catch (error) {
+    console.error(error);
   }
 });
 
 blogsRouter.post("/", async (request, response, next) => {
+  console.log(request.body);
   if (!request.body.likes) {
     request.body.likes = 0;
   }
-  const token = middleware.tokenExtractor(request);
+  const token = request.token;
   console.log("this is the token", token);
 
   const decodedToken = jwt.verify(token, process.env.SECRET);
