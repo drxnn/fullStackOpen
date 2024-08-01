@@ -2,27 +2,15 @@ import Togglable from "./Togglable";
 import blogService from "../services/blogs";
 import PropTypes from "prop-types";
 
-const Blog = ({ blog, user, handleLikeBlog }) => {
+const Blog = ({ blog, user, handleLikeBlog, handleDeleteBlog }) => {
   let handleLike = (e) => {
     e.preventDefault();
     handleLikeBlog(blog);
   };
 
-  const deleteBlog = async (e) => {
-    e.preventDefault();
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this blog?"
-    );
-
-    if (!confirmDelete) {
-      return;
-    }
-    try {
-      blogService.setToken(user.token);
-      await blogService.deleteBlog(blog);
-    } catch (error) {
-      console.error(error);
-    }
+  let handleDelete = (e) => {
+    // e.preventDefault();
+    handleDeleteBlog(blog);
   };
 
   const isUserAuthorized = user?.username === blog.user?.username;
@@ -42,7 +30,7 @@ const Blog = ({ blog, user, handleLikeBlog }) => {
           </button>
           <br />
           {isUserAuthorized && (
-            <button onClick={deleteBlog}>remove blog</button>
+            <button onClick={handleDelete}>remove blog</button>
           )}
         </p>
       </Togglable>

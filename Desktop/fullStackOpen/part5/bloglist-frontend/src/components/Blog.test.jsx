@@ -51,14 +51,14 @@ describe("Blog Component tests", () => {
     };
     const mockHandler = vi.fn();
 
-    render(<Blog blog={blogTest} />);
+    render(<Blog blog={blogTest} handleLikeBlog={mockHandler} />);
     const user = userEvent.setup();
     const button = screen.getByTestId("like-btn");
 
     await user.click(button);
     await user.click(button);
 
-    expect(screen.queryByText(/likes: 12/i));
+    expect(mockHandler.mock.calls).toHaveLength(2);
     screen.debug();
   });
 });

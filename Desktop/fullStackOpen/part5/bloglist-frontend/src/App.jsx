@@ -96,6 +96,31 @@ const App = () => {
     }
   };
 
+  // logic for deleting blog:
+  const deleteBlogHandler = async (blogInfo) => {
+    // e.preventDefault();
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this blog?"
+    );
+
+    if (!confirmDelete) {
+      return;
+    }
+    try {
+      blogService.setToken(user.token);
+      console.log("blogs before", blogs);
+      await blogService.deleteBlog(blogInfo);
+
+      console.log("Blog deletion completed");
+
+      const updatedBlogs = blogs.filter((b) => b.id !== blogInfo.id);
+      setBlogs(updatedBlogs);
+      console.log("After deletion, blogs:", updatedBlogs);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div>
       <Notification notification={errorMessage} style={errorStyle} />
@@ -129,6 +154,7 @@ const App = () => {
             blog={blog}
             user={user}
             handleLikeBlog={likeHandler}
+            handleDeleteBlog={deleteBlogHandler}
           />
         );
       })}
