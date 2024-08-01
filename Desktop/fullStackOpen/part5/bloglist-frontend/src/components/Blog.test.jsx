@@ -1,10 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import Blog from "./Blog";
 import { expect } from "vitest";
-
-//Make a test, which checks that the component displaying a blog renders the blog's title and author, but does not render its URL or number of likes by default.
-// Add CSS classes to the component to help the testing as necessary.
-//
+import userEvent from "@testing-library/user-event";
 
 describe("Blog Component tests", () => {
   //   let container;
@@ -28,5 +25,27 @@ describe("Blog Component tests", () => {
     expect(screen.queryByText(/likes: 10/i)).not.toBeVisible();
 
     screen.debug();
+  });
+
+  test("blog and url are shown when button is clicked", async () => {
+    const blog = {
+      title: "here is a title",
+      author: "author1",
+      url: "url.com",
+      likes: "10",
+    };
+
+    const mockHandler = vi.fn();
+    render(<Blog blog={blog} />);
+    const user = userEvent.setup();
+
+    const button = screen.getByText("view");
+
+    expect(screen.queryByText(/url.com/i)).not.toBeVisible();
+    expect(screen.queryByText(/likes: 10/i)).not.toBeVisible();
+
+    await user.click(button);
+    expect(screen.queryByText(/url.com/i)).toBeVisible();
+    expect(screen.queryByText(/likes: 10/i)).toBeVisible();
   });
 });
