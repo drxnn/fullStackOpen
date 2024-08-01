@@ -35,12 +35,16 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
   const isUserAuthorized = user?.username === blog.user?.username;
 
   return (
-    <div className={"blogDivStyle"}>
-      <p>{blog.title} </p>
+    <div className={"blogDivStyle"} data-testid="testDiv">
+      <div>
+        <p>
+          {blog.title} <br /> {blog.author}{" "}
+        </p>
+      </div>
       <Togglable buttonLabel="view">
         <p>
           {blog.url} <br /> likes: {blog.likes}{" "}
-          <button onClick={likeHandler}>like</button> <br /> {blog.author}{" "}
+          <button onClick={likeHandler}>like</button>
           <br />
           {isUserAuthorized && (
             <button onClick={deleteBlog}>remove blog</button>
