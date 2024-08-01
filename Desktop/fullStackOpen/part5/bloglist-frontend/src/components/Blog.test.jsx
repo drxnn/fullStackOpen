@@ -1,20 +1,20 @@
 import { render, screen } from "@testing-library/react";
 import Blog from "./Blog";
-import { expect } from "vitest";
+import { beforeEach, expect } from "vitest";
 import userEvent from "@testing-library/user-event";
 
 describe("Blog Component tests", () => {
-  //   let container;
-
-  test("blog renders only title and author initially", () => {
-    //
-    const blog = {
+  let blog;
+  beforeEach(() => {
+    blog = {
       title: "here is a title",
       author: "author1",
       url: "url.com",
       likes: "10",
     };
+  });
 
+  test("blog renders only title and author initially", () => {
     render(<Blog blog={blog} />);
     const div = screen.getByTestId("testDiv");
 
@@ -28,13 +28,6 @@ describe("Blog Component tests", () => {
   });
 
   test("blog and url are shown when button is clicked", async () => {
-    const blog = {
-      title: "here is a title",
-      author: "author1",
-      url: "url.com",
-      likes: "10",
-    };
-
     const mockHandler = vi.fn();
     render(<Blog blog={blog} />);
     const user = userEvent.setup();
@@ -47,5 +40,25 @@ describe("Blog Component tests", () => {
     await user.click(button);
     expect(screen.queryByText(/url.com/i)).toBeVisible();
     expect(screen.queryByText(/likes: 10/i)).toBeVisible();
+  });
+
+  test("is like button is clicked twice, like handler was also called twice ", async () => {
+    const blogTest = {
+      title: "here is a title",
+      author: "author1",
+      url: "url.com",
+      likes: "10",
+    };
+    const mockHandler = vi.fn();
+
+    render(<Blog blog={blogTest} />);
+    const user = userEvent.setup();
+    const button = screen.getByTestId("like-btn");
+
+    await user.click(button);
+    await user.click(button);
+
+    expect(screen.queryByText(/likes: 12/i));
+    screen.debug();
   });
 });

@@ -31,6 +31,7 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
   console.log(blogs);
+
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
@@ -59,8 +60,6 @@ const App = () => {
     setUser(null);
   };
 
-  //handle logic for new blog creation
-
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
@@ -84,6 +83,18 @@ const App = () => {
       <button type="submit"> login </button>
     </form>
   );
+
+  // logic for blog likeD:
+  const likeHandler = async (blogInfo) => {
+    // e.preventDefault();
+    try {
+      const response = await blogService.blogLiked(blogInfo);
+      const updatedBlog = response.data;
+      setBlogs(blogs.map((b) => (b.id === blogInfo.id ? updatedBlog : b)));
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div>
@@ -116,9 +127,8 @@ const App = () => {
           <Blog
             key={blog.id}
             blog={blog}
-            setBlogs={setBlogs}
-            blogs={blogs}
             user={user}
+            handleLikeBlog={likeHandler}
           />
         );
       })}

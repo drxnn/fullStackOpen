@@ -2,16 +2,10 @@ import Togglable from "./Togglable";
 import blogService from "../services/blogs";
 import PropTypes from "prop-types";
 
-const Blog = ({ blog, setBlogs, blogs, user }) => {
-  const likeHandler = async (e) => {
+const Blog = ({ blog, user, handleLikeBlog }) => {
+  let handleLike = (e) => {
     e.preventDefault();
-    try {
-      const response = await blogService.blogLiked(blog);
-      const updatedBlog = response.data;
-      setBlogs(blogs.map((b) => (b.id === blog.id ? updatedBlog : b)));
-    } catch (error) {
-      console.error(error);
-    }
+    handleLikeBlog(blog);
   };
 
   const deleteBlog = async (e) => {
@@ -20,7 +14,6 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
       "Are you sure you want to delete this blog?"
     );
 
-    // If the user cancels, do nothing
     if (!confirmDelete) {
       return;
     }
@@ -44,7 +37,9 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
       <Togglable buttonLabel="view">
         <p>
           {blog.url} <br /> likes: {blog.likes}{" "}
-          <button onClick={likeHandler}>like</button>
+          <button onClick={handleLike} data-testid="like-btn">
+            like
+          </button>
           <br />
           {isUserAuthorized && (
             <button onClick={deleteBlog}>remove blog</button>
@@ -56,9 +51,7 @@ const Blog = ({ blog, setBlogs, blogs, user }) => {
 };
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
-  setBlogs: PropTypes.func.isRequired,
-  blogs: PropTypes.array.isRequired,
+  // user: PropTypes.object.isRequired,
 };
 
 export default Blog;
