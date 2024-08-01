@@ -5,6 +5,7 @@ import loginService from "./services/login";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import NewBlog from "./components/newBlog";
+import LoginForm from "./components/LoginForm";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -60,29 +61,32 @@ const App = () => {
     setUser(null);
   };
 
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        Username
-        <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        Password
-        <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      <button type="submit"> login </button>
-    </form>
-  );
+  // const handleUserNameChange = (e) => {
+  //   setUsername(e.target.value);
+  // };
+  // const loginForm = () => (
+  //   <form onSubmit={handleLogin}>
+  //     <div>
+  //       Username
+  //       <input
+  //         type="text"
+  //         value={username}
+  //         name="Username"
+  //         onChange={({ target }) => setUsername(target.value)}
+  //       />
+  //     </div>
+  //     <div>
+  //       Password
+  //       <input
+  //         type="password"
+  //         value={password}
+  //         name="Password"
+  //         onChange={(e) => setPassword(e.target.value)}
+  //       />
+  //     </div>
+  //     <button type="submit"> login </button>
+  //   </form>
+  // );
 
   // logic for blog likeD:
   const likeHandler = async (blogInfo) => {
@@ -128,7 +132,15 @@ const App = () => {
         <div>
           {" "}
           <h2>Log in to application</h2>
-          {loginForm()}
+          {
+            <LoginForm
+              handleSubmit={handleLogin}
+              setPassword={setPassword}
+              setUsername={setUsername}
+              username={username}
+              password={password}
+            />
+          }
         </div>
       )}
       {user && (
