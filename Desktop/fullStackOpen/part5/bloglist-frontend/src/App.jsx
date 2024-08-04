@@ -12,6 +12,11 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
+  const [newBlog, setNewBlog] = useState({
+    title: "",
+    author: "",
+    url: "",
+  });
 
   const [errorMessage, setErrorMessage] = useState(null);
   const [errorStyle, setErrorStyle] = useState("");
@@ -61,33 +66,6 @@ const App = () => {
     setUser(null);
   };
 
-  // const handleUserNameChange = (e) => {
-  //   setUsername(e.target.value);
-  // };
-  // const loginForm = () => (
-  //   <form onSubmit={handleLogin}>
-  //     <div>
-  //       Username
-  //       <input
-  //         type="text"
-  //         value={username}
-  //         name="Username"
-  //         onChange={({ target }) => setUsername(target.value)}
-  //       />
-  //     </div>
-  //     <div>
-  //       Password
-  //       <input
-  //         type="password"
-  //         value={password}
-  //         name="Password"
-  //         onChange={(e) => setPassword(e.target.value)}
-  //       />
-  //     </div>
-  //     <button type="submit"> login </button>
-  //   </form>
-  // );
-
   // logic for blog likeD:
   const likeHandler = async (blogInfo) => {
     // e.preventDefault();
@@ -125,6 +103,33 @@ const App = () => {
     }
   };
 
+  //logic for new blog:
+  const handleNewBlog = async (e) => {
+    e.preventDefault();
+    try {
+      blogService.setToken(user.token);
+
+      await blogService.createNewBlog(newBlog);
+      setErrorMessage("Blog successfully created");
+      setErrorStyle("success");
+
+      setNewBlog({
+        title: "",
+        author: "",
+        url: "",
+      });
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000);
+    } catch (error) {
+      setErrorMessage("Blog failed to create");
+      setErrorStyle("error");
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000);
+    }
+  };
+
   return (
     <div>
       <Notification notification={errorMessage} style={errorStyle} />
@@ -149,9 +154,9 @@ const App = () => {
           <button onClick={() => logOut()}>log out</button>
           <Togglable buttonLabel="new blog">
             <NewBlog
-              setErrorStyle={setErrorStyle}
-              setErrorMessage={setErrorMessage}
-              user={user}
+              handleNewBlog={handleNewBlog}
+              setNewBlog={setNewBlog}
+              newBlog={newBlog}
             />
           </Togglable>
         </div>
@@ -159,7 +164,6 @@ const App = () => {
 
       <h2>blogs</h2>
       {blogs.map((blog) => {
-        console.log(blog);
         return (
           <Blog
             key={blog.id}

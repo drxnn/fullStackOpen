@@ -1,39 +1,6 @@
-import React, { useState } from "react";
-import blogService from "../services/blogs";
+// import React, { useState } from "react";
 
-const NewBlog = ({ setErrorMessage, setErrorStyle, user }) => {
-  const [newBlog, setNewBlog] = useState({
-    title: "",
-    author: "",
-    url: "",
-  });
-
-  const handleNewBlog = async (e) => {
-    e.preventDefault();
-    try {
-      blogService.setToken(user.token);
-
-      await blogService.createNewBlog(newBlog);
-      setErrorMessage("Blog successfully created");
-      setErrorStyle("success");
-
-      setNewBlog({
-        title: "",
-        author: "",
-        url: "",
-      });
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 3000);
-    } catch (error) {
-      setErrorMessage("Blog failed to create");
-      setErrorStyle("error");
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 3000);
-    }
-  };
-
+const NewBlog = ({ handleNewBlog, setNewBlog, newBlog }) => {
   return (
     <div>
       <form onSubmit={handleNewBlog}>
@@ -41,8 +8,10 @@ const NewBlog = ({ setErrorMessage, setErrorStyle, user }) => {
           title:
           <input
             type="text"
+            data-testId="input-box"
             value={newBlog.title}
             name="Title"
+            placeholder="input to get"
             onChange={({ target }) =>
               setNewBlog((p) => ({
                 ...p,
@@ -73,7 +42,10 @@ const NewBlog = ({ setErrorMessage, setErrorStyle, user }) => {
             }
           />
         </div>
-        <button type="submit"> create new blog</button>
+        <button type="submit" data-testid="submit-btn">
+          {" "}
+          create new blog
+        </button>
       </form>
     </div>
   );
