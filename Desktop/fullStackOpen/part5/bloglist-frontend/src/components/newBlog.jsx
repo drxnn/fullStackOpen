@@ -8,10 +8,9 @@ const NewBlog = ({ handleNewBlog, setNewBlog, newBlog }) => {
           title:
           <input
             type="text"
-            data-testId="input-box"
+            data-testid="title-input"
             value={newBlog.title}
             name="Title"
-            placeholder="input to get"
             onChange={({ target }) =>
               setNewBlog((p) => ({
                 ...p,
@@ -24,6 +23,7 @@ const NewBlog = ({ handleNewBlog, setNewBlog, newBlog }) => {
           author:
           <input
             type="text"
+            data-testid="author-input"
             value={newBlog.author}
             name="Author"
             onChange={({ target }) =>
@@ -36,6 +36,7 @@ const NewBlog = ({ handleNewBlog, setNewBlog, newBlog }) => {
           <input
             type="text"
             value={newBlog.url}
+            data-testid="url-input"
             name="Url"
             onChange={({ target }) =>
               setNewBlog((p) => ({ ...p, url: target.value }))

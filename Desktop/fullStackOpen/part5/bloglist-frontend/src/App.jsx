@@ -105,7 +105,6 @@ const App = () => {
 
   //logic for new blog:
   const handleNewBlog = async (e) => {
-    e.preventDefault();
     try {
       blogService.setToken(user.token);
 
