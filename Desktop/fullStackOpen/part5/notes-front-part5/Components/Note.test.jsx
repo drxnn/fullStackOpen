@@ -21,3 +21,19 @@ test("clicking the button calls event handler once", async () => {
 
   expect(mockHandler.mock.calls).toHaveLength(1);
 });
+
+test("renders content", () => {
+  const note = {
+    content: "Does not work anymore :(",
+    important: true,
+  };
+
+  render(<Note note={note} />);
+
+  // exact false works if we dont want the exact same text, but a text that is contained in whatever component we are looking for
+  const element = screen.getByText("Does not work anymore :(", {
+    exact: false,
+  });
+
+  expect(element).toBeDefined();
+});

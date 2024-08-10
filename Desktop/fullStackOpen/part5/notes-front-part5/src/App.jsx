@@ -7,12 +7,12 @@ import loginService from "./services/login";
 import LoginForm from "../Components/LoginForm";
 import Togglable from "../Components/Togglable";
 import NoteForm from "../Components/NoteForm";
-import Login from "./services/login";
+// import Login from "./services/login";
 
 const App = () => {
-  const [loginVisible, setLoginVisible] = useState(false);
+  // const [loginVisible, setLoginVisible] = useState(false);
   const [notes, setNotes] = useState([]);
-  const [newNote, setNewNote] = useState("");
+  // const [newNote, setNewNote] = useState("");
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [username, setUsername] = useState("");
@@ -68,10 +68,6 @@ const App = () => {
       });
   };
 
-  const handleNoteChange = (event) => {
-    setNewNote(event.target.value);
-  };
-
   const notesToShow = showAll ? notes : notes.filter((note) => note.important);
 
   const handleLogin = async (event) => {
@@ -93,16 +89,10 @@ const App = () => {
   };
 
   const loginForm = () => {
-    const hideWhenVisible = { display: loginVisible ? "none" : "" };
-    const showWhenVisible = { display: loginVisible ? "" : "none" };
-
     return (
       <div>
-        <div style={hideWhenVisible}>
-          <button onClick={() => setLoginVisible(true)}>log in</button>
-        </div>
-        <div style={showWhenVisible}>
-          <Togglable buttonLabel="login">
+        <div>
+          <Togglable buttonLabel="log-in">
             <LoginForm
               username={username}
               password={password}
@@ -125,9 +115,7 @@ const App = () => {
       ) : (
         <div>
           <p>{user.name} logged-in</p>
-          <Togglable buttonLabel="new note">
-            <NoteForm createNote={addNote} />
-          </Togglable>
+          {noteForm()}
         </div>
       )}
 
