@@ -32,7 +32,7 @@ usersRouter.post("/", async (req, res) => {
     username,
     name,
     passwordHash,
-    blogs: blogs._id,
+    blogs: blogs?._id,
   });
 
   try {

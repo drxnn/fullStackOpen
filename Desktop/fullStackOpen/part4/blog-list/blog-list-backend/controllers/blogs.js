@@ -41,7 +41,7 @@ blogsRouter.put("/:id", async (request, response, next) => {
 
 blogsRouter.delete("/:id", async (request, response, next) => {
   try {
-    const token = request.token;
+    const token = middleware.tokenExtractor(request, response, next);
 
     console.log("token is", token);
 
@@ -68,7 +68,7 @@ blogsRouter.post("/", async (request, response, next) => {
   if (!request.body.likes) {
     request.body.likes = 0;
   }
-  const token = request.token;
+  const token = middleware.tokenExtractor(request, response, next);
   console.log("this is the token", token);
 
   const decodedToken = jwt.verify(token, process.env.SECRET);
