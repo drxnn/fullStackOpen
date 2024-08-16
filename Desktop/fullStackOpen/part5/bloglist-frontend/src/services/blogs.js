@@ -22,6 +22,7 @@ const createNewBlog = async (newBlog) => {
   };
 
   const response = await axios.post(baseUrl, newBlog, config);
+  return response;
 };
 
 const blogLiked = async (blog) => {
