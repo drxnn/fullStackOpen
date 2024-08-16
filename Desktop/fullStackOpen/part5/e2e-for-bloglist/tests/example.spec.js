@@ -35,12 +35,23 @@ describe("blog app", () => {
   });
   describe("When logged in", () => {
     beforeEach(async ({ page }) => {
-      // ...
-    });
-
-    test("a new blog can be created", async ({ page }) => {
       await page.getByTestId("username-input").fill("testingUser");
       await page.getByTestId("password-input").fill("testtest");
+      await page.getByRole("button", { name: "login" }).click();
+    });
+
+    test("a new blog can be created", async ({ page, request }) => {
+      await page.getByRole("button", { name: "new blog" }).click();
+      await page.getByTestId("title-input").fill("testing blog");
+      await page.getByTestId("author-input").fill("tester");
+
+      await page.getByTestId("url-input").fill("www.test.com");
+      await page.getByRole("button", { name: "create new blog" }).click();
+
+      await expect(page.getByText("testing blog")).toBeVisible();
+      await expect(page.getByText("tester")).toBeVisible();
+      // commented out because the application works in a way that it doesn't immediately show the url unless you click to view more details// will add later
+      // await expect(page.getByText("www.test.com")).toBeVisible();
     });
   });
 });
