@@ -94,8 +94,10 @@ blogsRouter.post("/", async (request, response, next) => {
     if (!blog.title || !blog.url) {
       response.status(400).end();
     } else {
-      const result = await blog.save();
-      response.status(201).json(result);
+      await blog.save();
+
+      const blogs = await Blog.find({});
+      response.status(200).send(blogs);
     }
   } catch (error) {
     next(error);
