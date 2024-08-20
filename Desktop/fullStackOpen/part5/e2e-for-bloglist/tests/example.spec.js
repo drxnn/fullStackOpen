@@ -64,13 +64,17 @@ describe("blog app", () => {
     });
 
     test("a new blog can be created", async ({ page, request }) => {
-      await page.getByRole("button", { name: "new blog" }).click();
+      const newBlogButton = page.getByRole("button", { name: "new blog" });
+      await newBlogButton.waitFor();
+      await newBlogButton.click();
 
       await page.getByTestId("title-input").fill("testing blog");
       await page.getByTestId("author-input").fill("tester");
 
       await page.getByTestId("url-input").fill("www.test.com");
-      await page.getByTestId("submit-btn").click();
+      const submitButton = page.getByTestId("submit-btn");
+      submitButton.waitFor();
+      await submitButton.click();
       await page.waitForTimeout(500);
 
       await expect(page.getByText("testing blog")).toBeVisible();
