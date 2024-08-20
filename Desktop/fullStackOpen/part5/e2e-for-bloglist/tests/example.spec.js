@@ -20,6 +20,7 @@ describe("blog app", () => {
       },
     });
     const responseBody = await response.json();
+    await page.waitForTimeout(500);
     token = responseBody.token;
 
     await request.post("http://localhost:3003/api/blogs", {
@@ -64,11 +65,12 @@ describe("blog app", () => {
 
     test("a new blog can be created", async ({ page, request }) => {
       await page.getByRole("button", { name: "new blog" }).click();
+
       await page.getByTestId("title-input").fill("testing blog");
       await page.getByTestId("author-input").fill("tester");
 
       await page.getByTestId("url-input").fill("www.test.com");
-      await page.getByRole("button", { name: "create new blog" }).click();
+      await page.getByTestId("submit-btn").click();
       await page.waitForTimeout(500);
 
       await expect(page.getByText("testing blog")).toBeVisible();
