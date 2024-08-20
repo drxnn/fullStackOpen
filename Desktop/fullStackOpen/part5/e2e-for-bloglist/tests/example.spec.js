@@ -69,12 +69,13 @@ describe("blog app", () => {
 
       await page.getByTestId("url-input").fill("www.test.com");
       await page.getByRole("button", { name: "create new blog" }).click();
+      await page.waitForTimeout(500);
 
       await expect(page.getByText("testing blog")).toBeVisible();
       await expect(page.getByText("tester")).toBeVisible();
     });
 
-    test("blog can be liked", async ({ page, request }) => {
+    test("blog can be liked", async ({ page }) => {
       // to be continued
       await page.getByRole("button", { name: "view" }).first().click();
       let likesContentBefore = await page
@@ -85,6 +86,8 @@ describe("blog app", () => {
       const likesBefore = parseInt(likesContentBefore.replace(/\D/g, ""));
 
       await page.getByRole("button", { name: "like" }).click();
+      await page.waitForTimeout(500);
+
       const likesContentAfter = await page
         .getByTestId("testing-likes")
         .first()
