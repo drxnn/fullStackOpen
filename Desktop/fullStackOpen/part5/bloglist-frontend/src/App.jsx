@@ -112,11 +112,14 @@ const App = () => {
       setErrorMessage("Blog successfully created");
       setErrorStyle("success");
 
+      setBlogs((p) => [...p, newBlog]);
+
       setNewBlog({
         title: "",
         author: "",
         url: "",
       });
+
       setTimeout(() => {
         setErrorMessage(null);
       }, 3000);

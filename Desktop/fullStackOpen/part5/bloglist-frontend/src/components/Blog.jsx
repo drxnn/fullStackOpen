@@ -24,7 +24,8 @@ const Blog = ({ blog, user, handleLikeBlog, handleDeleteBlog }) => {
       </div>
       <Togglable buttonLabel="view">
         <p>
-          {blog.url} <br /> likes: {blog.likes}{" "}
+          {blog.url} <br />{" "}
+          <span data-testid="testing-likes">likes: {blog.likes} </span>{" "}
           <button onClick={handleLike} data-testid="like-btn">
             like
           </button>
