@@ -24,7 +24,7 @@ describe("blog app", () => {
 
     await request.post("http://localhost:3003/api/blogs", {
       data: {
-        title: "testing titile",
+        title: "testing title",
         author: "testingUser",
         url: "www.test.com",
         likes: 2,
@@ -56,8 +56,7 @@ describe("blog app", () => {
     });
   });
   describe("When logged in", () => {
-    beforeEach(async ({ page, request }) => {
-      // await request.post("http://localhost:3003/api/testing/reset");
+    beforeEach(async ({ page }) => {
       await page.getByTestId("username-input").fill("testingUser");
       await page.getByTestId("password-input").fill("testtest");
       await page.getByRole("button", { name: "login" }).click();
@@ -73,8 +72,6 @@ describe("blog app", () => {
 
       await expect(page.getByText("testing blog")).toBeVisible();
       await expect(page.getByText("tester")).toBeVisible();
-      // commented out because the application works in a way that it doesn't immediately show the url unless you click to view more details// will add later
-      // await expect(page.getByText("www.test.com")).toBeVisible();
     });
 
     test("blog can be liked", async ({ page, request }) => {
@@ -84,9 +81,10 @@ describe("blog app", () => {
         .getByTestId("testing-likes")
         .first()
         .allInnerTexts();
-      const numberToCheck = likesContent[0];
-      numberToCheck.slice(0, 7);
-      console.log(numberToCheck);
+
+      // likesContent[0]
+
+      await page.getByRole("button", { name: "like" }).click();
     });
   });
 });
