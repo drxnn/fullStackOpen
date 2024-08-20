@@ -77,14 +77,23 @@ describe("blog app", () => {
     test("blog can be liked", async ({ page, request }) => {
       // to be continued
       await page.getByRole("button", { name: "view" }).first().click();
-      let likesContent = await page
+      let likesContentBefore = await page
         .getByTestId("testing-likes")
         .first()
-        .allInnerTexts();
+        .innerText();
 
-      // likesContent[0]
+      const likesBefore = parseInt(likesContentBefore.replace(/\D/g, ""));
 
       await page.getByRole("button", { name: "like" }).click();
+      const likesContentAfter = await page
+        .getByTestId("testing-likes")
+        .first()
+        .innerText();
+
+      const likesAfter = parseInt(likesContentAfter.replace(/\D/g, ""));
+      console.log("likes before", likesBefore);
+      console.log("likes after", likesAfter);
+      expect(likesAfter).toBe(likesBefore + 1);
     });
   });
 });
