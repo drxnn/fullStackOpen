@@ -121,5 +121,36 @@ describe("blog app", () => {
         page.getByRole("button", { name: "remove blog" })
       ).not.toBeVisible();
     });
+    describe("order of likes", () => {
+      beforeEach(async ({ page, request }) => {
+        await request.post("http://localhost:3003/api/blogs", {
+          data: {
+            title: "blog2",
+            author: "testingUser",
+            url: "www.test2.com",
+            likes: 10,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        await request.post("http://localhost:3003/api/blogs", {
+          data: {
+            title: "blog3",
+            author: "testingUser",
+            url: "www.test3.com",
+            likes: 202,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        await page.goto("http://localhost:5173");
+      });
+      test("blogs are arranged in order of likes", async ({ page }) => {
+        await page.getByRole("button", { name: "view" }).first().click();
+      });
+    });
   });
 });
