@@ -112,5 +112,14 @@ describe("blog app", () => {
       await expect(page.getByText("testing title")).not.toBeVisible();
       await expect(page.getByText("testingUser")).not.toBeVisible();
     });
+
+    test("only logged in user can see the delete button", async ({ page }) => {
+      await page.getByRole("button", { name: "view" }).first().click();
+      expect(page.getByRole("button", { name: "remove blog" })).toBeVisible();
+      await page.getByRole("button", { name: "log out" }).click();
+      expect(
+        page.getByRole("button", { name: "remove blog" })
+      ).not.toBeVisible();
+    });
   });
 });
