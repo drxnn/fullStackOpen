@@ -28,7 +28,7 @@ describe("blog app", () => {
         title: "testing title",
         author: "testingUser",
         url: "www.test.com",
-        likes: 2,
+        likes: 0,
       },
       headers: {
         Authorization: `Bearer ${token}`,
@@ -64,18 +64,13 @@ describe("blog app", () => {
     });
 
     test("a new blog can be created", async ({ page, request }) => {
-      const newBlogButton = page.getByRole("button", { name: "new blog" });
-      await newBlogButton.waitFor();
-      await newBlogButton.click();
+      await page.getByRole("button", { name: "new blog" }).click();
 
       await page.getByTestId("title-input").fill("testing blog");
       await page.getByTestId("author-input").fill("tester");
 
       await page.getByTestId("url-input").fill("www.test.com");
-      const submitButton = page.getByTestId("submit-btn");
-      submitButton.waitFor();
-      await submitButton.click();
-      await page.waitForTimeout(500);
+      await page.getByTestId("submit-btn").click();
 
       await expect(page.getByText("testing blog")).toBeVisible();
       await expect(page.getByText("tester")).toBeVisible();
@@ -103,6 +98,19 @@ describe("blog app", () => {
       console.log("likes before", likesBefore);
       console.log("likes after", likesAfter);
       expect(likesAfter).toBe(likesBefore + 1);
+    });
+
+    test("user that added blog can delete a blog", async ({ page }) => {
+      await expect(page.getByText("testing title")).toBeVisible();
+      await expect(page.getByText("testingUser")).toBeVisible();
+
+      await page.getByRole("button", { name: "view" }).first().click();
+
+      page.on("dialog", (dialog) => dialog.accept());
+      await page.getByRole("button", { name: "remove blog" }).click();
+
+      await expect(page.getByText("testing title")).not.toBeVisible();
+      await expect(page.getByText("testingUser")).not.toBeVisible();
     });
   });
 });
