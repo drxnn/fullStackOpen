@@ -139,14 +139,11 @@ describe("blog app", () => {
       await page.goto("http://localhost:5173");
     });
     test("blogs are arranged in order of likes", async ({ page }) => {
-      // check if the blog with more likes is first in array of elements
-      // get blogs and check if mostLikesBlog is first
-      const allBlogList = await page.getByTestId("testDiv").all();
-      for (const button of await page
-        .getByRole("button", { name: "view" })
-        .all())
-        await button.click();
-      console.log(allBlogList);
+      await page.getByRole("button", { name: "view" }).first().click();
+      await page.getByRole("button", { name: "view" }).last().click();
+      await expect(page.getByTestId("testing-likes").first()).toContainText(
+        "likes: 999"
+      );
     });
   });
 });
