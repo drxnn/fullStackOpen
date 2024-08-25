@@ -18,6 +18,15 @@ blogsRouter.get("/", async (request, response, next) => {
   }
 });
 
+blogsRouter.post("/resetBlogs", async (req, res, next) => {
+  try {
+    await Blog.find({}).deleteMany();
+    res.sendStatus(200);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // update information about a specific blog
 blogsRouter.put("/:id", async (request, response, next) => {
   try {
