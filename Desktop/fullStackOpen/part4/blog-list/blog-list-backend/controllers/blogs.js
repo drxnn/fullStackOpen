@@ -20,23 +20,30 @@ blogsRouter.get("/", async (request, response, next) => {
 
 // update information about a specific blog
 blogsRouter.put("/:id", async (request, response, next) => {
-  let blog = await Blog.findById(request.params.id);
-  blog = blog.toObject();
+  try {
+    let blog = await Blog.findById(request.params.id);
 
-  const blogUpdated = {
-    ...blog,
-    likes: blog.likes + 1,
-  };
-  // console.log("this is the request:", request);
-
-  const updatedBlog = await Blog.findByIdAndUpdate(
-    request.params.id,
-    blogUpdated,
-    {
-      new: true,
+    if (!blog) {
+      return response.status(404).json({ error: "Blog not found" });
     }
-  );
-  response.json(updatedBlog);
+
+    const blogUpdated = {
+      ...blog.toObject(),
+      likes: blog.likes + 1,
+    };
+
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      request.params.id,
+      blogUpdated,
+      {
+        new: true,
+      }
+    ).populate("user", { blogs: 0 });
+
+    response.json(updatedBlog);
+  } catch (error) {
+    next(error);
+  }
 });
 
 blogsRouter.delete("/:id", async (request, response, next) => {
@@ -53,10 +60,17 @@ blogsRouter.delete("/:id", async (request, response, next) => {
     let blog = await Blog.findById(request.params.id);
     let user = await User.findById(decodedToken.id);
 
+    if (!blog) return response.status(400).send({ error: "Not found" });
+
     if (blog.user.equals(user._id)) {
       console.log("it matches");
 
       await Blog.findByIdAndDelete(request.params.id);
+      const blogs = await Blog.find({});
+
+      return response.status(200).json(blogs);
+    } else {
+      response.status(401).send("not authorized");
     }
   } catch (error) {
     console.error(error);
@@ -78,9 +92,12 @@ blogsRouter.post("/", async (request, response, next) => {
 
   const { title, author, url, likes } = request.body;
   const user = await User.findById(decodedToken.id);
+  console.log("heres the user", user);
 
   if (!user) {
-    return res.status(400).json({ error: "No users found in the database" });
+    return response
+      .status(400)
+      .json({ error: "No users found in the database" });
   }
 
   try {
@@ -95,8 +112,10 @@ blogsRouter.post("/", async (request, response, next) => {
       response.status(400).end();
     } else {
       await blog.save();
+      console.log("blog that was just created:", blog);
 
       const blogs = await Blog.find({});
+      console.log("all the blogs", blogs);
       response.status(200).send(blogs);
     }
   } catch (error) {

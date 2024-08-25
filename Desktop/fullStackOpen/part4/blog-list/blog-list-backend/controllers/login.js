@@ -21,7 +21,7 @@ loginRouter.post("/", async (req, res) => {
   };
 
   const token = jwt.sign(userForToken, process.env.SECRET, {
-    expiresIn: 60 * 20,
+    expiresIn: "10h",
   });
 
   res.status(200).send({ token, username: user.username, name: user.name });
