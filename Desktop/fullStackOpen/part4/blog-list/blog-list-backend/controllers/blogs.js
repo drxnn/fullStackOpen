@@ -19,6 +19,10 @@ blogsRouter.get("/", async (request, response, next) => {
 });
 
 blogsRouter.post("/resetBlogs", async (req, res, next) => {
+  if (process.env.NODE_ENV !== "development") {
+    return res.status(403).json({ error: "Forbidden in production" });
+  }
+
   try {
     await Blog.find({}).deleteMany();
     res.sendStatus(200);
