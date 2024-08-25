@@ -121,36 +121,32 @@ describe("blog app", () => {
         page.getByRole("button", { name: "remove blog" })
       ).not.toBeVisible();
     });
-    describe("order of likes", () => {
-      beforeEach(async ({ page, request }) => {
-        await request.post("http://localhost:3003/api/blogs", {
-          data: {
-            title: "blog2",
-            author: "testingUser",
-            url: "www.test2.com",
-            likes: 10,
-          },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+  });
+  describe("order of likes", () => {
+    beforeEach(async ({ page, request }) => {
+      await request.post("http://localhost:3003/api/blogs", {
+        data: {
+          title: "mostLikesBlog",
+          author: "testingUser",
+          url: "www.testThatHasMostLikes.com",
+          likes: 999,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-        await request.post("http://localhost:3003/api/blogs", {
-          data: {
-            title: "blog3",
-            author: "testingUser",
-            url: "www.test3.com",
-            likes: 202,
-          },
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        await page.goto("http://localhost:5173");
-      });
-      test("blogs are arranged in order of likes", async ({ page }) => {
-        await page.getByRole("button", { name: "view" }).first().click();
-      });
+      await page.goto("http://localhost:5173");
+    });
+    test("blogs are arranged in order of likes", async ({ page }) => {
+      // check if the blog with more likes is first in array of elements
+      // get blogs and check if mostLikesBlog is first
+      const allBlogList = await page.getByTestId("testDiv").all();
+      for (const button of await page
+        .getByRole("button", { name: "view" })
+        .all())
+        await button.click();
+      console.log(allBlogList);
     });
   });
 });
