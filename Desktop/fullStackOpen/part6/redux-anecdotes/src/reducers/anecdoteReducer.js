@@ -29,14 +29,26 @@ const reducer = (state = initialState, action) => {
         ...anecdoteToVote,
         votes: anecdoteToVote.votes + 1,
       };
-      const newState = state.map((anecdote) =>
+      return state.map((anecdote) =>
         anecdote.id !== id ? anecdote : newAnectode
       );
-      return newState.sort((a, b) => b.votes - a.votes);
     }
+    case "NEW_ANECDOTE":
+      return [...state, action.payload];
   }
 
   return state;
+};
+
+export const createAnecdote = (content) => {
+  return {
+    type: "NEW_ANECDOTE",
+    payload: {
+      content,
+      id: getId(),
+      votes: 0,
+    },
+  };
 };
 
 export default reducer;
