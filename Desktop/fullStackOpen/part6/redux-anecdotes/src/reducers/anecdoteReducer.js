@@ -20,8 +20,6 @@ const asObject = (anecdote) => {
 const initialState = anecdotesAtStart.map(asObject);
 console.log(initialState);
 
-//each anectode has an id, we need to increment the votes, how to do this?
-
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "INCREMENT": {
@@ -31,9 +29,10 @@ const reducer = (state = initialState, action) => {
         ...anecdoteToVote,
         votes: anecdoteToVote.votes + 1,
       };
-      return state.map((anecdote) =>
+      const newState = state.map((anecdote) =>
         anecdote.id !== id ? anecdote : newAnectode
       );
+      return newState.sort((a, b) => b.votes - a.votes);
     }
   }
 
