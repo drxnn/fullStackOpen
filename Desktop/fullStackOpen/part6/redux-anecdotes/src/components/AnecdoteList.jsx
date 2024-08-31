@@ -1,16 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
 
 const AnecdoteList = () => {
-  const anecdotes = useSelector((state) => {
-    if (state.filter) {
-      return state.anecdotes.filter((anecdote) => {
-        console.log(anecdote.content);
-        return anecdote.content
-          .toLowerCase()
-          .includes(state.filter.toLowerCase());
+  const anecdotes = useSelector(({ filter, anecdotes }) => {
+    if (filter) {
+      return anecdotes.filter((anecdote) => {
+        return anecdote.content.toLowerCase().includes(filter.toLowerCase());
       });
     } else {
-      return state.anecdotes;
+      return anecdotes;
     }
   });
   const dispatch = useDispatch();
