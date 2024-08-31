@@ -33,8 +33,12 @@ const reducer = (state = initialState, action) => {
         anecdote.id !== id ? anecdote : newAnectode
       );
     }
-    case "NEW_ANECDOTE":
+    case "NEW_ANECDOTE": {
       return [...state, action.payload];
+    }
+    case "ALL": {
+      return state;
+    }
   }
 
   return state;
