@@ -8,6 +8,8 @@ const NewNote = () => {
     event.preventDefault();
     const content = event.target.note.value;
     event.target.note.value = "";
+    if (content.length < 2) return;
+    // will add more logic later
     dispatch(createNote(content));
   };
 
