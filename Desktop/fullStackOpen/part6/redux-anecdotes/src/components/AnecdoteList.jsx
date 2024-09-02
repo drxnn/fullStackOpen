@@ -14,17 +14,10 @@ const AnecdoteList = () => {
   console.log("line 13", anecdotes);
   const dispatch = useDispatch();
 
-  // const vote = (id) => {
-  //   return {
-  //     type: "INCREMENT",
-  //     payload: { id },
-  //   };
-  // };
-
-  [...anecdotes].sort((a, b) => b.votes - a.votes);
+  const sortedAnecdoes = [...anecdotes].sort((a, b) => b.votes - a.votes);
   return (
     <>
-      {anecdotes.map((anecdote) => (
+      {sortedAnecdoes.map((anecdote) => (
         <div key={anecdote.id}>
           <div>{anecdote.content}</div>
           <div>
