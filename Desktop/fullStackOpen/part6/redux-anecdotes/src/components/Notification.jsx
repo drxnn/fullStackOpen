@@ -1,14 +1,10 @@
-import { useDispatch, useSelector } from "react-redux";
-import { setNotification } from "../reducers/notificationReducer";
+import { useSelector } from "react-redux";
+// import { setNotification } from "../reducers/notificationReducer";
 
 const Notification = () => {
-  const dispatch = useDispatch();
-
   const notification = useSelector((state) => {
     return state.notification;
   });
-
-  // dispatch(setNotification("wop"));
 
   const style = {
     border: "solid",

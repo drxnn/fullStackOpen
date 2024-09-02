@@ -11,7 +11,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(setNotification("Initial notification message"));
-  }, [dispatch]);
+  }, []);
   return (
     <div>
       <h2>Anecdotes</h2>
