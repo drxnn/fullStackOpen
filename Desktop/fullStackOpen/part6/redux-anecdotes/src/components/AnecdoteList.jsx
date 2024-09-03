@@ -7,6 +7,7 @@ import {
 
 const AnecdoteList = () => {
   const anecdotes = useSelector(({ filter, anecdotes }) => {
+    console.log(anecdotes);
     if (filter) {
       return anecdotes.filter((anecdote) => {
         return anecdote.content.toLowerCase().includes(filter.toLowerCase());
