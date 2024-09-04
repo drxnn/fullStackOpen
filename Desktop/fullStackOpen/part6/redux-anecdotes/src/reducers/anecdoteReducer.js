@@ -32,6 +32,13 @@ const anecdoteSlice = createSlice({
   },
 });
 
+export const addNewAnecdote = (anecdote) => {
+  return async (dispatch) => {
+    dispatch(addAnecdote(anecdote));
+    const anecdoteAsObject = asObject(anecdote);
+    await anecdoteService.newAnecdote(anecdoteAsObject);
+  };
+};
 export const initializeAnecdotes = () => {
   return async (dispatch) => {
     const anecdotes = await anecdoteService.getAll();
