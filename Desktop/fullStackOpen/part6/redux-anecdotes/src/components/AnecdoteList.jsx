@@ -1,11 +1,16 @@
 import { useSelector, useDispatch } from "react-redux";
-import { addVote } from "../reducers/anecdoteReducer";
+import { addVote, initializeAnecdotes } from "../reducers/anecdoteReducer";
 import {
   removeNotification,
   setNotification,
 } from "../reducers/notificationReducer";
+import { useEffect } from "react";
 
 const AnecdoteList = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(initializeAnecdotes());
+  }, []);
   const anecdotes = useSelector(({ filter, anecdotes }) => {
     console.log(anecdotes);
     if (filter) {
@@ -17,7 +22,6 @@ const AnecdoteList = () => {
     }
   });
   console.log("line 13", anecdotes);
-  const dispatch = useDispatch();
 
   const handleVote = (anecdote) => {
     dispatch(addVote(anecdote.id));
