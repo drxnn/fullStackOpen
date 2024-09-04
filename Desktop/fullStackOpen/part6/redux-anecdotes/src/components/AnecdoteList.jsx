@@ -7,6 +7,7 @@ import {
 import {
   removeNotification,
   setNotification,
+  setNotificationWithTimeout,
 } from "../reducers/notificationReducer";
 import { useEffect } from "react";
 
@@ -29,10 +30,7 @@ const AnecdoteList = () => {
 
   const handleVote = (anecdote) => {
     dispatch(addVoteToAnecdote(anecdote));
-    dispatch(setNotification(` you voted ${anecdote.content}`));
-    setTimeout(() => {
-      dispatch(removeNotification());
-    }, 3000);
+    dispatch(setNotificationWithTimeout(anecdote, 5000));
   };
 
   const sortedAnecdoes = [...anecdotes].sort((a, b) => b.votes - a.votes);

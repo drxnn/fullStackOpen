@@ -9,9 +9,6 @@ import { useDispatch } from "react-redux";
 const App = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setNotification("Initial notification message"));
-  }, []);
   return (
     <div>
       <h2>Anecdotes</h2>

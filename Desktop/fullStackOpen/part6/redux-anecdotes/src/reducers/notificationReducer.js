@@ -10,11 +10,17 @@ const notificationSlice = createSlice({
     setNotification(state, action) {
       return action.payload;
     },
-    removeNotification(state, action) {
-      return "";
-    },
   },
 });
+
+export const setNotificationWithTimeout = ({ content }, time) => {
+  return (dispatch) => {
+    dispatch(setNotification(`you voted for ${content}`));
+    setTimeout(() => {
+      dispatch(setNotification(""));
+    }, time);
+  };
+};
 
 export const { setNotification, removeNotification } =
   notificationSlice.actions;
