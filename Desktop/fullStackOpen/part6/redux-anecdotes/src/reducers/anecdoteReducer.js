@@ -3,6 +3,7 @@ import anecdoteService from "../services/anecdotes";
 
 const getId = () => (100000 * Math.random()).toFixed(0);
 
+// only for new anecdote
 export const asObject = (anecdote) => {
   return {
     content: anecdote,
@@ -31,6 +32,18 @@ const anecdoteSlice = createSlice({
     },
   },
 });
+
+export const addVoteToAnecdote = (anecdote) => {
+  return async (dispatch) => {
+    const id = anecdote.id;
+    const newAnecdote = {
+      ...anecdote,
+      votes: anecdote.votes + 1,
+    };
+    await anecdoteService.addVote(newAnecdote, id);
+    dispatch(addVote(id));
+  };
+};
 
 export const addNewAnecdote = (anecdote) => {
   return async (dispatch) => {
