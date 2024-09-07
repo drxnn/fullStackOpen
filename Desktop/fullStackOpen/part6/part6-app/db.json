@@ -7,23 +7,33 @@
     },
     {
       "content": "state changes are made with actions",
-      "important": false,
+      "important": true,
       "id": "2"
     },
     {
       "id": "a44e",
       "content": "well hello",
-      "important": false
+      "important": true
     },
     {
       "id": "6e93",
       "content": "well hey",
-      "important": false
+      "important": true
     },
     {
       "id": "ff49",
       "content": "ENZO",
-      "important": false
+      "important": true
+    },
+    {
+      "id": "3bae",
+      "content": "My name is um uhm um uhmm.",
+      "important": true
+    },
+    {
+      "id": "06fa",
+      "content": "hey hey hey hey",
+      "important": true
     }
   ]
 }
