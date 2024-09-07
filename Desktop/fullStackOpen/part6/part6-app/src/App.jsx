@@ -6,12 +6,12 @@ import { useDispatch } from "react-redux";
 import NewNote from "./Components/NewNote";
 import Notes from "./Components/Notes";
 import VisibilityFilter from "./Components/VisibilityFilter";
+import { initializeNotes } from "./reducers/noteReducer";
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    noteService.getAll().then((notes) => dispatch(setNotes(notes)));
+    dispatch(initializeNotes());
   }, []);
-
   return (
     <div>
       <NewNote />
