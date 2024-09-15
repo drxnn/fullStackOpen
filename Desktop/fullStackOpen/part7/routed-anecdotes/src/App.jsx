@@ -119,6 +119,17 @@ const CreateNew = (props) => {
   );
 };
 
+const Notification = ({ notification }) => {
+  if (notification === null) {
+    return null;
+  }
+  return (
+    <div>
+      <span>{notification}</span>
+    </div>
+  );
+};
+
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
     {
@@ -144,7 +155,12 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000);
     setAnecdotes(anecdotes.concat(anecdote));
-    navigation("/");
+    navigation("/anecdotes");
+    setNotification(`A new anecdote ${anecdote.content} created!`);
+    setTimeout(() => {
+      setNotification("");
+    }, 3000);
+    console.log(notification);
   };
 
   const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
@@ -181,6 +197,7 @@ const App = () => {
           create new anecdote
         </Link>
       </div>
+      <Notification notification={notification} />
 
       <div>
         <h1>Software anecdotes</h1>
