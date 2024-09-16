@@ -89,11 +89,18 @@ const CreateNew = (props) => {
       votes: 0,
     });
   };
+  const handleReset = (e) => {
+    // e.preventDefault();
+    console.log("inside reset");
+    info.reset(e);
+    author.reset(e);
+    content.reset(e);
+  };
 
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div>
           content
           <input {...content} />
@@ -104,9 +111,10 @@ const CreateNew = (props) => {
         </div>
         <div>
           url for more info
-          <input {...info} />
+          <input {...info} onClick={info.reset} />
         </div>
-        <button>create</button>
+        <button onClick={handleSubmit}>create</button>
+        <button onClick={handleReset}>reset</button>
       </form>
     </div>
   );

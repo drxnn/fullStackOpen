@@ -8,11 +8,17 @@ export const useField = (type, name) => {
     setValue(e.target.value);
   };
 
+  const reset = (e) => {
+    e.preventDefault();
+    setValue("");
+  };
+
   return {
     type,
     value,
     name,
     onChange,
+    reset,
   };
 };
 
