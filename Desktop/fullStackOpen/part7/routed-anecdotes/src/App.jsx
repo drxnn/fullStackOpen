@@ -90,7 +90,6 @@ const CreateNew = (props) => {
     });
   };
   const handleReset = (e) => {
-    // e.preventDefault();
     console.log("inside reset");
     info.reset(e);
     author.reset(e);
@@ -103,15 +102,15 @@ const CreateNew = (props) => {
       <form>
         <div>
           content
-          <input {...content} />
+          <input {...content} reset={undefined} />
         </div>
         <div>
           author
-          <input {...author} />
+          <input {...author} reset={undefined} />
         </div>
         <div>
           url for more info
-          <input {...info} onClick={info.reset} />
+          <input {...info} reset={undefined} />
         </div>
         <button onClick={handleSubmit}>create</button>
         <button onClick={handleReset}>reset</button>
