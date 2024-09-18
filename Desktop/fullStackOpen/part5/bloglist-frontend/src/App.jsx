@@ -7,10 +7,10 @@ import Togglable from "./components/Togglable";
 import NewBlog from "./components/newBlog";
 import LoginForm from "./components/LoginForm";
 import { useSelector, useDispatch } from "react-redux";
-import { setNotificationWithTimeout } from "./reducers/notificationReducer";
+import { setNotificationAndStyleWithTimeout } from "./reducers/notificationReducer";
+import { createBlogThunk, initializeBlogs } from "./reducers/blogsReducer";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
@@ -20,15 +20,14 @@ const App = () => {
     url: "",
   });
 
+  const blogs = useSelector((state) => state.blogs);
+  console.log(blogs);
   const notification = useSelector((state) => state.notification);
   console.log(notification);
   const notificationStyle = useSelector((state) => state.style);
   const dispatch = useDispatch();
 
-  // const [errorMessage, setErrorMessage] = useState(null);
-  const [errorStyle, setErrorStyle] = useState("");
-
-  blogs.sort((a, b) => b.likes - a.likes);
+  [...blogs].sort((a, b) => b.likes - a.likes);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogUser");
@@ -41,7 +40,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    dispatch(initializeBlogs());
   }, []);
   console.log(blogs);
 
@@ -54,13 +53,14 @@ const App = () => {
       setUser(user);
       setUsername("");
       setPassword("");
-      // setErrorMessage("Successful log in");
+
       dispatch(
-        setNotificationWithTimeout("Successful log in", "success", 3000)
+        setNotificationAndStyleWithTimeout("Successful log in", "success", 3000)
       );
-      setErrorStyle("success");
     } catch (exception) {
-      dispatch(setNotificationWithTimeout("wrong credentials", "error", 3000));
+      dispatch(
+        setNotificationAndStyleWithTimeout("wrong credentials", "error", 3000)
+      );
     }
   };
 
@@ -111,23 +111,26 @@ const App = () => {
     try {
       blogService.setToken(user.token);
 
-      await blogService.createNewBlog(newBlog);
-      dispatch(setNotificationWithTimeout("Blog successfully created", 3000));
-      setErrorStyle("success");
-
-      setBlogs((p) => [...p, newBlog]);
-
+      dispatch(createBlogThunk(newBlog));
       setNewBlog({
         title: "",
         author: "",
         url: "",
       });
+      dispatch(
+        setNotificationAndStyleWithTimeout("Blog successfully created", 3000)
+      );
+      ("success");
+
+      setBlogs((p) => [...p, newBlog]);
     } catch (error) {
       dispatch(
-        setNotificationWithTimeout("Blog failed to create", "error", 3000)
+        setNotificationAndStyleWithTimeout(
+          "Blog failed to create",
+          "error",
+          3000
+        )
       );
-
-      // setErrorStyle("error");
     }
   };
 

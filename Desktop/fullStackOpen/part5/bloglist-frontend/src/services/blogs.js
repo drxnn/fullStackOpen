@@ -7,9 +7,11 @@ const setToken = (newToken) => {
   token = `Bearer ${newToken}`;
 };
 
-const getAll = () => {
-  const request = axios.get(baseUrl);
-  return request.then((response) => response.data);
+const getAll = async () => {
+  // const request = axios.get(baseUrl);
+  const response = await axios.get(baseUrl);
+  return response.data;
+  // return request.then((response) => response.data);
 };
 
 // const getBlogsOfUser = async (id) => {
@@ -22,8 +24,8 @@ const createNewBlog = async (newBlog) => {
   };
 
   const response = await axios.post(baseUrl, newBlog, config);
-  console.log("response from createNewBlog", response);
-  return response;
+  console.log("response from createNewBlog", response.data);
+  return response.data;
 };
 
 const blogLiked = async (blog) => {

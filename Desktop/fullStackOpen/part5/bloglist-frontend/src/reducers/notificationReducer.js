@@ -11,7 +11,7 @@ const notificationSlice = createSlice({
   },
 });
 
-export const setNotificationWithTimeout = (message, style, time) => {
+export const setNotificationAndStyleWithTimeout = (message, style, time) => {
   return (dispatch) => {
     dispatch(setNotification(message));
     dispatch(setStyle(style));
