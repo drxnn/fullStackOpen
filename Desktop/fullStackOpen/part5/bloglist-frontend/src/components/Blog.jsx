@@ -4,12 +4,12 @@ import PropTypes from "prop-types";
 
 const Blog = ({ blog, user, handleLikeBlog, handleDeleteBlog }) => {
   let handleLike = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     handleLikeBlog(blog);
   };
 
   let handleDelete = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     handleDeleteBlog(blog);
   };
 

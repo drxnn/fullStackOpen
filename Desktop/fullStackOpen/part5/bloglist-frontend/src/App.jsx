@@ -6,6 +6,8 @@ import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import NewBlog from "./components/newBlog";
 import LoginForm from "./components/LoginForm";
+import { useSelector, useDispatch } from "react-redux";
+import { setNotificationWithTimeout } from "./reducers/notificationReducer";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -18,7 +20,12 @@ const App = () => {
     url: "",
   });
 
-  const [errorMessage, setErrorMessage] = useState(null);
+  const notification = useSelector((state) => state.notification);
+  console.log(notification);
+  const notificationStyle = useSelector((state) => state.style);
+  const dispatch = useDispatch();
+
+  // const [errorMessage, setErrorMessage] = useState(null);
   const [errorStyle, setErrorStyle] = useState("");
 
   blogs.sort((a, b) => b.likes - a.likes);
@@ -47,17 +54,13 @@ const App = () => {
       setUser(user);
       setUsername("");
       setPassword("");
-      setErrorMessage("Successful log in");
+      // setErrorMessage("Successful log in");
+      dispatch(
+        setNotificationWithTimeout("Successful log in", "success", 3000)
+      );
       setErrorStyle("success");
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 3000);
     } catch (exception) {
-      setErrorMessage("Wrong credentials");
-      setErrorStyle("error");
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 3000);
+      dispatch(setNotificationWithTimeout("wrong credentials", "error", 3000));
     }
   };
 
@@ -66,11 +69,10 @@ const App = () => {
     setUser(null);
   };
 
-  // logic for blog likeD:
   const likeHandler = async (blogInfo) => {
-    // e.preventDefault();
     try {
       const response = await blogService.blogLiked(blogInfo);
+      console.log(response);
       const updatedBlog = response.data;
       setBlogs(blogs.map((b) => (b.id === blogInfo.id ? updatedBlog : b)));
     } catch (error) {
@@ -105,11 +107,12 @@ const App = () => {
 
   //logic for new blog:
   const handleNewBlog = async (e) => {
+    e.preventDefault();
     try {
       blogService.setToken(user.token);
 
       await blogService.createNewBlog(newBlog);
-      setErrorMessage("Blog successfully created");
+      dispatch(setNotificationWithTimeout("Blog successfully created", 3000));
       setErrorStyle("success");
 
       setBlogs((p) => [...p, newBlog]);
@@ -119,35 +122,29 @@ const App = () => {
         author: "",
         url: "",
       });
-
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 3000);
     } catch (error) {
-      setErrorMessage("Blog failed to create");
-      setErrorStyle("error");
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 3000);
+      dispatch(
+        setNotificationWithTimeout("Blog failed to create", "error", 3000)
+      );
+
+      // setErrorStyle("error");
     }
   };
 
   return (
     <div>
-      <Notification notification={errorMessage} style={errorStyle} />
+      <Notification notification={notification} style={notificationStyle} />
       {!user && (
         <div>
           {" "}
           <h2>Log in to application</h2>
-          {
-            <LoginForm
-              handleSubmit={handleLogin}
-              setPassword={setPassword}
-              setUsername={setUsername}
-              username={username}
-              password={password}
-            />
-          }
+          <LoginForm
+            handleSubmit={handleLogin}
+            setPassword={setPassword}
+            setUsername={setUsername}
+            username={username}
+            password={password}
+          />
         </div>
       )}
       {user && (

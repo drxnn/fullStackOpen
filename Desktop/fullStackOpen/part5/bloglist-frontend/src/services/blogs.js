@@ -22,7 +22,7 @@ const createNewBlog = async (newBlog) => {
   };
 
   const response = await axios.post(baseUrl, newBlog, config);
-  console.log(response);
+  console.log("response from createNewBlog", response);
   return response;
 };
 
