@@ -129,7 +129,7 @@ blogsRouter.post("/", async (request, response, next) => {
 
       const blogs = await Blog.find({});
       console.log("all the blogs", blogs);
-      response.status(200).send(blogs);
+      response.status(200).send(blog);
     }
   } catch (error) {
     next(error);
