@@ -13,16 +13,19 @@ import {
   createBlogThunk,
   initializeBlogs,
 } from "./reducers/blogsReducer";
+import { addUser } from "./reducers/userReducer";
 
 const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
+
   const [newBlog, setNewBlog] = useState({
     title: "",
     author: "",
     url: "",
   });
+
+  const user = useSelector((state) => state.user);
 
   const blogs = useSelector((state) => state.blogs);
   console.log(blogs);
@@ -43,7 +46,7 @@ const App = () => {
     JSON.parse(loggedUserJSON);
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
+      dispatch(addUser(user));
       blogService.setToken(user.token);
     }
   }, []);
@@ -59,7 +62,7 @@ const App = () => {
       const user = await loginService.login({ username, password });
       window.localStorage.setItem("loggedBlogUser", JSON.stringify(user));
       blogService.setToken(user.token);
-      setUser(user);
+      dispatch(addUser(user));
       setUsername("");
       setPassword("");
 
@@ -75,7 +78,7 @@ const App = () => {
 
   const logOut = () => {
     window.localStorage.removeItem("loggedBlogUser");
-    setUser(null);
+    dispatch(addUser(null));
   };
 
   const likeHandler = async (blogInfo) => {
