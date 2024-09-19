@@ -124,8 +124,10 @@ blogsRouter.post("/", async (request, response, next) => {
     if (!blog.title || !blog.url) {
       response.status(400).end();
     } else {
-      await blog.save();
+      const savedBlog = await blog.save();
+      user.blogs.push(savedBlog._id);
       console.log("blog that was just created:", blog);
+      await user.save();
 
       const blogs = await Blog.find({});
       console.log("all the blogs", blogs);
