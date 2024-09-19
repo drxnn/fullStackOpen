@@ -8,7 +8,11 @@ import NewBlog from "./components/newBlog";
 import LoginForm from "./components/LoginForm";
 import { useSelector, useDispatch } from "react-redux";
 import { setNotificationAndStyleWithTimeout } from "./reducers/notificationReducer";
-import { createBlogThunk, initializeBlogs } from "./reducers/blogsReducer";
+import {
+  allBlogs,
+  createBlogThunk,
+  initializeBlogs,
+} from "./reducers/blogsReducer";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -22,11 +26,16 @@ const App = () => {
 
   const blogs = useSelector((state) => state.blogs);
   console.log(blogs);
-  const notification = useSelector((state) => state.notification);
+  const notification = useSelector(
+    (state) => state.notificationWithStyle.message
+  );
   console.log(notification);
-  const notificationStyle = useSelector((state) => state.style);
+  const notificationStyle = useSelector(
+    (state) => state.notificationWithStyle.style
+  );
   const dispatch = useDispatch();
 
+  //sort blogs
   [...blogs].sort((a, b) => b.likes - a.likes);
 
   useEffect(() => {
@@ -74,7 +83,10 @@ const App = () => {
       const response = await blogService.blogLiked(blogInfo);
       console.log(response);
       const updatedBlog = response.data;
-      setBlogs(blogs.map((b) => (b.id === blogInfo.id ? updatedBlog : b)));
+      const blogsUpdated = blogs.map((b) =>
+        b.id === blogInfo.id ? updatedBlog : b
+      );
+      dispatch(allBlogs(blogsUpdated));
     } catch (error) {
       console.error(error);
     }
@@ -98,7 +110,7 @@ const App = () => {
       console.log("Blog deletion completed");
 
       const updatedBlogs = blogs.filter((b) => b.id !== blogInfo.id);
-      setBlogs(updatedBlogs);
+      dispatch(allBlogs(updatedBlogs));
       console.log("After deletion, blogs:", updatedBlogs);
     } catch (error) {
       console.error(error);
@@ -118,11 +130,12 @@ const App = () => {
         url: "",
       });
       dispatch(
-        setNotificationAndStyleWithTimeout("Blog successfully created", 3000)
+        setNotificationAndStyleWithTimeout(
+          "Blog successfully created",
+          "success",
+          3000
+        )
       );
-      ("success");
-
-      setBlogs((p) => [...p, newBlog]);
     } catch (error) {
       dispatch(
         setNotificationAndStyleWithTimeout(

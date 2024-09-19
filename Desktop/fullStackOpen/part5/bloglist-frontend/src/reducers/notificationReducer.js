@@ -1,11 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { setStyle } from "./styleReducer";
 
-const notificationSlice = createSlice({
-  name: "notification",
-  initialState: "",
+const notificationAndStyleSlice = createSlice({
+  name: "notificationWithStyle",
+  initialState: { message: "", style: "" },
   reducers: {
-    setNotification(state, action) {
+    setNotificationAndStyle(state, action) {
       return action.payload;
     },
   },
@@ -13,15 +12,14 @@ const notificationSlice = createSlice({
 
 export const setNotificationAndStyleWithTimeout = (message, style, time) => {
   return (dispatch) => {
-    dispatch(setNotification(message));
-    dispatch(setStyle(style));
+    dispatch(setNotificationAndStyle({ message, style }));
+
     setTimeout(() => {
-      dispatch(setNotification(""));
-      dispatch(setStyle(""));
+      dispatch(setNotificationAndStyle({ message: "", style: "" }));
     }, time);
   };
 };
 
-export const { setNotification } = notificationSlice.actions;
+export const { setNotificationAndStyle } = notificationAndStyleSlice.actions;
 
-export default notificationSlice.reducer;
+export default notificationAndStyleSlice.reducer;

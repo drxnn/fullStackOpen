@@ -5,7 +5,8 @@ const blogsSlice = createSlice({
   name: "blogs",
   initialState: [],
   reducers: {
-    getBlogs(state, action) {
+    // Beware:allBlogs also handles like and delete logic in App.jsx
+    allBlogs(state, action) {
       return action.payload;
     },
     addBlog(state, action) {
@@ -18,7 +19,7 @@ export const initializeBlogs = () => {
   return async (dispatch) => {
     const response = await services.getAll();
     console.log(response);
-    dispatch(getBlogs(response));
+    dispatch(allBlogs(response));
   };
 };
 
@@ -34,5 +35,5 @@ export const createBlogThunk = (newBlog) => {
   };
 };
 
-export const { getBlogs, addBlog } = blogsSlice.actions;
+export const { allBlogs, addBlog } = blogsSlice.actions;
 export default blogsSlice.reducer;
