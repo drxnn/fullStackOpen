@@ -13,7 +13,16 @@ import {
   createBlogThunk,
   initializeBlogs,
 } from "./reducers/blogsReducer";
-import { addUser } from "./reducers/userReducer";
+import { addUser, initializeUsers } from "./reducers/userReducer";
+
+import {
+  Routes,
+  Route,
+  BrowserRouter as Router,
+  Link,
+  useNavigate,
+} from "react-router-dom";
+import Users from "./components/Users";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -25,7 +34,9 @@ const App = () => {
     url: "",
   });
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.currentUser);
+  const allUsers = useSelector((state) => state.user.allUsers);
+  console.log(allUsers);
 
   const blogs = useSelector((state) => state.blogs);
   console.log(blogs);
@@ -53,6 +64,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializeBlogs());
+    dispatch(initializeUsers());
   }, []);
   console.log(blogs);
 
@@ -152,6 +164,10 @@ const App = () => {
 
   return (
     <div>
+      <div>
+        <Link to="/users">Users</Link>
+      </div>
+
       <Notification notification={notification} style={notificationStyle} />
       {!user && (
         <div>
@@ -166,6 +182,7 @@ const App = () => {
           />
         </div>
       )}
+
       {user && (
         <div>
           {user.name} logged in
@@ -180,6 +197,9 @@ const App = () => {
         </div>
       )}
 
+      <Routes>
+        <Route path="/users" element={<Users users={allUsers} />}></Route>
+      </Routes>
       <h2>blogs</h2>
       {blogs.map((blog) => {
         return (
