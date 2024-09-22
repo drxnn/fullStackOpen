@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import services from "../services/blogs";
+import { allUsers } from "./userReducer";
+import { useSelector } from "react-redux";
 
 const blogsSlice = createSlice({
   name: "blogs",
@@ -24,11 +26,22 @@ export const initializeBlogs = () => {
 };
 
 export const createBlogThunk = (newBlog) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
       const response = await services.createNewBlog(newBlog);
       console.log(response);
       dispatch(addBlog(response));
+
+      const userId = getState().user.currentUser.id;
+      const usersList = getState().user.allUsers;
+
+      const updatedUsers = usersList.map((user) => {
+        console.log(user, userId, user.id);
+        return user.id === userId
+          ? { ...user, blogs: user.blogs.concat(response) }
+          : user;
+      });
+      dispatch(allUsers(updatedUsers));
     } catch (err) {
       console.error(err);
     }

@@ -20,9 +20,9 @@ import {
   Route,
   BrowserRouter as Router,
   Link,
-  useNavigate,
+  // useNavigate,
   useMatch,
-  useParams,
+  // useParams,
   Navigate,
 } from "react-router-dom";
 import Users from "./components/Users";
@@ -41,7 +41,7 @@ const App = () => {
   const user = useSelector((state) => state.user.currentUser);
   const allUsers = useSelector((state) => state.user.allUsers);
   console.log(allUsers);
-  // allUsers.map((u) => console.log(u));
+  console.log(user);
 
   const blogs = useSelector((state) => state.blogs);
   console.log(blogs);
@@ -54,8 +54,14 @@ const App = () => {
   );
   const dispatch = useDispatch();
 
+  const match = useMatch("/users/:id");
+  const individualUserInfo =
+    match && allUsers?.length
+      ? allUsers.find((u) => u.id === match.params.id)
+      : null;
+
   //sort blogs
-  [...blogs].sort((a, b) => b.likes - a.likes);
+  const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogUser");
@@ -144,6 +150,7 @@ const App = () => {
       blogService.setToken(user.token);
 
       dispatch(createBlogThunk(newBlog));
+
       setNewBlog({
         title: "",
         author: "",
@@ -209,10 +216,13 @@ const App = () => {
             user ? <Users users={allUsers} /> : <Navigate replace to="/login" />
           }
         ></Route>
-        <Route path="/users/:id" element={<User users={allUsers} />}></Route>
+        <Route
+          path="/users/:id"
+          element={<User user={individualUserInfo} />}
+        ></Route>
       </Routes>
       <h2>blogs</h2>
-      {blogs.map((blog) => {
+      {sortedBlogs.map((blog) => {
         return (
           <Blog
             key={blog.id}
