@@ -21,8 +21,12 @@ import {
   BrowserRouter as Router,
   Link,
   useNavigate,
+  useMatch,
+  useParams,
+  Navigate,
 } from "react-router-dom";
 import Users from "./components/Users";
+import User from "./components/User";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -37,6 +41,7 @@ const App = () => {
   const user = useSelector((state) => state.user.currentUser);
   const allUsers = useSelector((state) => state.user.allUsers);
   console.log(allUsers);
+  // allUsers.map((u) => console.log(u));
 
   const blogs = useSelector((state) => state.blogs);
   console.log(blogs);
@@ -198,7 +203,13 @@ const App = () => {
       )}
 
       <Routes>
-        <Route path="/users" element={<Users users={allUsers} />}></Route>
+        <Route
+          path="/users"
+          element={
+            user ? <Users users={allUsers} /> : <Navigate replace to="/login" />
+          }
+        ></Route>
+        <Route path="/users/:id" element={<User users={allUsers} />}></Route>
       </Routes>
       <h2>blogs</h2>
       {blogs.map((blog) => {

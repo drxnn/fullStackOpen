@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Users = ({ users }) => {
   if (!users || users.length === 0) {
-    return <div>No users found</div>; // Handle empty or undefined users gracefully
+    return <div>No users found</div>;
   }
 
   return (
@@ -22,7 +23,7 @@ const Users = ({ users }) => {
           style={{ marginTop: 5, marginBottom: 25, display: "flex", gap: 10 }}
           key={u.id}
         >
-          <span>Name: {u.name}</span> <br />
+          <Link to={`/users/${u.id}`}>{u.name}</Link>
           <br />
           <span>Number of blogs: {u.blogs.length}</span>
           <br />
