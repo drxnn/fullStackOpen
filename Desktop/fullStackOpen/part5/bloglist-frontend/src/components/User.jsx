@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+// import { b } from "vitest/dist/chunks/suite.CcK46U-P.js";
 
 const User = ({ user }) => {
   if (!user) {
@@ -12,7 +14,9 @@ const User = ({ user }) => {
       <h4>Blogs added from user:</h4>
       <ul>
         {user.blogs.map((blog) => (
-          <li key={blog.id}>{blog.title}</li>
+          <li key={blog.id}>
+            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+          </li>
         ))}
       </ul>
     </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Blog from "./components/Blog";
+
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import Notification from "./components/Notification";
@@ -18,7 +18,7 @@ import { addUser, initializeUsers } from "./reducers/userReducer";
 import {
   Routes,
   Route,
-  BrowserRouter as Router,
+  // BrowserRouter as Router,
   Link,
   // useNavigate,
   useMatch,
@@ -27,6 +27,9 @@ import {
 } from "react-router-dom";
 import Users from "./components/Users";
 import User from "./components/User";
+// import Blogs from "./components/Blogs";
+import Blog from "./components/Blog";
+import Home from "./components/Home";
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -40,8 +43,6 @@ const App = () => {
 
   const user = useSelector((state) => state.user.currentUser);
   const allUsers = useSelector((state) => state.user.allUsers);
-  console.log(allUsers);
-  console.log(user);
 
   const blogs = useSelector((state) => state.blogs);
   console.log(blogs);
@@ -54,14 +55,21 @@ const App = () => {
   );
   const dispatch = useDispatch();
 
+  //sort blogs
+  const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes);
+
   const match = useMatch("/users/:id");
   const individualUserInfo =
     match && allUsers?.length
       ? allUsers.find((u) => u.id === match.params.id)
       : null;
 
-  //sort blogs
-  const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes);
+  const blogMatch = useMatch("/blogs/:id");
+
+  const individualBlogInfo =
+    blogMatch && sortedBlogs
+      ? sortedBlogs.find((b) => b.id === blogMatch.params.id)
+      : null;
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogUser");
@@ -177,7 +185,16 @@ const App = () => {
   return (
     <div>
       <div>
-        <Link to="/users">Users</Link>
+        <Link to="/users" style={{ padding: 5 }}>
+          Users
+        </Link>
+        <Link to="/blogs" style={{ padding: 5 }}>
+          Blogs
+        </Link>
+        <Link to="/" style={{ padding: 5 }}>
+          {" "}
+          Home
+        </Link>
       </div>
 
       <Notification notification={notification} style={notificationStyle} />
@@ -210,6 +227,23 @@ const App = () => {
       )}
 
       <Routes>
+        <Route path="/" element={<Home />}></Route>
+        <Route
+          path="/blogs"
+          element={
+            <>
+              <h2>blogs</h2>
+              {!individualBlogInfo &&
+                sortedBlogs.map((b) => {
+                  return (
+                    <li key={b.id}>
+                      <Link to={`/blogs/${b.id}`}>{b.title}</Link>;
+                    </li>
+                  );
+                })}
+            </>
+          }
+        ></Route>
         <Route
           path="/users"
           element={
@@ -220,19 +254,18 @@ const App = () => {
           path="/users/:id"
           element={<User user={individualUserInfo} />}
         ></Route>
+        <Route
+          path="blogs/:id"
+          element={
+            <Blog
+              blog={individualBlogInfo}
+              user={user}
+              handleDeleteBlog={deleteBlogHandler}
+              handleLikeBlog={likeHandler}
+            />
+          }
+        ></Route>
       </Routes>
-      <h2>blogs</h2>
-      {sortedBlogs.map((blog) => {
-        return (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            user={user}
-            handleLikeBlog={likeHandler}
-            handleDeleteBlog={deleteBlogHandler}
-          />
-        );
-      })}
     </div>
   );
 };
