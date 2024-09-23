@@ -3,6 +3,8 @@ const User = require("../models/users");
 const blogsRouter = require("express").Router();
 const jwt = require("jsonwebtoken");
 const middleware = require("../utils/middleware");
+// const { response } = require("express");
+const logger = require("../utils/logger");
 
 // blogsRouter.use(middleware.tokenExtractor);
 
@@ -87,6 +89,32 @@ blogsRouter.delete("/:id", async (request, response, next) => {
     }
   } catch (error) {
     console.error(error);
+  }
+});
+
+blogsRouter.put("/:id/comments", async (req, res, next) => {
+  const { comment } = req.body;
+  if (!comment) {
+    return null;
+  }
+
+  console.log("params", req.params.id);
+
+  console.log(req.body);
+  try {
+    let blog = await Blog.findById(req.params.id);
+    if (!blog) {
+      return res.status(404).send({ error: "Blog not found" });
+    }
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      req.params.id,
+      { comments: blog.comments ? blog.comments.concat(comment) : [comment] },
+      { new: true }
+    );
+
+    res.json(updatedBlog);
+  } catch (error) {
+    next(error);
   }
 });
 
