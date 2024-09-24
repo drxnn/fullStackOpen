@@ -95,7 +95,7 @@ blogsRouter.delete("/:id", async (request, response, next) => {
 blogsRouter.put("/:id/comments", async (req, res, next) => {
   const { comment } = req.body;
   if (!comment) {
-    return null;
+    return res.status(400).send({ error: "comment needs to be provided" });
   }
 
   console.log("params", req.params.id);
@@ -112,7 +112,9 @@ blogsRouter.put("/:id/comments", async (req, res, next) => {
       { new: true }
     );
 
-    res.json(updatedBlog);
+    // const blogs = await Blog.find({});
+
+    res.status(200).json(updatedBlog);
   } catch (error) {
     next(error);
   }
