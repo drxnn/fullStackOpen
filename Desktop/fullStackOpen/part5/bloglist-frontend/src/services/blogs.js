@@ -12,6 +12,13 @@ const getAll = async () => {
   return response.data;
 };
 
+const postComment = async (id, comment) => {
+  const response = await axios.put(`${baseUrl}/${id}/comments`, {
+    comment: comment,
+  });
+  return response.data;
+};
+
 // const getBlogsOfUser = async (id) => {
 //   // get blogs of specific user here
 // };
@@ -47,4 +54,11 @@ const deleteBlog = async (blog) => {
   }
 };
 
-export default { getAll, setToken, createNewBlog, blogLiked, deleteBlog };
+export default {
+  getAll,
+  setToken,
+  createNewBlog,
+  blogLiked,
+  deleteBlog,
+  postComment,
+};

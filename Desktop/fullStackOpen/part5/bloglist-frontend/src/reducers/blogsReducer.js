@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import services from "../services/blogs";
 import { allUsers } from "./userReducer";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 const blogsSlice = createSlice({
   name: "blogs",
