@@ -5,11 +5,14 @@ import Togglable from "./Togglable";
 // import PropTypes from "prop-types";
 import blogsService from "../services/blogs";
 import { setNotificationAndStyleWithTimeout } from "../reducers/notificationReducer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { allBlogs } from "../reducers/blogsReducer";
 
 const Blog = ({ blog, user, handleLikeBlog, handleDeleteBlog }) => {
+  console.log(blog);
   const dispatch = useDispatch();
   const [comment, setComment] = useState("");
+  const blogs = useSelector((state) => state.blogs);
   let handleLike = (e) => {
     // e.preventDefault();
     handleLikeBlog(blog);
@@ -25,8 +28,12 @@ const Blog = ({ blog, user, handleLikeBlog, handleDeleteBlog }) => {
 
     e.preventDefault();
     try {
-      await blogsService.postComment(blog.id, comment);
-      setComment("");
+      const blogWithComment = await blogsService.postComment(blog.id, comment);
+      const blogsUpdated = blogs.map((b) =>
+        b.id === blog.id ? blogWithComment : b
+      );
+      dispatch(allBlogs(blogsUpdated));
+
       dispatch(
         setNotificationAndStyleWithTimeout(
           "comment posted successfully!",
@@ -34,6 +41,7 @@ const Blog = ({ blog, user, handleLikeBlog, handleDeleteBlog }) => {
           3000
         )
       );
+      setComment("");
     } catch (err) {
       setNotificationAndStyleWithTimeout(err, "error", 3000);
     }
@@ -46,20 +54,23 @@ const Blog = ({ blog, user, handleLikeBlog, handleDeleteBlog }) => {
   return (
     <div className={"blogDivStyle"} data-testid="testDiv">
       <div>
-        <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-        <p>{blog.author} </p>
+        <Link to={`/blogs/${blog.id}`}>
+          {" "}
+          <h2>{blog.title}</h2>
+        </Link>
+
+        <p>Author: {blog.author} </p>
       </div>
-      <p>
-        {blog.url} <br />{" "}
-        <span data-testid="testing-likes">likes: {blog.likes} </span>{" "}
-        <button onClick={handleLike} data-testid="like-btn">
-          like
-        </button>
-        <br />
-        {isUserAuthorized && (
-          <button onClick={handleDelete}>remove blog</button>
-        )}
-      </p>
+      <a href={blog.url.startsWith("http") ? blog.url : `http://${blog.url}`}>
+        {blog.url}
+      </a>{" "}
+      <br />
+      <span data-testid="testing-likes">likes: {blog.likes} </span>{" "}
+      <button onClick={handleLike} data-testid="like-btn">
+        like
+      </button>
+      <br />
+      {isUserAuthorized && <button onClick={handleDelete}>remove blog</button>}
       {/* Leave a comment on this blog: */}
       <br />
       <Togglable buttonLabel="Click to leave a comment">
@@ -78,6 +89,14 @@ const Blog = ({ blog, user, handleLikeBlog, handleDeleteBlog }) => {
         />
         <button onClick={(e) => commentHandler(e)}>Post comment</button>
       </Togglable>
+      <div>
+        Comments:
+        <ul>
+          {blog.comments.map((comment, i) => {
+            return <li key={i}>{comment}</li>;
+          })}
+        </ul>
+      </div>
     </div>
   );
 };

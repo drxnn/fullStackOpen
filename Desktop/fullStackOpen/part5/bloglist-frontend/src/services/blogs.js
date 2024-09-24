@@ -16,6 +16,7 @@ const postComment = async (id, comment) => {
   const response = await axios.put(`${baseUrl}/${id}/comments`, {
     comment: comment,
   });
+  console.log(response);
   return response.data;
 };
 
