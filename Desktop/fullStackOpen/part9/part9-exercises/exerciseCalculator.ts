@@ -53,3 +53,5 @@ const calculateExercises = (
 };
 
 console.log(calculateExercises([2, 3, 1, 10, 2, 4, 1], 2));
+
+console.log(process.env);
