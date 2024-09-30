@@ -16,28 +16,33 @@ interface Exercises {
   average: number;
 }
 
+// parse arguments so you can pass them from command line:
+// const parseArguments = (args:string[]):
+
 const calculateExercises = (
-  dailyExercise: Array<number>,
+  hours: Array<number>,
   target: number
 ): Exercises => {
   let daysOfExercise: number = 0;
   let execiseInHours: number = 0;
   let success: boolean;
   let ratingDescription: string = "";
-  dailyExercise.forEach((day) => {
+  hours.forEach((day) => {
     if (day !== 0) {
       daysOfExercise += 1;
       execiseInHours += day;
     }
   });
 
-  const average = execiseInHours / dailyExercise.length;
+  let periodLength = hours.length;
+
+  const average = execiseInHours / hours.length;
   average >= target ? (success = true) : (success = false);
   ratingDescription =
     average > target ? "Pretty good" : "Not bad but could be better";
 
   return {
-    periodLength: dailyExercise.length,
+    periodLength,
     trainingDays: daysOfExercise,
     success,
     rating: 2,
