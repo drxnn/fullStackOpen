@@ -16,42 +16,66 @@ interface Exercises {
   average: number;
 }
 
-// parse arguments so you can pass them from command line:
-// const parseArguments = (args:string[]):
+interface terminalArgs {
+  values: number[];
+}
 
-const calculateExercises = (
-  hours: Array<number>,
-  target: number
-): Exercises => {
-  let daysOfExercise: number = 0;
-  let execiseInHours: number = 0;
+// parse arguments so you can pass them from command line:
+const parseExerciseArguments = (args: string[]): terminalArgs => {
+  let argsSliced = args.slice(2);
+  let argsToNum = argsSliced.map((e) => {
+    return Number(e);
+  });
+  const arr: number[] = [];
+  for (const arg of argsToNum) {
+    if (!isNaN(arg)) {
+      arr.push(arg);
+    }
+  }
+  return {
+    values: arr,
+  };
+};
+
+// console.log(parseExerciseArguments(process.argv));
+
+const calculateExercises = (daysAndTarget: terminalArgs): Exercises => {
   let success: boolean;
   let ratingDescription: string = "";
-  hours.forEach((day) => {
-    if (day !== 0) {
-      daysOfExercise += 1;
-      execiseInHours += day;
-    }
-  });
+  const target = daysAndTarget.values[daysAndTarget.values.length - 1];
+  const hours = daysAndTarget.values.slice(0, -1);
+
+  const trainingDays = hours.filter((hour) => hour > 0).length;
+  const totalHours = hours.reduce((acc, c) => {
+    return (acc += c);
+  }, 0);
 
   let periodLength = hours.length;
 
-  const average = execiseInHours / hours.length;
-  average >= target ? (success = true) : (success = false);
+  const average = totalHours / hours.length;
+
+  const rating = average >= target ? 3 : average >= target * 0.9 ? 2 : 1;
+
+  success = average >= target;
   ratingDescription =
     average > target ? "Pretty good" : "Not bad but could be better";
 
   return {
     periodLength,
-    trainingDays: daysOfExercise,
+    trainingDays,
     success,
-    rating: 2,
+    rating,
     ratingDescription,
     target,
     average,
   };
 };
 
-console.log(calculateExercises([2, 3, 1, 10, 2, 4, 1], 2));
-
-console.log(process.env);
+try {
+  const arguments = parseExerciseArguments(process.argv);
+  console.log(calculateExercises(arguments));
+} catch (error: unknown) {
+  if (error instanceof Error) {
+    console.log(`Something went wrong: ${error.message}`);
+  }
+}

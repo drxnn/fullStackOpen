@@ -7,10 +7,11 @@ interface BmiValues {
   value2: number;
 }
 
-const parseArguments = (args: string[]): BmiValues => {
+const parseBmiArguments = (args: string[]): BmiValues => {
   if (args.length < 4 || args.length > 4) {
     throw new Error("Incorrect num of args. Please provide 3 arguments");
   }
+  console.log(args);
   if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
     return {
       value1: Number(args[2]),
@@ -34,7 +35,7 @@ const calculateBMI = (height: number, weight: number) => {
 };
 
 try {
-  const { value1, value2 } = parseArguments(process.argv);
+  const { value1, value2 } = parseBmiArguments(process.argv);
   calculateBMI(value1, value2);
 } catch (error: unknown) {
   if (error instanceof Error) {
