@@ -22,15 +22,15 @@ const parseBmiArguments = (args: string[]): BmiValues => {
   }
 };
 
-const calculateBMI = (height: number, weight: number) => {
+export const calculateBMI = (height: number, weight: number) => {
   let heightInMeters = height / 100;
   let bmi = weight / heightInMeters ** 2;
   if (bmi < 18.5) {
-    console.log("Underweight");
+    return "Underweight";
   } else if (bmi < 24.9) {
-    console.log("normal range");
+    return "normal range";
   } else {
-    console.log("overweight");
+    return "overweight";
   }
 };
 
