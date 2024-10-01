@@ -8,13 +8,13 @@ interface Exercises {
   average: number;
 }
 
-interface terminalArgs {
+export interface terminalArgs {
   values: number[];
 }
 
 const parseExerciseArguments = (args: string[]): terminalArgs => {
-  let argsSliced = args.slice(2);
-  let argsToNum = argsSliced.map((e) => {
+  const argsSliced = args.slice(2);
+  const argsToNum = argsSliced.map((e) => {
     return Number(e);
   });
   const arr: number[] = [];
@@ -23,13 +23,13 @@ const parseExerciseArguments = (args: string[]): terminalArgs => {
       arr.push(arg);
     }
   }
+
   return {
     values: arr,
   };
 };
 
-const calculateExercises = (daysAndTarget: terminalArgs): Exercises => {
-  let success: boolean;
+export const calculateExercises = (daysAndTarget: terminalArgs): Exercises => {
   let ratingDescription: string = "";
   const target = daysAndTarget.values[daysAndTarget.values.length - 1];
   const hours = daysAndTarget.values.slice(0, -1);
@@ -39,13 +39,13 @@ const calculateExercises = (daysAndTarget: terminalArgs): Exercises => {
     return (acc += c);
   }, 0);
 
-  let periodLength = hours.length;
+  const periodLength = hours.length;
 
   const average = totalHours / hours.length;
 
   const rating = average >= target ? 3 : average >= target * 0.9 ? 2 : 1;
 
-  success = average >= target;
+  const success: boolean = average >= target;
   ratingDescription =
     average > target ? "Pretty good" : "Not bad but could be better";
 
@@ -60,11 +60,13 @@ const calculateExercises = (daysAndTarget: terminalArgs): Exercises => {
   };
 };
 
-try {
-  const argumentsToPass = parseExerciseArguments(process.argv);
-  console.log(calculateExercises(argumentsToPass));
-} catch (error: unknown) {
-  if (error instanceof Error) {
-    console.log(`Something went wrong: ${error.message}`);
+if (require.main === module) {
+  try {
+    const argumentsToPass = parseExerciseArguments(process.argv);
+    console.log(calculateExercises(argumentsToPass));
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log(`Something went wrong: ${error.message}`);
+    }
   }
 }
