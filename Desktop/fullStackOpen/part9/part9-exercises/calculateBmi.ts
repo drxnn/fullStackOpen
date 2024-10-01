@@ -1,7 +1,3 @@
-// calculate BMI
-// take height in cm and weight in kg
-// The BMI is defined as the body mass divided by the square of the body height, and is expressed in units of kg/m2, resulting from mass in kilograms (kg) and height in metres (m).
-
 interface BmiValues {
   value1: number;
   value2: number;
@@ -34,11 +30,13 @@ export const calculateBMI = (height: number, weight: number) => {
   }
 };
 
-try {
-  const { value1, value2 } = parseBmiArguments(process.argv);
-  calculateBMI(value1, value2);
-} catch (error: unknown) {
-  if (error instanceof Error) {
-    console.log(`Something went wrong: ${error.message}`);
+if (require.main === module) {
+  try {
+    const { value1, value2 } = parseBmiArguments(process.argv);
+    calculateBMI(value1, value2);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log(`Something went wrong: ${error.message}`);
+    }
   }
 }
