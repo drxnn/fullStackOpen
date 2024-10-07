@@ -1,4 +1,6 @@
 import express from "express";
+import { v1 as uuid } from "uuid";
+const id = uuid();
 const app = express();
 import cors from "cors";
 import diagnosesData from "./data/diagnoses";
@@ -28,6 +30,10 @@ app.get("/api/patients", (_request, response) => {
     };
   });
   response.send(dataToReturn);
+});
+
+app.post("/api/patients", (req, res) => {
+  const { name, dateOfBirth, ssn, gender, occupation } = req.body;
 });
 
 const PORT = 3000;

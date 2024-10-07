@@ -43,5 +43,6 @@ const data: Patient[] = [
 ];
 
 export type NonSensitivePatientData = Omit<Patient, "ssn">;
+export type NewPatientEntry = Omit<Patient, "ssn" | "id">;
 
 export default data;
