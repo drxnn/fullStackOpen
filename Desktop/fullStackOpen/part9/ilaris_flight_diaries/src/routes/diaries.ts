@@ -1,10 +1,10 @@
-import express from "express";
+import express, { NextFunction, Request } from "express";
 import diaryService from "../services/diaryService";
 import { Response } from "express";
-import { NonSensitiveDiaryEntry } from "../types";
+import { DiaryEntry, NewDiaryEntry, NonSensitiveDiaryEntry } from "../types";
 const router = express.Router();
-import toNewDiaryEntry from "../utils";
-
+import { newEntrySchema } from "../utils";
+import { z } from "zod";
 router.get("/", (_req, res: Response<NonSensitiveDiaryEntry[]>) => {
   res.send(diaryService.getNonSensitiveEntries());
 });
@@ -18,19 +18,41 @@ router.get("/:id", (req, res) => {
   }
 });
 
-router.post("/", (req, res) => {
+const newDiaryParser = (req: Request, _res: Response, next: NextFunction) => {
   try {
-    const newDiaryEntry = toNewDiaryEntry(req.body);
-
-    const addedEntry = diaryService.addDiary(newDiaryEntry);
-    res.json(addedEntry);
+    newEntrySchema.parse(req.body);
+    console.log(req.body);
+    next();
   } catch (error: unknown) {
-    let errorMessage = "Something went wrong.";
-    if (error instanceof Error) {
-      errorMessage += " Error: " + error.message;
-    }
-    res.status(400).send(errorMessage);
+    next(error);
   }
-});
+};
+
+const errorMiddleware = (
+  error: unknown,
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (error instanceof z.ZodError) {
+    res.status(400).send({ error: error.issues });
+  } else {
+    next(error);
+  }
+};
+
+router.post(
+  "/",
+  newDiaryParser,
+  (
+    req: Request<unknown, unknown, NewDiaryEntry>,
+    res: Response<DiaryEntry>
+  ) => {
+    const addedEntry = diaryService.addDiary(req.body);
+    res.json(addedEntry);
+  }
+);
+
+router.use(errorMiddleware);
 
 export default router;
