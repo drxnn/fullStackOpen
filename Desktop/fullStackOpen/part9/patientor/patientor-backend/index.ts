@@ -8,6 +8,7 @@ import { NonSensitivePatientData } from "./data/patients";
 import patientData from "./data/patients";
 import toNewPatient from "./utils";
 import { v4 as uuidv4 } from "uuid";
+import { z } from "zod";
 
 app.use(express.json());
 app.use(cors());
@@ -39,10 +40,10 @@ app.post("/api/patients", (req, res) => {
     patientData.push(newPatientEntry);
     res.json(newPatientEntry);
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      res
-        .status(400)
-        .send({ error: `Something went wront. Error: ${error.message}` });
+    if (error instanceof z.ZodError) {
+      res.status(400).send({ error: error.issues });
+    } else {
+      res.status(400).send({ error: "unknown error" });
     }
   }
 });
