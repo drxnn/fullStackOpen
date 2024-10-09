@@ -3,7 +3,7 @@ import { NewPatientEntry, Gender } from "./types";
 
 // parse things here from req body
 
-const newPatientSchema = z.object({
+export const newPatientSchema = z.object({
   name: z.string(),
   dateOfBirth: z.string().date(),
   ssn: z.string(),

@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 
 const app = express();
 import cors from "cors";
@@ -6,9 +6,10 @@ import diagnosesData from "./data/diagnoses";
 import { NonSensitivePatientData } from "./data/patients";
 // console.log(diagnosesData);
 import patientData from "./data/patients";
-import toNewPatient from "./utils";
+import { newPatientSchema } from "./utils";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
+import { NewPatientEntry, Patient } from "./types";
 
 app.use(express.json());
 app.use(cors());
@@ -34,20 +35,43 @@ app.get("/api/patients", (_request, response) => {
   response.send(dataToReturn);
 });
 
-app.post("/api/patients", (req, res) => {
+const newPatientParser = (req: Request, _res: Response, next: NextFunction) => {
   try {
-    const newPatientEntry = { id: uuidv4(), ...toNewPatient(req.body) };
+    newPatientSchema.parse(req.body);
+    next();
+  } catch (error: unknown) {
+    next(error);
+  }
+};
+
+const errorMiddleware = (
+  error: unknown,
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (error instanceof z.ZodError) {
+    res.status(400).send({ error: error.issues });
+  } else {
+    next(error);
+  }
+};
+
+app.post(
+  "/api/patients",
+  newPatientParser,
+  errorMiddleware,
+  (req: Request<unknown, unknown, NewPatientEntry>, res: Response<Patient>) => {
+    const newPatientEntry = {
+      id: uuidv4(),
+      ...req.body,
+    };
     patientData.push(newPatientEntry);
     res.json(newPatientEntry);
-  } catch (error: unknown) {
-    if (error instanceof z.ZodError) {
-      res.status(400).send({ error: error.issues });
-    } else {
-      res.status(400).send({ error: "unknown error" });
-    }
   }
-});
+);
 
+app.use(errorMiddleware);
 const PORT = 3000;
 
 app.listen(PORT, () => {
