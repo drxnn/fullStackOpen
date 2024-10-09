@@ -1,12 +1,13 @@
 import express from "express";
-import { v1 as uuid } from "uuid";
-const id = uuid();
+
 const app = express();
 import cors from "cors";
 import diagnosesData from "./data/diagnoses";
 import { NonSensitivePatientData } from "./data/patients";
 // console.log(diagnosesData);
 import patientData from "./data/patients";
+import toNewPatient from "./utils";
+import { v4 as uuidv4 } from "uuid";
 
 app.use(express.json());
 app.use(cors());
@@ -33,7 +34,17 @@ app.get("/api/patients", (_request, response) => {
 });
 
 app.post("/api/patients", (req, res) => {
-  const { name, dateOfBirth, ssn, gender, occupation } = req.body;
+  try {
+    const newPatientEntry = { id: uuidv4(), ...toNewPatient(req.body) };
+    patientData.push(newPatientEntry);
+    res.json(newPatientEntry);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res
+        .status(400)
+        .send({ error: `Something went wront. Error: ${error.message}` });
+    }
+  }
 });
 
 const PORT = 3000;
