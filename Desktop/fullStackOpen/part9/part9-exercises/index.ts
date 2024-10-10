@@ -25,8 +25,10 @@ app.get("/bmi", (req: Request, res: Response) => {
 });
 
 app.post("/exercises", (req, res) => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { daily_exercises, target } = req.body;
+  const { daily_exercises, target } = req.body as {
+    daily_exercises: number[];
+    target: number;
+  };
   console.log("dailyexercises and target:", daily_exercises, target);
   console.log(req.body);
 
@@ -40,7 +42,7 @@ app.post("/exercises", (req, res) => {
     res.status(400).send({ error: "malformatted data" });
     return;
   }
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
   const objWithArguments = { values: [...daily_exercises, target] };
 
   const result = calculateExercises(objWithArguments as terminalArgs);
