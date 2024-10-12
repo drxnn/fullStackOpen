@@ -1,17 +1,10 @@
-type Props = {
-  items: { name: string; exerciseCount: number }[];
-};
+import { CoursePart } from "../App";
+import Part from "./Part";
 
-export default function Content({ items }: Props) {
-  return (
-    <div>
-      {items.map((el, i) => (
-        <div key={i}>
-          <p>
-            {el.name} <br /> {el.exerciseCount}
-          </p>
-        </div>
-      ))}
-    </div>
-  );
+export default function Content({
+  courseParts,
+}: {
+  courseParts: CoursePart[];
+}) {
+  return <Part courseParts={courseParts} />;
 }
