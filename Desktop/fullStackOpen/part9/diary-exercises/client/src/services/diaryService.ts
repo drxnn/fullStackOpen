@@ -1,5 +1,5 @@
 import axios from "axios";
-import { NonSensitiveDiaryEntry } from "../types";
+import { NewDiaryEntry, NonSensitiveDiaryEntry } from "../types";
 
 const getAll = async () => {
   const response = await axios.get<NonSensitiveDiaryEntry[]>(
@@ -8,4 +8,12 @@ const getAll = async () => {
   return response.data;
 };
 
-export { getAll };
+const addNewDiary = async (diary: NewDiaryEntry) => {
+  const response = await axios.post<NewDiaryEntry>(
+    "http://localhost:3000/api/diaries",
+    diary
+  );
+  return response.data;
+};
+
+export { getAll, addNewDiary };

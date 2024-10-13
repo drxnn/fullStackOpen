@@ -27,6 +27,26 @@ function App() {
           </div>
         ))}
       </div>
+      <div>
+        <h2>Add a new diary:</h2>
+        <form
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            border: "3px solid black",
+            padding: "1rem",
+          }}
+        >
+          <label htmlFor="date">Date</label>
+          <input type="date" name="date" />
+          <label htmlFor="weather">Weather</label>
+          <input type="text" name="weather" />
+          <label htmlFor="visibility">Visibility</label>
+          <input type="text" name="visibility" />
+          <label htmlFor="comment">Comment</label>
+          <input type="text" name="comment" />
+        </form>
+      </div>
     </div>
   );
 }
