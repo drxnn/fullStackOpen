@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
-import { NonSensitiveDiaryEntry } from "./types";
+import { NonSensitiveDiaryEntry, Visibility } from "./types";
 import { getAll } from "./services/diaryService";
 
 function App() {
   const [diaries, setDiaries] = useState<NonSensitiveDiaryEntry[]>([]);
+  const [formData, setFormData] = useState({
+    date: "",
+    weather: "",
+    visibility: "",
+    comment: "",
+  });
+  console.log(formData);
 
   useEffect(() => {
     const fetchDiaries = async () => {
@@ -38,7 +45,16 @@ function App() {
           }}
         >
           <label htmlFor="date">Date</label>
-          <input type="date" name="date" />
+          <input
+            type="date"
+            name="date"
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                date: e.target.value,
+              })
+            }
+          />
           <label htmlFor="weather">Weather</label>
           <input type="text" name="weather" />
           <label htmlFor="visibility">Visibility</label>
