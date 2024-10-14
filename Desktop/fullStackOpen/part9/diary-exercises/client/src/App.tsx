@@ -23,7 +23,9 @@ function App() {
     try {
       const formToAdd = toNewDiaryEntry(formData);
 
-      await addNewDiary(formToAdd);
+      const newDiary = await addNewDiary(formToAdd);
+      setDiaries((p) => [...p, newDiary]);
+
       setFormData({ date: "", weather: "", visibility: "", comment: "" });
     } catch (e) {
       console.log(e);
