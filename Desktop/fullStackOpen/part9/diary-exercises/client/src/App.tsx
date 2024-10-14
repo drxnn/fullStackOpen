@@ -3,6 +3,7 @@ import { NonSensitiveDiaryEntry } from "./types";
 import { addNewDiary, getAll } from "./services/diaryService";
 import toNewDiaryEntry from "./utils";
 import Notification from "./Components/Notification";
+import { AxiosError } from "axios";
 
 // import { v4 as uuidv4 } from "uuid";
 
@@ -17,16 +18,22 @@ function App() {
   const [error, setError] = useState<string>("");
   console.log(formData);
 
-  const onSubmitNewDiary = (e: React.SyntheticEvent) => {
+  const onSubmitNewDiary = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       const formToAdd = toNewDiaryEntry(formData);
 
-      addNewDiary(formToAdd);
+      await addNewDiary(formToAdd);
       setFormData({ date: "", weather: "", visibility: "", comment: "" });
-    } catch (e: unknown) {
+    } catch (e) {
       console.log(e);
-      setError("something went wrong");
+
+      if (e instanceof AxiosError) {
+        setError(e.message);
+      } else if (e instanceof Error) {
+        setError(e.message);
+      }
+
       setTimeout(() => {
         setError("");
       }, 3000);
@@ -45,17 +52,6 @@ function App() {
   return (
     <div>
       <Notification error={error} />
-      <h1>data under here:</h1>
-      <div>
-        {diaries.map((diary) => (
-          <div key={diary.id}>
-            <p>
-              date: {diary.date} <br /> visibility: {diary.visibility} <br />{" "}
-              weather: {diary.weather}
-            </p>
-          </div>
-        ))}
-      </div>
       <div>
         <h2>Add a new diary:</h2>
         <form
@@ -122,6 +118,17 @@ function App() {
             Add new diary
           </button>
         </form>
+      </div>
+      <h1>data under here:</h1>
+      <div>
+        {diaries.map((diary) => (
+          <div key={diary.id}>
+            <p>
+              date: {diary.date} <br /> visibility: {diary.visibility} <br />{" "}
+              weather: {diary.weather}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   );
