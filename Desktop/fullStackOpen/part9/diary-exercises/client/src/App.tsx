@@ -75,32 +75,141 @@ function App() {
               })
             }
           />
-          <label htmlFor="weather">Weather</label>
-          <input
-            type="text"
-            name="weather"
-            onChange={(e) =>
-              setFormData((p) => {
-                return {
+          <fieldset>
+            {" "}
+            <legend>Choose weather</legend>
+            <input
+              type="radio"
+              name="weather"
+              id="sunny"
+              value="sunny"
+              checked={formData.weather === "sunny"}
+              onChange={(e) =>
+                setFormData((p) => ({
                   ...p,
                   weather: e.target.value,
-                };
-              })
-            }
-          />
-          <label htmlFor="visibility">Visibility</label>
-          <input
-            type="text"
-            name="visibility"
-            onChange={(e) =>
-              setFormData((p) => {
-                return {
+                }))
+              }
+            />
+            <label htmlFor="sunny">sunny</label>
+            <input
+              type="radio"
+              name="weather"
+              id="rainy"
+              value="rainy"
+              checked={formData.weather === "rainy"}
+              onChange={(e) =>
+                setFormData((p) => ({
+                  ...p,
+                  weather: e.target.value,
+                }))
+              }
+            />
+            <label htmlFor="rainy">rainy</label>
+            <input
+              type="radio"
+              name="weather"
+              id="cloudy"
+              value="cloudy"
+              checked={formData.weather === "cloudy"}
+              onChange={(e) =>
+                setFormData((p) => ({
+                  ...p,
+                  weather: e.target.value,
+                }))
+              }
+            />
+            <label htmlFor="cloudy">cloudy</label>
+            <input
+              type="radio"
+              name="weather"
+              id="stormy"
+              value="stormy"
+              checked={formData.weather === "stormy"}
+              onChange={(e) =>
+                setFormData((p) => ({
+                  ...p,
+                  weather: e.target.value,
+                }))
+              }
+            />
+            <label htmlFor="stormy">stormy</label>
+            <input
+              type="radio"
+              name="weather"
+              id="windy"
+              value="windy"
+              checked={formData.weather === "windy"}
+              onChange={(e) =>
+                setFormData((p) => ({
+                  ...p,
+                  weather: e.target.value,
+                }))
+              }
+            />
+            <label htmlFor="windy">windy</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Choose visibility</legend>
+            <input
+              type="radio"
+              name="visibility"
+              id="great"
+              value="great"
+              checked={formData.visibility === "great"}
+              onChange={(e) =>
+                setFormData((p) => ({
                   ...p,
                   visibility: e.target.value,
-                };
-              })
-            }
-          />
+                }))
+              }
+            />
+            <label htmlFor="great">great</label>
+            <input
+              type="radio"
+              name="visibility"
+              id="good"
+              value="good"
+              checked={formData.visibility === "good"}
+              onChange={(e) =>
+                setFormData((p) => ({
+                  ...p,
+                  visibility: e.target.value,
+                }))
+              }
+            />
+            <label htmlFor="good">good</label>
+            <input
+              type="radio"
+              name="visibility"
+              id="ok"
+              value="ok"
+              checked={formData.visibility === "ok"}
+              onChange={(e) =>
+                setFormData((p) => ({
+                  ...p,
+                  visibility: e.target.value,
+                }))
+              }
+            />
+            <label htmlFor="ok">ok</label>
+            <input
+              type="radio"
+              name="visibility"
+              id="poor"
+              value="poor"
+              checked={formData.visibility === "poor"}
+              onChange={(e) =>
+                setFormData((p) => ({
+                  ...p,
+                  visibility: e.target.value,
+                }))
+              }
+            />
+            <label htmlFor="poor">poor</label>
+          </fieldset>
+
           <label htmlFor="comment">Comment</label>
           <input
             type="text"
