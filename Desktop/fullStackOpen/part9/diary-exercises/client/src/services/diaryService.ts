@@ -5,6 +5,7 @@ const getAll = async () => {
   const response = await axios.get<NonSensitiveDiaryEntry[]>(
     "http://localhost:3000/api/diaries"
   );
+  console.log(response.data);
   return response.data;
 };
 
