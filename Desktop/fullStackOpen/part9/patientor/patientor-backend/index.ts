@@ -3,13 +3,13 @@ import express, { NextFunction, Request, Response } from "express";
 const app = express();
 import cors from "cors";
 import diagnosesData from "./data/diagnoses";
-import { NonSensitivePatientData } from "./data/patients";
+import { NonSensitivePatientData, Patient } from "./types";
 // console.log(diagnosesData);
 import patientData from "./data/patients";
 import { newPatientSchema } from "./utils";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
-import { NewPatientEntry, Patient } from "./types";
+import { NewPatientEntry } from "./types";
 
 app.use(express.json());
 app.use(cors());
@@ -61,13 +61,33 @@ app.post(
   "/api/patients",
   newPatientParser,
   errorMiddleware,
-  (req: Request<unknown, unknown, NewPatientEntry>, res: Response<Patient>) => {
+  (
+    req: Request<unknown, unknown, NewPatientEntry>,
+    res: Response<NonSensitivePatientData>
+  ) => {
     const newPatientEntry = {
       id: uuidv4(),
       ...req.body,
+      entries: [],
     };
     patientData.push(newPatientEntry);
     res.json(newPatientEntry);
+  }
+);
+
+app.get(
+  "/api/patients/:id",
+  (req, res: Response<Patient | { error: string }>) => {
+    const { id } = req.params;
+    console.log("this is the id", id);
+    if (!id) {
+      res.status(404).send({ error: "couldnt find anything fam :/" });
+      return;
+    }
+    const patientToReturn = patientData.find((el) => el.id === id);
+    if (patientToReturn) {
+      res.json(patientToReturn);
+    }
   }
 );
 
