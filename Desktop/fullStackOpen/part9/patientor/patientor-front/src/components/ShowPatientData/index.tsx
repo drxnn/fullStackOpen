@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Diagnose, Patient } from "../../types";
 import { useEffect, useState } from "react";
 import patientService from "../../services/patients";
+import { EntryDetails } from "./EntryDetails";
 
 function PatientInformation() {
   const [patient, setPatient] = useState<Patient | null>(null);
@@ -52,12 +53,12 @@ function PatientInformation() {
         Occupation:{patient.occupation}
       </p>
       <div>
-        {patient.entries.map((entry, id) => (
-          <div key={id}>
-            {entry.date} <br /> {entry.description} <br />{" "}
+        {patient.entries.map((entry, i) => (
+          <div key={i}>
             {entry.diagnosisCodes?.map((el, i) => (
               <div key={i}>{handleDiagnoses(el)}</div>
             ))}
+            <EntryDetails entry={entry} />
           </div>
         ))}
       </div>
