@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 
 const app = express();
 import cors from "cors";
-import diagnosesData from "./data/diagnoses";
+
 import { NonSensitivePatientData, Patient } from "./types";
 // console.log(diagnosesData);
 import patientData from "./data/patients";
@@ -10,16 +10,15 @@ import { newPatientSchema } from "./utils";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import { NewPatientEntry } from "./types";
+import diagnosesRouter from "./routes/diagnoseRoute";
 
 app.use(express.json());
 app.use(cors());
 
+app.use("/api/diagnoses", diagnosesRouter);
+
 app.get("/api/ping", (_request, response) => {
   response.send("HELLO THERE SIR");
-});
-
-app.get("/api/diagnoses", (_request, response) => {
-  response.send(diagnosesData);
 });
 
 app.get("/api/patients", (_request, response) => {

@@ -67,7 +67,7 @@ export interface Patient {
 
 export type NewPatientEntry = z.infer<typeof newPatientSchema>;
 
-// export type NonSensitivePatientData = Omit<Patient, "ssn">;
+export type NonSensitivePatientData = Omit<Patient, "ssn">;
 // type UnionOmit<T, K extends string | number | symbol> = T extends unknown
 //   ? Omit<T, K>
 //   : never;

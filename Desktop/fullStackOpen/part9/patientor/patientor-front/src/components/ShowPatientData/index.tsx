@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { Patient } from "../../types";
 import { useEffect, useState } from "react";
 import patientService from "../../services/patients";
-import { light } from "@mui/material/styles/createPalette";
 
 function PatientInformation() {
   const [patient, setPatient] = useState<Patient | null>(null);
