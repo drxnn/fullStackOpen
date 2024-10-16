@@ -30,6 +30,7 @@ app.get("/api/patients", (_request, response) => {
       dateOfBirth: el.dateOfBirth,
       gender: el.gender,
       occupation: el.occupation,
+      entries: el.entries,
     };
   });
   response.send(dataToReturn);
@@ -85,6 +86,7 @@ app.get(
       return;
     }
     const patientToReturn = patientData.find((el) => el.id === id);
+    console.log(patientToReturn);
     if (patientToReturn) {
       res.json(patientToReturn);
     }
