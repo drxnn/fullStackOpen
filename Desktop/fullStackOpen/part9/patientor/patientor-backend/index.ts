@@ -3,7 +3,12 @@ import express, { NextFunction, Request, Response } from "express";
 const app = express();
 import cors from "cors";
 
-import { NonSensitivePatientData, Patient } from "./types";
+import {
+  Entry,
+  EntryWithoutId,
+  NonSensitivePatientData,
+  Patient,
+} from "./types";
 // console.log(diagnosesData);
 import patientData from "./data/patients";
 import { newPatientSchema } from "./utils";
@@ -72,6 +77,42 @@ app.post(
     };
     patientData.push(newPatientEntry);
     res.json(newPatientEntry);
+  }
+);
+
+// Your next task is to add endpoint /api/patients/:id/entries to your backend, through which you can POST an entry for a patient.
+
+// Remember that we have different kinds of entries in our app, so our backend should support all those types and check that at least all required fields are given for each type.
+
+const parseEntry = (entry: EntryWithoutId): Entry => {
+  const newEntry = {
+    id: uuidv4(),
+    ...entry,
+  };
+
+  return newEntry;
+};
+
+app.post(
+  "/api/patients/:id/entries",
+  (req: Request, res: Response<Entry | { error: string }>) => {
+    const { id } = req.params;
+    console.log(id, typeof id);
+    const patientToAddEntryTo = patientData.find((el) => el.id === id);
+    console.log(patientToAddEntryTo);
+    if (!patientToAddEntryTo) {
+      res.status(400).send({ error: "something went wrong" });
+      return;
+    }
+
+    try {
+      const newEntry = parseEntry(req.body as EntryWithoutId);
+      patientToAddEntryTo.entries.push(newEntry);
+      res.status(200).send(newEntry);
+    } catch (err) {
+      // pretending this takes care of it for now
+      console.log(err);
+    }
   }
 );
 

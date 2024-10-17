@@ -62,6 +62,11 @@ function PatientInformation() {
           </div>
         ))}
       </div>
+      <div>
+        <button style={{ padding: ".5rem", borderRadius: "10px" }}>
+          Add New Entry
+        </button>
+      </div>
     </div>
   );
 }
