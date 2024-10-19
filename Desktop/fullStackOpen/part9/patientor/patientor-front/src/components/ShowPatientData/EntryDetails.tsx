@@ -40,6 +40,7 @@ export const EntryDetails = ({ entry }: EntryDetailsProps) => {
         </div>
       );
     default:
+      console.error("Unhandled entry:", entry);
       assertNever(entry);
   }
 };

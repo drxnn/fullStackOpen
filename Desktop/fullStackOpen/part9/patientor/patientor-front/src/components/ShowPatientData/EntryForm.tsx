@@ -1,23 +1,42 @@
 import { useState } from "react";
-import { HealthCheckRating } from "../../types";
+import { HealthCheckEntry, HealthCheckRating, Patient } from "../../types";
+import patientService from "../../services/patients";
 
 // type Props = {};
 
-const initialFormState = {
+const initialFormState: HealthCheckEntry = {
   description: "",
   date: "",
   specialist: "",
-  diagnosisCodes: [] as string[],
+  diagnosisCodes: [],
   healthCheckRating: HealthCheckRating.Healthy,
+  type: "HealthCheck",
+  id: "",
 };
 
-export default function EntryForm() {
+type EntryFormProps = {
+  setPatient: React.Dispatch<React.SetStateAction<Patient | null>>;
+  patient: Patient | null;
+};
+
+export default function EntryForm({ setPatient, patient }: EntryFormProps) {
   const [formData, setFormData] = useState(initialFormState);
 
-  const handleFormSubmission = (e: React.SyntheticEvent) => {
+  const handleFormSubmission = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       if (formData) console.log(formData);
+      if (patient && patient.entries) {
+        const updatedPatient = {
+          ...patient,
+          entries: [...patient.entries, formData],
+        };
+
+        setPatient(updatedPatient);
+
+        await patientService.addEntry({ id: updatedPatient.id });
+      }
+
       setFormData(initialFormState);
     } catch (err) {
       console.log(err);
@@ -93,14 +112,14 @@ export default function EntryForm() {
             onChange={({ target }) =>
               setFormData((p) => ({
                 ...p,
-                diagnosisCodes: [...p.diagnosisCodes, target.value],
+                diagnosisCodes: [target.value],
               }))
             }
           />
         </div>
 
         <fieldset>
-          <legend>Choose Health rating</legend>
+          <legend>Choose Health rating:</legend>
           <div>
             {" "}
             <input
@@ -172,6 +191,7 @@ export default function EntryForm() {
           </div>
         </fieldset>
         <button
+          type="submit"
           style={{
             padding: ".5rem",
             borderRadius: "10px",
