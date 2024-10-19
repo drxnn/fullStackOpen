@@ -11,6 +11,7 @@ export const EntryDetails = ({ entry }: EntryDetailsProps) => {
     case "Hospital":
       return (
         <div>
+          <h3>Entries:</h3>
           <strong> {entry.date} </strong> <br /> <p>{entry.description}</p>
           <br />
           <p>

@@ -95,7 +95,10 @@ const parseEntry = (entry: EntryWithoutId): Entry => {
 
 app.post(
   "/api/patients/:id/entries",
-  (req: Request, res: Response<Entry | { error: string }>) => {
+  (
+    req: Request<{ id: string }, unknown, EntryWithoutId>,
+    res: Response<Entry | { error: string }>
+  ) => {
     const { id } = req.params;
     console.log(id, typeof id);
     const patientToAddEntryTo = patientData.find((el) => el.id === id);
@@ -106,12 +109,14 @@ app.post(
     }
 
     try {
-      const newEntry = parseEntry(req.body as EntryWithoutId);
+      if (!patientToAddEntryTo.entries) {
+        patientToAddEntryTo.entries = [];
+      }
+      const newEntry = parseEntry(req.body);
       patientToAddEntryTo.entries.push(newEntry);
       res.status(200).send(newEntry);
     } catch (err) {
-      // pretending this takes care of it for now
-      console.log(err);
+      res.status(500).send({ error: `Something went wrong!. Error: ${err}` });
     }
   }
 );

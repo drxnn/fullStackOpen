@@ -4,6 +4,7 @@ import { Diagnose, Patient } from "../../types";
 import { useEffect, useState } from "react";
 import patientService from "../../services/patients";
 import { EntryDetails } from "./EntryDetails";
+import EntryForm from "./EntryForm";
 
 function PatientInformation() {
   const [patient, setPatient] = useState<Patient | null>(null);
@@ -62,10 +63,9 @@ function PatientInformation() {
           </div>
         ))}
       </div>
+
       <div>
-        <button style={{ padding: ".5rem", borderRadius: "10px" }}>
-          Add New Entry
-        </button>
+        <EntryForm />
       </div>
     </div>
   );
