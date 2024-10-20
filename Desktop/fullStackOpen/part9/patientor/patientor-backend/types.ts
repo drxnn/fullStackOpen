@@ -1,13 +1,9 @@
 import { z } from "zod";
-import { newPatientSchema } from "./utils";
-
-interface BaseEntry {
-  id: string;
-  description: string;
-  date: string;
-  specialist: string;
-  diagnosisCodes?: Array<Diagnose["code"]>;
-}
+import {
+  newEntrySchema,
+  newEntryWithIdSchema,
+  newPatientSchema,
+} from "./utils";
 
 export enum HealthCheckRating {
   "Healthy" = 0,
@@ -16,32 +12,11 @@ export enum HealthCheckRating {
   "CriticalRisk" = 3,
 }
 
-interface HealthCheckEntry extends BaseEntry {
-  type: "HealthCheck";
-  healthCheckRating: HealthCheckRating;
+export enum EntryType {
+  HealthCheck = "HealthCheck",
+  OccupationalHealthcare = "OccupationalHealthcare",
+  Hospital = "Hospital",
 }
-
-interface OccupationalHealthcareEntry extends BaseEntry {
-  type: "OccupationalHealthcare";
-  employerName: string;
-  sickLeave?: {
-    startDate: string;
-    endDate: string;
-  };
-}
-
-interface HospitalEntry extends BaseEntry {
-  type: "Hospital";
-  discharge: {
-    date: string;
-    criteria: string;
-  };
-}
-
-export type Entry =
-  | HospitalEntry
-  | OccupationalHealthcareEntry
-  | HealthCheckEntry;
 
 export interface Diagnose {
   code: string;
@@ -62,14 +37,13 @@ export interface Patient {
   ssn: string;
   gender: string;
   occupation: string;
-  entries: Entry[];
+  entries: NewEntry[];
 }
 
+export type NewEntry = z.infer<typeof newEntryWithIdSchema>;
 export type NewPatientEntry = z.infer<typeof newPatientSchema>;
 
 export type NonSensitivePatientData = Omit<Patient, "ssn">;
-type UnionOmit<T, K extends string | number | symbol> = T extends unknown
-  ? Omit<T, K>
-  : never;
+
 // Define Entry without the 'id' property
-export type EntryWithoutId = UnionOmit<Entry, "id">;
+export type EntryWithoutId = z.infer<typeof newEntrySchema>;

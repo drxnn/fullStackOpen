@@ -4,16 +4,16 @@ const app = express();
 import cors from "cors";
 
 import {
-  Entry,
   EntryWithoutId,
+  NewEntry,
   NonSensitivePatientData,
   Patient,
 } from "./types";
 // console.log(diagnosesData);
 import patientData from "./data/patients";
-import { newPatientSchema } from "./utils";
+import { newEntrySchema, newPatientSchema } from "./utils";
 import { v4 as uuidv4 } from "uuid";
-import { z } from "zod";
+import { z, ZodError } from "zod";
 import { NewPatientEntry } from "./types";
 import diagnosesRouter from "./routes/diagnoseRoute";
 
@@ -80,14 +80,11 @@ app.post(
   }
 );
 
-// Your next task is to add endpoint /api/patients/:id/entries to your backend, through which you can POST an entry for a patient.
-
-// Remember that we have different kinds of entries in our app, so our backend should support all those types and check that at least all required fields are given for each type.
-
-const parseEntry = (entry: EntryWithoutId): Entry => {
+const parseEntry = (entry: EntryWithoutId): NewEntry => {
+  const entryToReturn = newEntrySchema.parse(entry);
   const newEntry = {
     id: uuidv4(),
-    ...entry,
+    ...entryToReturn,
   };
 
   return newEntry;
@@ -97,10 +94,11 @@ app.post(
   "/api/patients/:id/entries",
   (
     req: Request<{ id: string }, unknown, EntryWithoutId>,
-    res: Response<Entry | { error: string }>
+    res: Response<NewEntry | { error: string }>
   ) => {
     const { id } = req.params;
     console.log(id, typeof id);
+
     const patientToAddEntryTo = patientData.find((el) => el.id === id);
     console.log(patientToAddEntryTo);
     if (!patientToAddEntryTo) {
@@ -108,14 +106,27 @@ app.post(
       return;
     }
 
+    let newEntry: NewEntry | undefined;
     try {
+      newEntry = parseEntry(req.body);
+    } catch (err) {
+      if (err instanceof ZodError) {
+        res.status(400).send({ error: "Something went wrong" });
+        return;
+      } else {
+        res.status(500).send({ error: "Failed to parse entry" });
+        return;
+      }
+    }
+    try {
+      console.log("body is ", req.body);
+
       if (!patientToAddEntryTo.entries) {
         patientToAddEntryTo.entries = [];
       }
-      console.log("body is ", req.body);
-      const newEntry = parseEntry(req.body);
+
       console.log("new entry", newEntry);
-      patientToAddEntryTo.entries.push(newEntry);
+      if (newEntry) patientToAddEntryTo.entries.push(newEntry);
       res.status(200).send(newEntry);
     } catch (err) {
       res.status(500).send({ error: `Something went wrong!. Error: ${err}` });

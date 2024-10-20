@@ -29,17 +29,16 @@ export default function EntryForm({ setPatient, patient }: EntryFormProps) {
     try {
       if (formData) console.log(formData);
       if (patient && patient.entries) {
-        const updatedPatient = {
-          ...patient,
-          entries: [...patient.entries, formData],
-        };
-
-        setPatient(updatedPatient);
-
-        await patientService.addEntry({
-          id: updatedPatient.id,
+        const addedEntry = await patientService.addEntry({
+          id: patient.id,
           entry: formData,
         });
+
+        const updatedPatient = {
+          ...patient,
+          entries: [...patient.entries, addedEntry],
+        };
+        setPatient(updatedPatient);
       }
 
       setFormData(initialFormState);
