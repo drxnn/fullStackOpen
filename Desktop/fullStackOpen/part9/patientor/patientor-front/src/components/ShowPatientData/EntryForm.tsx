@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { HealthCheckEntry, HealthCheckRating, Patient } from "../../types";
 import patientService from "../../services/patients";
+import Notification from "../Notification";
 
 // type Props = {};
 
@@ -22,6 +23,7 @@ type EntryFormProps = {
 export default function EntryForm({ setPatient, patient }: EntryFormProps) {
   const [formData, setFormData] = useState(initialFormState);
 
+  const [message, setMessage] = useState("");
   const handleFormSubmission = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
@@ -42,7 +44,10 @@ export default function EntryForm({ setPatient, patient }: EntryFormProps) {
 
       setFormData(initialFormState);
     } catch (err) {
-      console.log(err);
+      setMessage(`Something went wrong: ${err}`);
+      setTimeout(() => {
+        setMessage("");
+      }, 3000);
     }
   };
 
@@ -55,6 +60,7 @@ export default function EntryForm({ setPatient, patient }: EntryFormProps) {
         border: "solid 2px black",
       }}
     >
+      <Notification message={message} />
       <h2>New HealthCheck Entry</h2>
       <form
         onSubmit={(e) => handleFormSubmission(e)}

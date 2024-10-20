@@ -59,6 +59,7 @@ function PatientInformation() {
             {entry.diagnosisCodes?.map((el, i) => (
               <div key={i}>{handleDiagnoses(el)}</div>
             ))}
+
             <EntryDetails entry={entry} />
           </div>
         ))}
