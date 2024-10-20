@@ -34,7 +34,10 @@ export default function EntryForm({ setPatient, patient }: EntryFormProps) {
 
         setPatient(updatedPatient);
 
-        await patientService.addEntry({ id: updatedPatient.id });
+        await patientService.addEntry({
+          id: updatedPatient.id,
+          entry: formData,
+        });
       }
 
       setFormData(initialFormState);

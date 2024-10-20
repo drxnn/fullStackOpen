@@ -112,7 +112,9 @@ app.post(
       if (!patientToAddEntryTo.entries) {
         patientToAddEntryTo.entries = [];
       }
+      console.log("body is ", req.body);
       const newEntry = parseEntry(req.body);
+      console.log("new entry", newEntry);
       patientToAddEntryTo.entries.push(newEntry);
       res.status(200).send(newEntry);
     } catch (err) {

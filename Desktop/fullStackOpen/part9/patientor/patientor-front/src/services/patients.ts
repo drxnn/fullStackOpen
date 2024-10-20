@@ -22,11 +22,18 @@ const getDiagnoses = async () => {
   return diagnoses.data;
 };
 
-const addEntry = async ({ id }: { id: string | undefined }) => {
+const addEntry = async ({
+  id,
+  entry,
+}: {
+  id: string | undefined;
+  entry: Entry;
+}) => {
   console.log(id);
   console.log(`${apiBaseUrl}/patients/:${id}/entries`);
   const response = await axios.post<Entry>(
-    `${apiBaseUrl}/patients/${id}/entries`
+    `${apiBaseUrl}/patients/${id}/entries`,
+    entry
   );
   console.log(response.data);
   return response.data;
