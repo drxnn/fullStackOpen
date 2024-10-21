@@ -52,6 +52,47 @@ export enum Gender {
   Other = "other",
 }
 
+export const enum EntryType {
+  HealthCheck = "HealthCheck",
+  OccupationalHealthcare = "OccupationalHealthcare",
+  Hospital = "Hospital",
+}
+
+type BaseFormState = {
+  id: string;
+  description: string;
+  date: string;
+  specialist: string;
+  diagnosisCodes: string[];
+};
+
+export type HealthCheckFormState = BaseFormState & {
+  type: EntryType.HealthCheck;
+  healthCheckRating: HealthCheckRating;
+};
+
+export type HospitalFormState = BaseFormState & {
+  type: EntryType.Hospital;
+  discharge: {
+    date: string;
+    criteria: string;
+  };
+};
+
+export type OccupationalHealthcareFormState = BaseFormState & {
+  type: EntryType.OccupationalHealthcare;
+  employerName: string;
+  sickLeave?: {
+    startDate: string;
+    endDate: string;
+  };
+};
+
+export type NewEntryFormState =
+  | HealthCheckFormState
+  | HospitalFormState
+  | OccupationalHealthcareFormState;
+
 export interface Patient {
   id: string;
   name: string;
