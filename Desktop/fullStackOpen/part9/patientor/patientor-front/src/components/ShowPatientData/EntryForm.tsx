@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   EntryType,
   HealthCheckFormState,
@@ -9,7 +9,6 @@ import {
 } from "../../types";
 import patientService from "../../services/patients";
 import Notification from "../Notification";
-import { KeyboardReturnSharp } from "@mui/icons-material";
 
 const initialFormState: NewEntryFormState = {
   description: "",
@@ -30,6 +29,59 @@ const EntryPerType: React.FC<EntryPerTypeProps> = ({
   formData,
   setFormData,
 }) => {
+  const [dischargeData, setDischargeData] = useState({
+    date: "",
+    criteria: "",
+  });
+  const [occupationalHealthCareData, setOccupationalHealthCareData] = useState({
+    employerName: "",
+    sickLeave: { startDate: "", endDate: "" },
+  });
+
+  const [healthCheckData, setHealthCheckData] = useState("");
+  useEffect(() => {
+    const commonFields = {
+      id: formData.id,
+      description: formData.description,
+      date: formData.date,
+      specialist: formData.specialist,
+      diagnosisCodes: formData?.diagnosisCodes,
+    };
+    if (formData.type === EntryType.Hospital) {
+      setFormData((_p) => ({
+        ...commonFields,
+        type: EntryType.Hospital,
+        discharge: dischargeData,
+      }));
+    } else if (formData.type === EntryType.OccupationalHealthcare) {
+      setFormData((_p) => ({
+        ...commonFields,
+        type: EntryType.OccupationalHealthcare,
+        employer: occupationalHealthCareData.employerName,
+        sickLeave: occupationalHealthCareData.sickLeave,
+      }));
+    } else if (formData.type === EntryType.HealthCheck) {
+      setFormData((_p) => ({
+        ...commonFields,
+        type: EntryType.HealthCheck,
+        healthCheckRating: healthCheckData,
+      }));
+    }
+  }, [
+    dischargeData,
+    formData.type,
+    setFormData,
+    occupationalHealthCareData,
+    formData.id,
+    formData.description,
+    formData.diagnosisCodes,
+    formData.specialist,
+    formData.date,
+    healthCheckData,
+  ]);
+
+  console.log(dischargeData);
+
   switch (formData.type) {
     case EntryType.HealthCheck:
       const healthFormData = {
@@ -134,30 +186,26 @@ const EntryPerType: React.FC<EntryPerTypeProps> = ({
                 name="date"
                 value={(formData as HospitalFormState).discharge?.date || ""}
                 onChange={({ target }) => {
-                  setFormData((p) => ({
+                  setDischargeData((p) => ({
                     ...p,
-                    type: EntryType.Hospital,
-                    discharge: {
-                      date: target.value,
-                      criteria: "",
-                    },
+                    date: target.value,
                   }));
                 }}
               />
             </div>
-            <div>
-              <input
-                type="text"
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <label htmlFor="criteria">Criteria:</label>
+              <textarea
                 name="criteria"
                 value={
                   (formData as HospitalFormState).discharge?.criteria || ""
                 }
-                onChange={({ target }) => ({
-                  ...formData,
-                  discharge: {
-                    ...formData.Di,
-                  },
-                })}
+                onChange={({ target }) =>
+                  setDischargeData((p) => ({
+                    ...p,
+                    criteria: target.value,
+                  }))
+                }
               />
             </div>
           </fieldset>
@@ -165,8 +213,63 @@ const EntryPerType: React.FC<EntryPerTypeProps> = ({
       );
 
     case EntryType.OccupationalHealthcare:
-      console.log("c");
-      break;
+      return (
+        <div>
+          <fieldset>
+            <legend>Sick Leave Info:</legend>
+            <div>
+              <label htmlFor="startDate">Start Date:</label>
+              <input
+                type="date"
+                name="startDate"
+                id="startDate"
+                value={occupationalHealthCareData.sickLeave.startDate}
+                onChange={({ target }) =>
+                  setOccupationalHealthCareData((p) => ({
+                    ...p,
+                    sickLeave: {
+                      startDate: target.value,
+                      endDate: p.sickLeave.endDate,
+                    },
+                  }))
+                }
+              />
+            </div>
+            <div>
+              <label htmlFor="endDate">End Date:</label>
+              <input
+                type="date"
+                name="endDate"
+                id="endDate"
+                value={occupationalHealthCareData.sickLeave.endDate}
+                onChange={({ target }) =>
+                  setOccupationalHealthCareData((p) => ({
+                    ...p,
+                    sickLeave: {
+                      startDate: p.sickLeave.startDate,
+                      endDate: target.value,
+                    },
+                  }))
+                }
+              />
+            </div>
+          </fieldset>
+          <label htmlFor="employer">Employer name(Optional):</label>
+          <input
+            type="text"
+            name="employer"
+            id="employer"
+            value={occupationalHealthCareData.employerName}
+            onChange={({ target }) =>
+              setOccupationalHealthCareData((p) => ({
+                ...p,
+                employerName: target.value,
+              }))
+            }
+          />
+        </div>
+      );
+
     default:
       console.log("");
   }
