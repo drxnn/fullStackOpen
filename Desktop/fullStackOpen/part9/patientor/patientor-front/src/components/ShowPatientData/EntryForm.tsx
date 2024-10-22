@@ -1,33 +1,171 @@
 import { useState } from "react";
 import {
   EntryType,
+  HealthCheckFormState,
   HealthCheckRating,
+  HospitalFormState,
   NewEntryFormState,
   Patient,
 } from "../../types";
 import patientService from "../../services/patients";
 import Notification from "../Notification";
+import { KeyboardReturnSharp } from "@mui/icons-material";
 
 const initialFormState: NewEntryFormState = {
   description: "",
   date: "",
   specialist: "",
   diagnosisCodes: [],
-  healthCheckRating: HealthCheckRating.Healthy,
+
   type: EntryType.HealthCheck,
   id: "",
 };
 
-const EntryPerType = ({ formState }) => {
-  switch (formState.type) {
+interface EntryPerTypeProps {
+  formData: NewEntryFormState;
+  setFormData: React.Dispatch<React.SetStateAction<NewEntryFormState>>;
+}
+
+const EntryPerType: React.FC<EntryPerTypeProps> = ({
+  formData,
+  setFormData,
+}) => {
+  switch (formData.type) {
     case EntryType.HealthCheck:
-      //code
-      break;
+      const healthFormData = {
+        ...formData,
+        healthCheckRating: "",
+      };
+      console.log(healthFormData);
+      console.log(formData);
+
+      return (
+        <fieldset>
+          <legend>Choose Health rating:</legend>
+          <div>
+            {" "}
+            <input
+              type="radio"
+              id="Healthy"
+              name="healthrating"
+              value={HealthCheckRating.Healthy}
+              checked={
+                (formData as HealthCheckFormState).healthCheckRating ===
+                HealthCheckRating.Healthy
+              }
+              onChange={({ target }) => {
+                setFormData((_p) => ({
+                  ...healthFormData,
+                  healthCheckRating: Number(target.value),
+                }));
+              }}
+            />
+            <label htmlFor="Healthy">Healthy</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="LowRisk"
+              name="healthrating"
+              value={HealthCheckRating.LowRisk}
+              checked={
+                (formData as HealthCheckFormState).healthCheckRating ===
+                HealthCheckRating.LowRisk
+              }
+              onChange={({ target }) => {
+                setFormData((p) => ({
+                  ...p,
+                  healthCheckRating: Number(target.value),
+                }));
+              }}
+            />
+            <label htmlFor="LowRisk">Low Risk</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="HighRisk"
+              name="healthrating"
+              value={HealthCheckRating.HighRisk}
+              checked={
+                (formData as HealthCheckFormState).healthCheckRating ===
+                HealthCheckRating.HighRisk
+              }
+              onChange={({ target }) => {
+                setFormData((p) => ({
+                  ...p,
+                  healthCheckRating: Number(target.value),
+                }));
+              }}
+            />
+            <label htmlFor="HighRisk">High Risk</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="CriticalRisk"
+              name="healthrating"
+              value={HealthCheckRating.CriticalRisk}
+              checked={
+                (formData as HealthCheckFormState).healthCheckRating ===
+                HealthCheckRating.CriticalRisk
+              }
+              onChange={({ target }) => {
+                setFormData((p) => ({
+                  ...p,
+                  healthCheckRating: Number(target.value),
+                }));
+              }}
+            />
+            <label htmlFor="CriticalRisk">Critical Risk</label>
+          </div>
+        </fieldset>
+      );
+
     case EntryType.Hospital:
-      //handle
-      break;
+      return (
+        <div>
+          <fieldset>
+            <legend> Discharge information:</legend>
+            <div>
+              <label htmlFor="date">Date:</label>
+              <input
+                type="date"
+                name="date"
+                value={(formData as HospitalFormState).discharge?.date || ""}
+                onChange={({ target }) => {
+                  setFormData((p) => ({
+                    ...p,
+                    type: EntryType.Hospital,
+                    discharge: {
+                      date: target.value,
+                      criteria: "",
+                    },
+                  }));
+                }}
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                name="criteria"
+                value={
+                  (formData as HospitalFormState).discharge?.criteria || ""
+                }
+                onChange={({ target }) => ({
+                  ...formData,
+                  discharge: {
+                    ...formData.Di,
+                  },
+                })}
+              />
+            </div>
+          </fieldset>
+        </div>
+      );
+
     case EntryType.OccupationalHealthcare:
-      //handle;
+      console.log("c");
       break;
     default:
       console.log("");
@@ -41,6 +179,7 @@ type EntryFormProps = {
 
 export default function EntryForm({ setPatient, patient }: EntryFormProps) {
   const [formData, setFormData] = useState(initialFormState);
+  console.log(formData);
 
   const [message, setMessage] = useState("");
   const handleFormSubmission = async (e: React.SyntheticEvent) => {
@@ -97,14 +236,11 @@ export default function EntryForm({ setPatient, patient }: EntryFormProps) {
                 value={EntryType.HealthCheck}
                 checked={formData.type === EntryType.HealthCheck}
                 onChange={() => {
-                  setFormData((_p) => ({
+                  setFormData((p) => ({
+                    ...p,
                     type: EntryType.HealthCheck,
-                    description: "",
-                    date: "",
-                    specialist: "",
-                    diagnosisCodes: [],
+
                     healthCheckRating: HealthCheckRating.Healthy,
-                    id: "",
                   }));
                 }}
               />
@@ -118,18 +254,15 @@ export default function EntryForm({ setPatient, patient }: EntryFormProps) {
                 value={EntryType.OccupationalHealthcare}
                 checked={formData.type === EntryType.OccupationalHealthcare}
                 onChange={() => {
-                  setFormData((_p) => ({
+                  setFormData((p) => ({
+                    ...p,
                     type: EntryType.OccupationalHealthcare,
-                    description: "",
-                    date: "",
-                    specialist: "",
-                    diagnosisCodes: [],
+
                     employerName: "",
                     sickLeave: {
                       startDate: "",
                       endDate: "",
                     },
-                    id: "",
                   }));
                 }}
               />
@@ -145,18 +278,15 @@ export default function EntryForm({ setPatient, patient }: EntryFormProps) {
                 value={EntryType.Hospital}
                 checked={formData.type === EntryType.Hospital}
                 onChange={() => {
-                  setFormData((_p) => ({
+                  setFormData((p) => ({
+                    ...p,
                     type: EntryType.Hospital,
-                    description: "",
-                    date: "",
-                    specialist: "",
-                    diagnosisCodes: [],
+
                     employerName: "",
                     discharge: {
                       date: "",
                       criteria: "",
                     },
-                    id: "",
                   }));
                 }}
               />
@@ -225,84 +355,7 @@ export default function EntryForm({ setPatient, patient }: EntryFormProps) {
           />
         </div>
 
-        {formData.type === EntryType.HealthCheck && (
-          <fieldset>
-            <legend>Choose Health rating:</legend>
-            <div>
-              {" "}
-              <input
-                type="radio"
-                id="Healthy"
-                name="healthrating"
-                value={HealthCheckRating.Healthy}
-                checked={
-                  formData.healthCheckRating === HealthCheckRating.Healthy
-                }
-                onChange={({ target }) => {
-                  setFormData((p) => ({
-                    ...p,
-                    healthCheckRating: Number(target.value),
-                  }));
-                }}
-              />
-              <label htmlFor="Healthy">Healthy</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                id="LowRisk"
-                name="healthrating"
-                value={HealthCheckRating.LowRisk}
-                checked={
-                  formData.healthCheckRating === HealthCheckRating.LowRisk
-                }
-                onChange={({ target }) => {
-                  setFormData((p) => ({
-                    ...p,
-                    healthCheckRating: Number(target.value),
-                  }));
-                }}
-              />
-              <label htmlFor="LowRisk">Low Risk</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                id="HighRisk"
-                name="healthrating"
-                value={HealthCheckRating.HighRisk}
-                checked={
-                  formData.healthCheckRating === HealthCheckRating.HighRisk
-                }
-                onChange={({ target }) => {
-                  setFormData((p) => ({
-                    ...p,
-                    healthCheckRating: Number(target.value),
-                  }));
-                }}
-              />
-              <label htmlFor="HighRisk">High Risk</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                id="CriticalRisk"
-                name="healthrating"
-                value={HealthCheckRating.CriticalRisk}
-                checked={
-                  formData.healthCheckRating === HealthCheckRating.CriticalRisk
-                }
-                onChange={({ target }) => {
-                  setFormData((p) => ({
-                    ...p,
-                    healthCheckRating: Number(target.value),
-                  }));
-                }}
-              />
-              <label htmlFor="CriticalRisk">Critical Risk</label>
-            </div>
-          </fieldset>
-        )}
+        <EntryPerType formData={formData} setFormData={setFormData} />
 
         <button
           type="submit"

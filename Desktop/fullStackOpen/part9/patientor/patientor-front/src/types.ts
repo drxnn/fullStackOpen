@@ -44,7 +44,8 @@ interface HospitalEntry extends BaseEntry {
 export type Entry =
   | HospitalEntry
   | OccupationalHealthcareEntry
-  | HealthCheckEntry;
+  | HealthCheckEntry
+  | BaseEntry;
 
 export enum Gender {
   Male = "male",
@@ -64,6 +65,7 @@ type BaseFormState = {
   date: string;
   specialist: string;
   diagnosisCodes: string[];
+  type: string;
 };
 
 export type HealthCheckFormState = BaseFormState & {
@@ -91,7 +93,8 @@ export type OccupationalHealthcareFormState = BaseFormState & {
 export type NewEntryFormState =
   | HealthCheckFormState
   | HospitalFormState
-  | OccupationalHealthcareFormState;
+  | OccupationalHealthcareFormState
+  | BaseFormState;
 
 export interface Patient {
   id: string;
