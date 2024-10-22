@@ -22,7 +22,7 @@ export const OccupationalHealthCareSchema = BaseEntrySchema.extend({
   employerName: z.string().optional(),
   sickLeave: z
     .object({
-      startData: z.string(),
+      startDate: z.string(),
       endDate: z.string(),
     })
     .optional(),
