@@ -38,7 +38,7 @@ const EntryPerType: React.FC<EntryPerTypeProps> = ({
     sickLeave: { startDate: "", endDate: "" },
   });
 
-  const [healthCheckData, setHealthCheckData] = useState("");
+  const [healthCheckData, setHealthCheckData] = useState<string | number>("");
   useEffect(() => {
     const commonFields = {
       id: formData.id,
@@ -84,13 +84,6 @@ const EntryPerType: React.FC<EntryPerTypeProps> = ({
 
   switch (formData.type) {
     case EntryType.HealthCheck:
-      const healthFormData = {
-        ...formData,
-        healthCheckRating: "",
-      };
-      console.log(healthFormData);
-      console.log(formData);
-
       return (
         <fieldset>
           <legend>Choose Health rating:</legend>
@@ -106,10 +99,7 @@ const EntryPerType: React.FC<EntryPerTypeProps> = ({
                 HealthCheckRating.Healthy
               }
               onChange={({ target }) => {
-                setFormData((_p) => ({
-                  ...healthFormData,
-                  healthCheckRating: Number(target.value),
-                }));
+                setHealthCheckData(Number(target.value));
               }}
             />
             <label htmlFor="Healthy">Healthy</label>
@@ -125,10 +115,7 @@ const EntryPerType: React.FC<EntryPerTypeProps> = ({
                 HealthCheckRating.LowRisk
               }
               onChange={({ target }) => {
-                setFormData((p) => ({
-                  ...p,
-                  healthCheckRating: Number(target.value),
-                }));
+                setHealthCheckData(Number(target.value));
               }}
             />
             <label htmlFor="LowRisk">Low Risk</label>
@@ -144,10 +131,7 @@ const EntryPerType: React.FC<EntryPerTypeProps> = ({
                 HealthCheckRating.HighRisk
               }
               onChange={({ target }) => {
-                setFormData((p) => ({
-                  ...p,
-                  healthCheckRating: Number(target.value),
-                }));
+                setHealthCheckData(Number(target.value));
               }}
             />
             <label htmlFor="HighRisk">High Risk</label>
@@ -163,10 +147,7 @@ const EntryPerType: React.FC<EntryPerTypeProps> = ({
                 HealthCheckRating.CriticalRisk
               }
               onChange={({ target }) => {
-                setFormData((p) => ({
-                  ...p,
-                  healthCheckRating: Number(target.value),
-                }));
+                setHealthCheckData(Number(target.value));
               }}
             />
             <label htmlFor="CriticalRisk">Critical Risk</label>
