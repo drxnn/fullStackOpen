@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  Entry,
   EntryType,
   HealthCheckFormState,
   HealthCheckRating,
@@ -273,7 +274,7 @@ export default function EntryForm({ setPatient, patient }: EntryFormProps) {
       if (patient && patient.entries) {
         const addedEntry = await patientService.addEntry({
           id: patient.id,
-          entry: formData,
+          entry: formData as Entry,
         });
 
         const updatedPatient = {
