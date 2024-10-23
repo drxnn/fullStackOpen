@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  Diagnose,
   Entry,
   EntryType,
   HealthCheckFormState,
@@ -260,9 +261,14 @@ const EntryPerType: React.FC<EntryPerTypeProps> = ({
 type EntryFormProps = {
   setPatient: React.Dispatch<React.SetStateAction<Patient | null>>;
   patient: Patient | null;
+  diagnoses: Diagnose[] | null;
 };
 
-export default function EntryForm({ setPatient, patient }: EntryFormProps) {
+export default function EntryForm({
+  setPatient,
+  patient,
+  diagnoses,
+}: EntryFormProps) {
   const [formData, setFormData] = useState(initialFormState);
   console.log(formData);
 
@@ -425,19 +431,25 @@ export default function EntryForm({ setPatient, patient }: EntryFormProps) {
         <div
           style={{ display: "flex", width: "15rem", flexDirection: "column" }}
         >
-          {" "}
-          <label htmlFor="diagnosisCodes">Diagnosis Code:</label>
-          <input
-            type="text"
-            name="diagnosisCodes"
-            value={formData.diagnosisCodes}
-            onChange={({ target }) =>
-              setFormData((p) => ({
-                ...p,
-                diagnosisCodes: [target.value],
-              }))
-            }
-          />
+          <label htmlFor="diagnosisCodes">
+            Diagnosis Code:
+            <select
+              name="diagnosisCodes"
+              id="diagnosisCodes"
+              onChange={({ target }) =>
+                setFormData((p) => ({
+                  ...p,
+                  diagnosisCodes: [target.value],
+                }))
+              }
+            >
+              {diagnoses?.map((el, i) => (
+                <option key={i} value={el.code}>
+                  {el.code}
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
 
         <EntryPerType formData={formData} setFormData={setFormData} />

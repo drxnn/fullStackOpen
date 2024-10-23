@@ -66,7 +66,11 @@ function PatientInformation() {
       </div>
 
       <div>
-        <EntryForm setPatient={setPatient} patient={patient} />
+        <EntryForm
+          setPatient={setPatient}
+          patient={patient}
+          diagnoses={diagnoses}
+        />
       </div>
     </div>
   );
